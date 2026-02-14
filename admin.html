@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Taiseel Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3c22;
+            --accent: #c5a059;
+            --bg: #fcfcfc;
+            --white: #ffffff;
+            --text: #333;
+            --muted: #999;
+            --border: #eeeeee;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Sidebar sidebar-less layout for extreme minimalism */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 60px 5%;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .brand h1 {
+            font-weight: 300;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #15311b;
+            color: var(--white);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--primary);
+        }
+
+        /* Lead Table */
+        .leads-section {
+            background: var(--white);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .table-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background: #f9f9f9;
+            padding: 20px 40px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 20px 40px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+            color: #555;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .timestamp {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        /* Loading & Empty States */
+        #loader {
+            padding: 60px;
+            text-align: center;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #e9f5ed;
+            color: #2e7d32;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 40px 5%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h1>Taiseel Management</h1>
+            </div>
+            <div class="actions">
+                <a href="code3.html" class="btn">View Site</a>
+                <button onclick="fetchLeads()" class="btn btn-primary">Refresh</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">Total Leads</span>
+                    <div class="stat-value" id="totalLeads">-</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Recent Activity</span>
+                    <div class="stat-value" id="recentLeads">Today</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-label">Growth</span>
+                    <div class="stat-value" id="growthRate">---</div>
+                </div>
+            </section>
+
+            <section class="leads-section">
+                <div class="table-header">
+                    <h2>Registrations</h2>
+                    <button onclick="exportCSV()" class="btn" style="padding: 8px 16px; font-size: 0.7rem;">Export
+                        CSV</button>
+                </div>
+
+                <div id="loader">Fetching latest registrations...</div>
+
+                <div class="table-wrapper" id="tableContainer" style="display: none;">
+                    <table>
+                        <thead>
+                            <tr id="tableHead">
+                                <!-- Headers dynamic -->
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Data dynamic -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let currentLeads = [];
+
+        async function fetchLeads() {
+            const loader = document.getElementById('loader');
+            const tableContainer = document.getElementById('tableContainer');
+            loader.style.display = 'block';
+            tableContainer.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/admin/registrations');
+                const data = await response.json();
+                currentLeads = data;
+                renderLeads(data);
+                updateStats(data);
+            } catch (err) {
+                console.error('Fetch error:', err);
+                loader.innerText = 'Error loading data. Verify server connection.';
+            } finally {
+                loader.style.display = 'none';
+                tableContainer.style.display = 'block';
+            }
+        }
+
+        function updateStats(data) {
+            document.getElementById('totalLeads').innerText = data.length;
+            // Simple placeholder stats
+            document.getElementById('growthRate').innerText = '+' + (data.length > 0 ? '100%' : '0%');
+        }
+
+        function renderLeads(data) {
+            const head = document.getElementById('tableHead');
+            const body = document.getElementById('tableBody');
+
+            if (data.length === 0) {
+                body.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding: 60px;">No registrations found yet.</td></tr>';
+                return;
+            }
+
+            // Extract all unique keys from all objects for dynamic columns
+            const keys = ['timestamp', 'First Name', 'Last Name', 'Email Address'];
+            // Add other keys that might exist
+            data.forEach(lead => {
+                Object.keys(lead).forEach(k => {
+                    if (!keys.includes(k) && k !== 'timestamp') keys.push(k);
+                });
+            });
+
+            // Render Header
+            head.innerHTML = keys.map(k => `<th>${k.replace(/Address/g, '').replace(/[*?]/g, '')}</th>`).join('');
+
+            // Render Body
+            body.innerHTML = data.reverse().map(lead => {
+                return `<tr>
+                    ${keys.map(k => {
+                    let val = lead[k] || '-';
+                    if (k === 'timestamp') {
+                        const date = new Date(val);
+                        val = `<span class="timestamp">${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+                    }
+                    return `<td>${val}</td>`;
+                }).join('')}
+                </tr>`;
+            }).join('');
+        }
+
+        function exportCSV() {
+            if (currentLeads.length === 0) return alert('No data to export');
+
+            const keys = Object.keys(currentLeads[0]);
+            const csv = [
+                keys.join(','),
+                ...currentLeads.map(row => keys.map(k => `"${row[k] || ''}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `leads_${new Date().toISOString().split('T')[0]}.csv`);
+            a.click();
+        }
+
+        // Initialize
+        fetchLeads();
+    </script>
+</body>
+
+</html>
