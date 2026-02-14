@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taiseel Development | Inspired by Nakheel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #fff; color: #1a1a1a; scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* --- SMOOTH TRANSITION HEADER --- */
+        header {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent; 
+            transition: all 0.5s ease-in-out; 
+        }
+        
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .logo-box { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 60px; transition: 0.4s; }
+        header.scrolled .logo-img { height: 45px; } 
+
+        .brand-text { color: #fff; font-weight: 800; letter-spacing: 2px; font-size: 1.2rem; transition: 0.4s; }
+        header.scrolled .brand-text { color: #1a3c22; }
+
+        .menu-icon { cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+        .menu-icon span { width: 35px; height: 2px; background-color: #fff; transition: 0.4s; }
+        header.scrolled .menu-icon span { background-color: #1a3c22; }
+
+        /* --- HERO SLIDESHOW SECTION --- */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            /* Slideshow Animation */
+            animation: slideshow 10s infinite ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('landscape.jpg');
+        }
+
+        @keyframes slideshow {
+            0%, 45% { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('landscape.jpg'); }
+            50%, 95% { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('landscape2.jpg'); }
+            100% { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.2)), url('landscape.jpg'); }
+        }
+
+        .hero h1 { font-size: 4rem; font-weight: 300; letter-spacing: 6px; text-transform: uppercase; margin-bottom: 20px; }
+        .hero p { font-size: 1.1rem; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; opacity: 0.9; }
+
+        /* --- STATS --- */
+        .stats { background: #1a3c22; color: #fff; display: flex; justify-content: space-around; padding: 70px 10%; }
+        .stat-item { text-align: center; }
+        .stat-item h2 { font-size: 2.5rem; font-weight: 300; color: #c5a059; margin-bottom: 5px; }
+        .stat-item p { font-size: 0.75rem; letter-spacing: 2px; font-weight: 600; text-transform: uppercase; }
+
+        /* --- COMMUNITY GRID --- */
+        .section { padding: 100px 10%; text-align: center; }
+        .section-title { font-size: 2rem; font-weight: 300; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 4px; }
+        .underline { width: 40px; height: 2px; background: #c5a059; margin: 0 auto 50px; }
+
+        .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .project-card { position: relative; height: 550px; overflow: hidden; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; }
+        .project-card:hover img { transform: scale(1.1); }
+        .project-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: #fff; text-align: left;
+        }
+        .project-overlay h3 { font-size: 1.5rem; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- SERVICES GRID --- */
+        .services-bg { background-color: #fcfcfc; padding: 100px 10%; }
+        .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+        .service-box { 
+            background: #fff; padding: 40px; border: 1px solid #eee; text-align: left; 
+            transition: 0.3s; height: 220px; display: flex; flex-direction: column; justify-content: center;
+        }
+        .service-box:hover { border-color: #c5a059; transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .service-box h4 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #1a3c22; margin-bottom: 10px; }
+        .service-box p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+
+        /* --- LANDOWNER SECTION --- */
+        .split-section { display: flex; height: 600px; }
+        .split-image { flex: 1.2; background-size: cover; background-position: center; }
+        .split-content { flex: 0.8; padding: 80px; background: #1a3c22; color: #fff; display: flex; flex-direction: column; justify-content: center; }
+        .split-content h2 { font-size: 2rem; font-weight: 300; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 3px; }
+        .split-content p { font-size: 0.95rem; line-height: 1.8; margin-bottom: 30px; opacity: 0.8; }
+
+        /* --- PARTNERS LOOP (Endless Slider) --- */
+        .partners-section {
+            padding: 80px 0;
+            background: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+        .partners-section h3 {
+            text-align: center;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #999;
+            margin-bottom: 50px;
+        }
+        .slider {
+            height: 100px;
+            margin: auto;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .slide-track {
+            display: flex;
+            width: calc(250px * 10); /* Width of slide * number of slides */
+            animation: scroll 20s linear infinite;
+        }
+        .slide {
+            height: 100px;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Style for logo images or text */
+        .slide img {
+            height: 60px; /* Adjust based on your logo files */
+            width: auto;
+            filter: grayscale(100%); /* Elegant grayscale look */
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+        .slide img:hover { filter: grayscale(0%); opacity: 1; }
+        
+        /* Fallback text style if images missing */
+        .slide span {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ddd;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 5)); } /* Move by half the total width */
+        }
+
+        /* --- FOOTER --- */
+        footer { padding: 80px 10%; background: #f9f9f9; border-top: 1px solid #eee; display: flex; justify-content: space-between; }
+        .footer-links p { font-weight: 700; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 25px; color: #1a3c22; }
+        .footer-links a { display: block; margin-bottom: 12px; font-size: 0.8rem; color: #777; transition: 0.3s; }
+
+        /* SIDEBAR */
+        #sidebar {
+            position: fixed; top: 0; right: -400px; width: 400px; height: 100vh;
+            background: #fff; z-index: 3000; transition: 0.5s cubic-bezier(0.77, 0, 0.175, 1); padding: 100px 50px;
+        }
+        #sidebar.active { right: 0; }
+        .close-btn { position: absolute; top: 40px; right: 40px; font-size: 2rem; cursor: pointer; }
+
+        @media (max-width: 992px) {
+            header, header.scrolled { padding: 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .project-grid, .services-grid, .split-section { display: block; height: auto; }
+            .project-card, .service-box, .split-image { height: 350px; width: 100%; margin-bottom: 20px; }
+            .sidebar { width: 100%; right: -100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo-box">
+            <img src="logo.png" alt="Logo" class="logo-img">
+            <div class="brand-text">TAISEEL</div>
+        </div>
+        <div class="menu-icon" onclick="toggleSidebar()">
+            <span></span><span></span><span></span>
+        </div>
+    </header>
+
+    <div id="sidebar">
+        <span class="close-btn" onclick="toggleSidebar()">&times;</span>
+        <h2 style="font-weight: 300; letter-spacing: 5px; margin-bottom: 40px; color: #1a3c22;">EXPLORE</h2>
+        <nav class="footer-links">
+            <a href="#projects" onclick="toggleSidebar()">COMMUNITIES</a>
+            <a href="#services" onclick="toggleSidebar()">OUR SERVICES</a>
+            <a href="#landowners" onclick="toggleSidebar()">FOR LANDOWNERS</a>
+            <a href="#partners" onclick="toggleSidebar()">PARTNERS</a>
+            <a href="#contact" onclick="toggleSidebar()">CONTACT</a>
+        </nav>
+    </div>
+
+    <section class="hero" id="home">
+        <p>Ownership With Ease</p>
+        <h1>Taiseel Development</h1>
+        <p>A Legacy Built on Trust and Innovation</p>
+    </section>
+
+    <section class="stats">
+        <div class="stat-item"><h2>2024</h2><p>ESTABLISHED</p></div>
+        <div class="stat-item"><h2>100%</h2><p>TRANSPARENCY</p></div>
+        <div class="stat-item"><h2>0%</h2><p>INTEREST PLANS</p></div>
+        <div class="stat-item"><h2>KIGALI</h2><p>HEADQUARTERS</p></div>
+    </section>
+
+    <section class="section" id="projects">
+        <h2 class="section-title">Iconic Destinations</h2>
+        <div class="underline"></div>
+        <div class="project-grid">
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Residences">
+                <div class="project-overlay"><h3>The Heights Residences</h3></div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop" alt="Business">
+                <div class="project-overlay"><h3>Taiseel Business Hub</h3></div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop" alt="Luxury">
+                <div class="project-overlay"><h3>Garden District Villas</h3></div>
+            </div>
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=2067&auto=format&fit=crop" alt="Urban">
+                <div class="project-overlay"><h3>The Urban Collection</h3></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-bg" id="services">
+        <h2 class="section-title" style="text-align: center;">Our Expertise</h2>
+        <div class="underline"></div>
+        <div class="services-grid">
+            <div class="service-box"><h4>Off-Plan Development</h4><p>Master-planned units sold with flexible payment milestones prior to completion.</p></div>
+            <div class="service-box"><h4>Joint Ventures</h4><p>Strategic partnerships with landowners to maximize asset potential and equity.</p></div>
+            <div class="service-box"><h4>Property Management</h4><p>Dedicated facilities and asset management ensuring long-term value appreciation.</p></div>
+            <div class="service-box"><h4>Escrow Coordination</h4><p>Secure fund management protecting investor capital and project timelines.</p></div>
+            <div class="service-box"><h4>Rental Services</h4><p>Professional leasing solutions connecting world-class tenants with premium spaces.</p></div>
+            <div class="service-box"><h4>Sales & Brokerage</h4><p>Strategic agency services for the acquisition and disposition of high-value assets.</p></div>
+            <div class="service-box"><h4>Sale–Leaseback</h4><p>Capital restructuring solutions allowing owners to unlock liquidity from core assets.</p></div>
+            <div class="service-box"><h4>Syndication & Pooling</h4><p>Structured investment vehicles for collective real estate development.</p></div>
+            <div class="service-box"><h4>Rent-to-Own</h4><p>Innovative ownership pathways facilitating long-term residency and equity growth.</p></div>
+        </div>
+    </section>
+
+    <section class="split-section" id="landowners">
+        <div class="split-image" style="background-image: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1973&auto=format&fit=crop');"></div>
+        <div class="split-content">
+            <h2>Partner With Us</h2>
+            <p>At Taiseel Development, we turn land into landmarks. Our Joint Venture model allows landowners to participate in high-margin developments with absolute legal security and zero capital requirement.</p>
+            <a href="#" style="color: #c5a059; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px;">Enquire Now &rarr;</a>
+        </div>
+    </section>
+
+    <section class="partners-section" id="partners">
+        <h3>Strategic Partners</h3>
+        <div class="slider">
+            <div class="slide-track">
+                <div class="slide"><img src="kigali.png" alt="Kigali City"><span> KIGALI CITY</span></div>
+                <div class="slide"><img src="visitrwanda.png" alt="Visit Rwanda"><span></span></div>
+                <div class="slide"><img src="mtn.png" alt="MTN"><span>MTN</span></div>
+                <div class="slide"><img src="rdb.png" alt="RDB"><span>RDB</span></div>
+                <div class="slide"><img src="equity.png" alt="Equity Bank"><span>EQUITY BANK</span></div>
+
+                <div class="slide"><img src="kigali.png" alt="Kigali City"><span> KIGALI CITY</span></div>
+                <div class="slide"><img src="visitrwanda.png" alt="Visit Rwanda"><span></span></div>
+                <div class="slide"><img src="mtn.png" alt="MTN"><span>MTN</span></div>
+                <div class="slide"><img src="rdb.png" alt="RDB"><span>RDB</span></div>
+                <div class="slide"><img src="equity.png" alt="Equity Bank"><span>EQUITY BANK</span></div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div>
+            <div style="font-weight: 800; letter-spacing: 2px; color: #1a3c22; font-size: 1.2rem; margin-bottom: 10px;">TAISEEL DEVELOPMENT</div>
+            <p style="font-size: 0.8rem; color: #999; max-width: 300px; line-height: 1.8;">Facilitating ownership and building Rwanda's future through world-class development expertise.</p>
+        </div>
+        <div class="footer-links">
+            <p>SITEMAP</p>
+            <a href="#">PROJECTS</a>
+            <a href="#">SERVICES</a>
+            <a href="#">LANDOWNERS</a>
+            <a href="#">ABOUT US</a>
+        </div>
+        <div class="footer-links">
+            <p>CONTACT</p>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 10px;">info@taiseeldevelopment.rw</p>
+            <p style="font-size: 0.85rem; color: #666;">+250 785 573 225</p>
+            <p style="font-size: 0.85rem; color: #666; margin-top: 10px;">Kigali, Rwanda</p>
+        </div>
+    </footer>
+
+    <script>
+        window.onscroll = function() {
+            let header = document.getElementById("header");
+            if (window.pageYOffset > 50) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+        };
+
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>

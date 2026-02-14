@@ -1,0 +1,78 @@
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+const DATA_FILE = path.join(__dirname, 'registrations.json');
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files from current directory
+app.use(express.static(__dirname));
+
+// Endpoint to retrieve registrations for admin
+app.get('/api/admin/registrations', (req, res) => {
+    fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading registration file:', err);
+            return res.status(500).json({ error: 'Failed to retrieve registrations' });
+        }
+        try {
+            const registrations = JSON.parse(data || '[]');
+            res.status(200).json(registrations);
+        } catch (parseErr) {
+            res.status(500).json({ error: 'Data corruption detected' });
+        }
+    });
+});
+
+// Endpoint to handle registrations
+app.post('/api/register', (req, res) => {
+    const registration = req.body;
+
+    // Add timestamp
+    registration.timestamp = new Date().toISOString();
+
+    console.log('Received registration:', registration);
+
+    // Read existing registrations
+    fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            console.error('Error reading registration file:', err);
+            return res.status(500).json({ error: 'Failed to process registration' });
+        }
+
+        let registrations = [];
+        if (data) {
+            try {
+                registrations = JSON.parse(data);
+            } catch (parseErr) {
+                console.error('Error parsing registration file:', parseErr);
+                registrations = [];
+            }
+        }
+
+        // Add new registration
+        registrations.push(registration);
+
+        // Save back to file
+        fs.writeFile(DATA_FILE, JSON.stringify(registrations, null, 2), (writeErr) => {
+            if (writeErr) {
+                console.error('Error saving registration:', writeErr);
+                return res.status(500).json({ error: 'Failed to save registration' });
+            }
+
+            res.status(200).json({ message: 'Registration successful!' });
+        });
+    });
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
