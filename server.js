@@ -7,6 +7,31 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const DATA_FILE = path.join(__dirname, 'registrations.json');
+const sseClients = new Set();
+
+function readRegistrations(callback) {
+    fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+        if (err && err.code !== 'ENOENT') {
+            return callback(err);
+        }
+
+        if (!data) {
+            return callback(null, []);
+        }
+
+        try {
+            const registrations = JSON.parse(data || '[]');
+            callback(null, Array.isArray(registrations) ? registrations : []);
+        } catch (parseErr) {
+            callback(parseErr);
+        }
+    });
+}
+
+function broadcastRegistration(registration) {
+    const payload = `data: ${JSON.stringify(registration)}\n\n`;
+    sseClients.forEach((client) => client.write(payload));
+}
 
 // Middleware
 app.use(cors());
@@ -18,17 +43,29 @@ app.use(express.static(__dirname));
 
 // Endpoint to retrieve registrations for admin
 app.get('/api/admin/registrations', (req, res) => {
-    fs.readFile(DATA_FILE, 'utf8', (err, data) => {
+    readRegistrations((err, registrations) => {
         if (err) {
             console.error('Error reading registration file:', err);
             return res.status(500).json({ error: 'Failed to retrieve registrations' });
         }
-        try {
-            const registrations = JSON.parse(data || '[]');
-            res.status(200).json(registrations);
-        } catch (parseErr) {
-            res.status(500).json({ error: 'Data corruption detected' });
-        }
+
+        res.status(200).json(registrations);
+    });
+});
+
+app.get('/api/admin/registrations/stream', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders();
+
+    res.write('event: connected\n');
+    res.write('data: {"status":"ok"}\n\n');
+
+    sseClients.add(res);
+
+    req.on('close', () => {
+        sseClients.delete(res);
     });
 });
 
@@ -36,26 +73,20 @@ app.get('/api/admin/registrations', (req, res) => {
 app.post('/api/register', (req, res) => {
     const registration = req.body;
 
+    if (!registration.email || !registration.message) {
+        return res.status(400).json({ error: 'Email and message are required' });
+    }
+
     // Add timestamp
     registration.timestamp = new Date().toISOString();
 
     console.log('Received registration:', registration);
 
     // Read existing registrations
-    fs.readFile(DATA_FILE, 'utf8', (err, data) => {
-        if (err && err.code !== 'ENOENT') {
+    readRegistrations((err, registrations) => {
+        if (err) {
             console.error('Error reading registration file:', err);
             return res.status(500).json({ error: 'Failed to process registration' });
-        }
-
-        let registrations = [];
-        if (data) {
-            try {
-                registrations = JSON.parse(data);
-            } catch (parseErr) {
-                console.error('Error parsing registration file:', parseErr);
-                registrations = [];
-            }
         }
 
         // Add new registration
@@ -68,6 +99,7 @@ app.post('/api/register', (req, res) => {
                 return res.status(500).json({ error: 'Failed to save registration' });
             }
 
+            broadcastRegistration(registration);
             res.status(200).json({ message: 'Registration successful!' });
         });
     });

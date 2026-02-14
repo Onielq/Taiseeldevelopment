@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-gg
 
 <head>
     <meta charset="UTF-8">
@@ -332,7 +331,7 @@ gg
             head.innerHTML = keys.map(k => `<th>${k.replace(/Address/g, '').replace(/[*?]/g, '')}</th>`).join('');
 
             // Render Body
-            body.innerHTML = data.reverse().map(lead => {
+            body.innerHTML = [...data].reverse().map(lead => {
                 return `<tr>
                     ${keys.map(k => {
                     let val = lead[k] || '-';
@@ -363,8 +362,32 @@ gg
             a.click();
         }
 
+        function startRealtimeFeed() {
+            if (!window.EventSource) return;
+
+            const stream = new EventSource('/api/admin/registrations/stream');
+            stream.onmessage = (event) => {
+                try {
+                    const registration = JSON.parse(event.data);
+                    if (registration && registration.email) {
+                        currentLeads.unshift(registration);
+                        renderLeads([...currentLeads]);
+                        updateStats(currentLeads);
+                    }
+                } catch (err) {
+                    console.error('Stream parse error:', err);
+                }
+            };
+
+            stream.onerror = () => {
+                stream.close();
+                setTimeout(startRealtimeFeed, 3000);
+            };
+        }
+
         // Initialize
         fetchLeads();
+        startRealtimeFeed();
     </script>
 </body>
 

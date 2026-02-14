@@ -2067,11 +2067,12 @@
             </div>
             <form class="reg-form">
                 <div class="reg-grid">
-                    <input type="text" placeholder="First Name*" required>
-                    <input type="text" placeholder="Last Name*" required>
-                    <input type="email" placeholder="Email Address*" required>
+                    <input type="text" name="firstName" placeholder="First Name*" required>
+                    <input type="text" name="lastName" placeholder="Last Name*" required>
+                    <input type="email" name="email" placeholder="Email Address*" required>
+                    <textarea name="message" placeholder="Message*" required style="grid-column: 1 / -1; min-height: 120px; resize: vertical;"></textarea>
 
-                    <select title="country of residence">
+                    <select name="country" title="country of residence">
                         <option value="" disabled selected>Country of Residence</option>
                         <option value="RW">Rwanda</option>
                         <option value="US">United States</option>
@@ -2082,10 +2083,10 @@
 
                     <div class="phone-group">
                         <select class="code-select" id="phone-code" title="Country Code"></select>
-                        <input type="tel" placeholder="780 000 000" required>
+                        <input type="tel" name="phone" placeholder="780 000 000" required>
                     </div>
 
-                    <select title="Number of Bedrooms">
+                    <select name="bedrooms" title="Number of Bedrooms">
                         <option value="" disabled selected>No of Bedrooms</option>
                         <option value="1">1 Bedroom</option>
                         <option value="2">2 Bedrooms</option>
@@ -2093,7 +2094,7 @@
                         <option value="4+">4+ Bedrooms</option>
                     </select>
 
-                    <select title="Purchase Timeline">
+                    <select name="purchaseTimeline" title="Purchase Timeline">
                         <option value="" disabled selected>How soon are you looking to buy?</option>
                         <option value="Immediate">Immediately</option>
                         <option value="3months">Within 3 months</option>
@@ -2101,13 +2102,13 @@
                         <option value="Later">Later</option>
                     </select>
 
-                    <select title="Purpose of Buying">
+                    <select name="purpose" title="Purpose of Buying">
                         <option value="" disabled selected>What's the purpose of buying?</option>
                         <option value="Investment">Investment</option>
                         <option value="Residence">Personal Residence</option>
                     </select>
 
-                    <select title="Other Purposes">
+                    <select name="otherPurpose" title="Other Purposes">
                         <option value="" disabled selected>Other Purposes</option>
                         <option value="PROPERTY MANAGEMENT">PROPERTY MANAGEMENT</option>
                         <option value="JOINT VENTURES">JOINT VENTURES</option>
@@ -2122,7 +2123,7 @@
                 </div>
 
                 <div class="broker-check">
-                    <select title="Broker">
+                    <select name="assistedByBroker" title="Broker">
                         <option value="" disabled selected>I am assisted by a broker</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
@@ -2139,6 +2140,7 @@
                     <button type="submit" class="submit-btn"
                         style="background: #1a3c22; color: #fff; padding: 15px 40px; border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; border-radius: 12px;">SUBMIT</button>
                 </div>
+                <p id="formStatus" style="margin-top: 16px; font-size: 0.85rem; color: #1a3c22; display: none;"></p>
             </form>
         </div>
     </section>
@@ -2739,37 +2741,41 @@
                     submitBtn.innerText = 'SENDING...';
                     submitBtn.disabled = true;
 
-                    const formData = new FormData(regForm);
-                    const data = {};
-                    formData.forEach((value, key) => { data[key] = value });
+                    const formStatus = document.getElementById('formStatus');
+                    formStatus.style.display = 'none';
+                    formStatus.textContent = '';
 
-                    // Manually grab select and other values if names aren't simple
-                    // Since the form has many selects without 'name' attributes, let's fix that or collect them manually
-                    const inputs = regForm.querySelectorAll('input, select');
+                    const formData = new FormData(regForm);
                     const submissionData = {};
-                    inputs.forEach(input => {
-                        const label = input.placeholder || (input.options && input.options[0] ? input.options[0].text : 'Field');
-                        // Use name if exits, otherwise use placeholder or first option text as key
-                        const key = input.name || label.replace(/[*?]/g, '').trim();
-                        submissionData[key] = input.value;
+                    formData.forEach((value, key) => {
+                        submissionData[key] = value;
                     });
+                    submissionData.phoneCode = document.getElementById('phone-code')?.value || '';
 
                     try {
-                        const response = await fetch('http://localhost:5000/api/register', {
+                        const response = await fetch('/api/register', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(submissionData)
                         });
 
+                        const payload = await response.json();
+
                         if (response.ok) {
-                            alert('Thank you for your interest! Your registration was successful.');
+                            formStatus.style.display = 'block';
+                            formStatus.style.color = '#2e7d32';
+                            formStatus.textContent = 'Message sent successfully. We received your email in our inbox queue.';
                             regForm.reset();
                         } else {
-                            alert('Something went wrong. Please try again later.');
+                            formStatus.style.display = 'block';
+                            formStatus.style.color = '#b3261e';
+                            formStatus.textContent = payload.error || 'Something went wrong. Please try again later.';
                         }
                     } catch (error) {
                         console.error('Registration error:', error);
-                        alert('Error connecting to server. Please ensure the backend is running.');
+                        formStatus.style.display = 'block';
+                        formStatus.style.color = '#b3261e';
+                        formStatus.textContent = 'Error connecting to server. Please ensure the backend is running.';
                     } finally {
                         submitBtn.innerText = originalText;
                         submitBtn.disabled = false;
