@@ -137,31 +137,6 @@
             max-width: 280px;
         }
 
-        .hero h1 {
-            font-size: clamp(1.1rem, 2vw, 1.5rem);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            font-size: 0.84rem;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-
-        .hero p {
-            font-size: 0.78rem;
-            max-width: 66ch;
-            opacity: 0.95;
-        }
-
-        .cta-row {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
         .action-box {
             margin-top: 16px;
             display: flex;
@@ -189,27 +164,6 @@
             background: #0d3f60;
             color: #fff;
             border-color: #0d3f60;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            color: var(--white);
-            padding: 11px 16px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            min-height: 44px;
-        }
-
-        .btn.primary {
-            background: var(--teal);
-            border-color: var(--teal);
-            color: #0f172a;
         }
 
         .section {
@@ -590,12 +544,7 @@
                 <div class="gallery-stage">
                     <img id="gallery-image" src="baygrove.png" alt="Palm Central visual render">
                 </div>
-                <div class="gallery-controls" aria-label="Gallery navigation">
-                    <button class="dot active" data-index="0" aria-label="Show image 1"></button>
-                    <button class="dot" data-index="1" aria-label="Show image 2"></button>
-                    <button class="dot" data-index="2" aria-label="Show image 3"></button>
-                    <button class="dot" data-index="3" aria-label="Show image 4"></button>
-                </div>
+                <div class="gallery-controls" id="gallery-dots" aria-label="Gallery navigation"></div>
             </div>
         </div>
     </section>
@@ -809,7 +758,11 @@
         });
 
         let currentAmenityPage = 0;
-        renderAmenityPage(currentAmenityPage);
+        if (amenityPages.length) {
+            renderAmenityPage(currentAmenityPage);
+        } else {
+            amenityDots.style.display = 'none';
+        }
 
         if (amenityPages.length > 1) {
             setInterval(() => {
@@ -827,18 +780,27 @@
 
         const images = activeProject.images;
         const galleryImage = document.getElementById('gallery-image');
-        const dots = Array.from(document.querySelectorAll('.dot'));
+        const galleryDots = document.getElementById('gallery-dots');
 
         function setSlide(index) {
-            galleryImage.src = images[index];
-            dots.forEach(dot => dot.classList.remove('active'));
-            dots[index].classList.add('active');
+            const safeIndex = ((index % images.length) + images.length) % images.length;
+            galleryImage.src = images[safeIndex];
+            Array.from(galleryDots.children).forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === safeIndex);
+            });
+            return safeIndex;
         }
 
-        dots.forEach(dot => {
+        galleryDots.innerHTML = '';
+        images.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'dot' + (index === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Show image ${index + 1}`);
             dot.addEventListener('click', () => {
-                setSlide(Number(dot.dataset.index));
+                autoIndex = setSlide(index);
             });
+            galleryDots.appendChild(dot);
         });
 
         const form = document.getElementById('interest-form');
@@ -879,11 +841,12 @@
             submitBtn.disabled = true;
         });
 
-        let autoIndex = 0;
-        setInterval(() => {
-            autoIndex = (autoIndex + 1) % images.length;
-            setSlide(autoIndex);
-        }, 4500);
+        let autoIndex = setSlide(0);
+        if (images.length > 1) {
+            setInterval(() => {
+                autoIndex = setSlide(autoIndex + 1);
+            }, 4500);
+        }
     </script>
 </body>
 
