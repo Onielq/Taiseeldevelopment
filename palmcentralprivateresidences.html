@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Central Private Residences | Taiseel Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #052f4a;
+            --teal: #6ed6e7;
+            --ink: #1f2a37;
+            --muted: #64748b;
+            --surface: #f3f4f6;
+            --line: #d9dde3;
+            --white: #fff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ink);
+            background: var(--surface);
+            line-height: 1.55;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(5, 47, 74, 0.96), rgba(5, 47, 74, 0.88));
+            color: var(--white);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .header-inner {
+            width: min(1200px, 94%);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 72px;
+            gap: 24px;
+        }
+
+        .logo {
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 1.45rem;
+        }
+
+        .menu {
+            display: flex;
+            gap: 26px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .menu a {
+            text-decoration: none;
+        }
+
+        .hero {
+            min-height: 74vh;
+            background: linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('palmjebel.png') center/cover no-repeat;
+            color: var(--white);
+            display: flex;
+            align-items: flex-end;
+            padding: 56px 0 52px;
+        }
+
+        .container {
+            width: min(1200px, 94%);
+            margin: 0 auto;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 30px;
+            max-width: 760px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .hero p {
+            font-size: 0.98rem;
+            max-width: 66ch;
+            opacity: 0.95;
+        }
+
+        .cta-row {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            color: var(--white);
+            padding: 11px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            min-height: 44px;
+        }
+
+        .btn.primary {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #0f172a;
+        }
+
+        .section {
+            padding: 52px 0;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            padding: 28px;
+        }
+
+        h2 {
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .lead {
+            color: #334155;
+            margin-bottom: 14px;
+        }
+
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .amenity {
+            border: 1px solid var(--line);
+            min-height: 105px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.77rem;
+            background: #fbfcfd;
+        }
+
+        .visual-wrap {
+            background: var(--white);
+            border: 1px solid var(--line);
+            padding: 18px;
+        }
+
+        .gallery-stage {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            border: 0;
+            background: #cbd5e1;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: var(--navy);
+        }
+
+        .location-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--white);
+            border: 1px solid var(--line);
+        }
+
+        .map-frame {
+            width: 100%;
+            height: 420px;
+            border: 0;
+        }
+
+        .location-panel {
+            padding: 24px;
+        }
+
+        .distance-item {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            border: 1px solid #e5e7eb;
+            background: #f8fafc;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .form-shell {
+            background: var(--white);
+            border: 1px solid var(--line);
+            padding: 26px;
+        }
+
+        .form-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .privacy {
+            color: var(--muted);
+            font-size: 0.83rem;
+        }
+
+        .reg-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 46px;
+            border: 1px solid #cfd6df;
+            padding: 10px 12px;
+            font-family: inherit;
+            background: #fff;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .toggle-group {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            min-height: 46px;
+            border: 1px solid #cfd6df;
+            padding: 10px 12px;
+            background: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .consent-row {
+            margin-top: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        .submit-btn {
+            margin-top: 14px;
+            border: 0;
+            background: var(--teal);
+            color: #0f172a;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            min-height: 48px;
+            padding: 0 24px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .success {
+            margin-top: 10px;
+            color: #047857;
+            font-weight: 600;
+            display: none;
+        }
+
+        .app-section {
+            background: var(--white);
+            border: 1px solid var(--line);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .bullets {
+            padding-left: 20px;
+            color: #334155;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .small-link {
+            text-decoration: none;
+            border: 1px solid var(--line);
+            padding: 8px 12px;
+            font-size: 0.82rem;
+            background: #f8fafc;
+        }
+
+        @media (max-width: 960px) {
+            .split,
+            .location-layout,
+            .app-section {
+                grid-template-columns: 1fr;
+            }
+
+            .reg-grid {
+                grid-template-columns: repeat(2, minmax(150px, 1fr));
+            }
+
+            .menu {
+                display: none;
+            }
+
+            .gallery-stage {
+                height: 380px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .amenities-grid {
+                grid-template-columns: repeat(2, minmax(120px, 1fr));
+            }
+
+            .reg-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-card,
+            .card,
+            .form-shell,
+            .app-section {
+                padding: 20px;
+            }
+
+            .header-inner {
+                min-height: 62px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="logo" href="index.html">TAISEEL</a>
+            <nav class="menu" aria-label="Primary">
+                <a href="#overview">New Launches</a>
+                <a href="#visual-collection">Visual Collection</a>
+                <a href="#location">The Location</a>
+                <a href="#register">Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="overview">
+        <div class="container">
+            <div class="hero-card">
+                <h1>Palm Central Private Residences</h1>
+                <p class="tagline">A Calm Called Home.</p>
+                <p>
+                    Designed as a conversion-first real estate launch page: strong hero storytelling, visible action buttons,
+                    visual-rich amenities, location facts, and a friction-light lead form.
+                </p>
+                <div class="cta-row">
+                    <a class="btn primary" href="#register">Register Your Interest</a>
+                    <a class="btn" href="#" aria-label="Download brochure PDF">Download Brochure</a>
+                    <a class="btn" href="#" aria-label="Download floor plan PDF">Download Floor Plan</a>
+                    <a class="btn" href="#" aria-label="Download payment plan PDF">Download Payment Plan</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container split">
+            <article class="card">
+                <h2>Where your home brings you closer to life at the edge of the sea.</h2>
+                <p class="lead">
+                    This section mirrors the Nakheel-style launch anatomy: concise storytelling copy on the left,
+                    immediate conversion buttons below, and a scannable amenity system on the right.
+                </p>
+                <p>
+                    The content and visual rhythm are tuned for high-intent users: first sell the lifestyle, then validate
+                    through features, then convert through the form.
+                </p>
+            </article>
+            <article class="card">
+                <h2>Amenities</h2>
+                <div class="amenities-grid">
+                    <div class="amenity">Padel Courts</div>
+                    <div class="amenity">Outdoor Co-Working</div>
+                    <div class="amenity">Outdoor Dining</div>
+                    <div class="amenity">Fitness Zone</div>
+                    <div class="amenity">Infinity Pool</div>
+                    <div class="amenity">Beach Volleyball</div>
+                    <div class="amenity">Event Lawn</div>
+                    <div class="amenity">Kids Play Area</div>
+                    <div class="amenity">Gym & Studio</div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="section" id="visual-collection">
+        <div class="container">
+            <div class="visual-wrap">
+                <h2 style="margin-bottom:12px;">Visual Collection</h2>
+                <div class="gallery-stage">
+                    <img id="gallery-image" src="baygrove.png" alt="Palm Central visual render">
+                </div>
+                <div class="gallery-controls" aria-label="Gallery navigation">
+                    <button class="dot active" data-index="0" aria-label="Show image 1"></button>
+                    <button class="dot" data-index="1" aria-label="Show image 2"></button>
+                    <button class="dot" data-index="2" aria-label="Show image 3"></button>
+                    <button class="dot" data-index="3" aria-label="Show image 4"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="location">
+        <div class="container">
+            <div class="location-layout">
+                <iframe class="map-frame" title="Palm Central location map"
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=55.1301%2C25.0600%2C55.2200%2C25.1800&amp;layer=mapnik&amp;marker=25.1193%2C55.1826"></iframe>
+                <div class="location-panel">
+                    <h2>The Location</h2>
+                    <div class="distance-item">16 minutes from Life Pharmacy Metro Station</div>
+                    <div class="distance-item">22 minutes from Dubai Frame</div>
+                    <div class="distance-item">24 minutes from Dubai World Trade Centre</div>
+                    <div class="distance-item">24 minutes from Downtown Dubai</div>
+                    <div class="distance-item">33 minutes from Business Bay</div>
+                    <div class="distance-item">34 minutes from Dubai Financial Centre</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="register">
+        <div class="container">
+            <div class="form-shell">
+                <div class="form-head">
+                    <h2 style="margin-bottom:0;">Register Your Interest</h2>
+                    <p class="privacy">Taiseel privacy policy explains how we handle your personal data.</p>
+                </div>
+
+                <form id="interest-form" novalidate>
+                    <div class="reg-grid">
+                        <input type="text" name="firstName" placeholder="First Name*" required>
+                        <input type="text" name="lastName" placeholder="Last Name*" required>
+                        <input type="email" name="email" placeholder="Email Address*" required>
+
+                        <select name="country" required>
+                            <option value="">Country of Residence*</option>
+                            <option>UAE</option>
+                            <option>Rwanda</option>
+                            <option>Saudi Arabia</option>
+                            <option>United Kingdom</option>
+                            <option>United States</option>
+                        </select>
+                        <select name="bedrooms" required>
+                            <option value="">No of Bedrooms*</option>
+                            <option>1 Bedroom</option>
+                            <option>2 Bedrooms</option>
+                            <option>3 Bedrooms</option>
+                            <option>4+ Bedrooms</option>
+                        </select>
+                        <select name="timeline" required>
+                            <option value="">How soon are you looking to buy?*</option>
+                            <option>Immediately</option>
+                            <option>Within 3 months</option>
+                            <option>Within 6 months</option>
+                            <option>Within 12 months</option>
+                        </select>
+
+                        <div class="toggle-group">
+                            <strong style="font-size:0.86rem;">Purpose:</strong>
+                            <label><input type="radio" name="purpose" value="Investment" required> Investment</label>
+                            <label><input type="radio" name="purpose" value="Self-Use"> Self-Use</label>
+                        </div>
+
+                        <select name="broker" id="broker-assistance" required>
+                            <option value="">I am assisted by a broker*</option>
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                        </select>
+
+                        <input class="hidden" type="email" id="broker-email" name="brokerEmail" placeholder="Broker Email*">
+                    </div>
+
+                    <label class="consent-row">
+                        <input type="checkbox" id="consent" required>
+                        <span>By accepting and providing my personal information, I consent to Taiseel's privacy policy and applicable data protection laws.</span>
+                    </label>
+
+                    <button id="submit-btn" class="submit-btn" type="submit" disabled>Register Your Interest</button>
+                    <p class="success" id="form-success">One of our sales representatives will contact you shortly.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="app-section">
+                <div>
+                    <h2>My Nakheel App</h2>
+                    <p class="lead">Extending trust beyond the property page with always-on service support.</p>
+                    <ul class="bullets">
+                        <li>Access properties securely</li>
+                        <li>Raise and track service requests</li>
+                        <li>Make online payments</li>
+                        <li>Schedule customer care meetings</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Next Step</h2>
+                    <p class="lead">This demo page is wired for UX behavior and ready to be connected to backend lead APIs.</p>
+                    <div class="app-actions">
+                        <a class="small-link" href="index.html#register">Open Main Taiseel Form</a>
+                        <a class="small-link" href="index.html#projects">Back to Projects</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const images = ['baygrove.png', 'VisionCity2.jpg', 'kigaliheight2.jpg', 'landscape4.jpg'];
+        const galleryImage = document.getElementById('gallery-image');
+        const dots = Array.from(document.querySelectorAll('.dot'));
+
+        function setSlide(index) {
+            galleryImage.src = images[index];
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+        }
+
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                setSlide(Number(dot.dataset.index));
+            });
+        });
+
+        const form = document.getElementById('interest-form');
+        const brokerSelect = document.getElementById('broker-assistance');
+        const brokerEmail = document.getElementById('broker-email');
+        const submitBtn = document.getElementById('submit-btn');
+        const consent = document.getElementById('consent');
+        const success = document.getElementById('form-success');
+
+        function toggleBrokerEmail() {
+            const requiresBroker = brokerSelect.value === 'Yes';
+            brokerEmail.classList.toggle('hidden', !requiresBroker);
+            brokerEmail.required = requiresBroker;
+            if (!requiresBroker) {
+                brokerEmail.value = '';
+            }
+            validateForm();
+        }
+
+        function validateForm() {
+            submitBtn.disabled = !(form.checkValidity() && consent.checked);
+        }
+
+        brokerSelect.addEventListener('change', toggleBrokerEmail);
+        form.addEventListener('input', validateForm);
+        consent.addEventListener('change', validateForm);
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            if (!(form.checkValidity() && consent.checked)) {
+                return;
+            }
+
+            success.style.display = 'block';
+            form.reset();
+            brokerEmail.classList.add('hidden');
+            brokerEmail.required = false;
+            submitBtn.disabled = true;
+        });
+
+        let autoIndex = 0;
+        setInterval(() => {
+            autoIndex = (autoIndex + 1) % images.length;
+            setSlide(autoIndex);
+        }, 4500);
+    </script>
+</body>
+
+</html>
