@@ -74,25 +74,25 @@
         }
 
         .hero {
-            min-height: 50vh;
-            background: linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('palmjebel.png') center/cover no-repeat;
+            min-height: 68vh;
+            background: linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('brillianttower.jpg') center/cover no-repeat;
             color: var(--white);
             display: flex;
             align-items: flex-end;
-            padding: 24px 0 22px;
+            padding: 30px 0 28px;
         }
 
         .intro-section {
             position: relative;
-            padding-top: 52px;
+            padding-top: 58px;
         }
 
         .project-badge {
             position: absolute;
-            top: -60px;
-            left: 0;
-            width: 126px;
-            height: 108px;
+            top: -109px;
+            left: 8%;
+            width: 160px;
+            height: 110px;
             background: #f4f5f7;
             border: 1px solid #d3d8de;
             display: flex;
@@ -124,6 +124,14 @@
             line-height: 1.35;
         }
 
+        .project-title {
+            font-size: clamp(1.2rem, 2.3vw, 2rem);
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
         .container {
             width: min(1200px, 94%);
             margin: 0 auto;
@@ -133,8 +141,9 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(4px);
-            padding: 6px;
-            max-width: 280px;
+            padding: 10px;
+            max-width: 320px;
+            min-height: 72px;
         }
 
         .action-box {
@@ -441,7 +450,7 @@
             }
 
             .project-badge {
-                left: 10px;
+                left: 20%;
             }
 
             .menu {
@@ -450,6 +459,10 @@
 
             .gallery-stage {
                 height: 380px;
+            }
+
+            .hero {
+                min-height: 58vh;
             }
         }
 
@@ -478,10 +491,20 @@
             }
 
             .project-badge {
-                width: 138px;
-                height: 120px;
+                width: 152px;
+                height: 130px;
                 top: -52px;
-                left: 10px;
+                left: 12%;
+            }
+
+            .hero {
+                min-height: 52vh;
+                padding: 20px 0;
+            }
+
+            .hero-card {
+                min-height: 56px;
+                max-width: 250px;
             }
         }
     </style>
@@ -513,6 +536,7 @@
                 <div class="badge-name" id="project-badge-name">Palm Central</div>
             </div>
             <article class="card">
+                <h1 class="project-title" id="project-main-title">Palm Central Private Residences</h1>
                 <h2>Where your home brings you closer to life at the edge of the sea.</h2>
                 <p class="lead">
                     This section mirrors the Nakheel-style launch anatomy: concise storytelling copy on the left,
@@ -710,10 +734,12 @@
         const amenitiesGrid = document.getElementById('amenities-grid');
         const distanceList = document.getElementById('distance-list');
         const badgeName = document.getElementById('project-badge-name');
+        const projectMainTitle = document.getElementById('project-main-title');
 
-        heroElement.style.background = `linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('${activeProject.heroImage}') center/cover no-repeat`;
+        heroElement.style.background = "linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('brilliant tower.jpg') center/cover no-repeat";
         document.title = `${activeProject.title} | Taiseel Development`;
         badgeName.textContent = activeProject.title;
+        projectMainTitle.textContent = activeProject.title;
 
         const amenityDots = document.getElementById('amenity-dots');
         const amenityIconPngs = ['logo.png', 'logo2.png', 'images.png', 'mtn.png', 'Visitrwanda.png', 'qrcode.png', 'VisionCity.png', 'kigaliheight.png', 'Inzovumall.png', 'Equity.png', 'rdb.png', 'Y.png'];
