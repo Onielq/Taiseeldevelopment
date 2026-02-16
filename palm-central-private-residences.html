@@ -27,7 +27,8 @@
             font-family: 'Montserrat', sans-serif;
             color: var(--ink);
             background: var(--surface);
-            line-height: 1.55;
+            line-height: 1.42;
+            font-size: 13px;
         }
 
         a {
@@ -49,7 +50,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 72px;
+            min-height: 58px;
             gap: 24px;
         }
 
@@ -57,7 +58,7 @@
             text-decoration: none;
             font-weight: 800;
             letter-spacing: 1px;
-            font-size: 1.45rem;
+            font-size: 1.08rem;
         }
 
         .menu {
@@ -73,25 +74,25 @@
         }
 
         .hero {
-            min-height: 74vh;
+            min-height: 50vh;
             background: linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('palmjebel.png') center/cover no-repeat;
             color: var(--white);
             display: flex;
             align-items: flex-end;
-            padding: 56px 0 52px;
+            padding: 24px 0 22px;
         }
 
         .intro-section {
             position: relative;
-            padding-top: 76px;
+            padding-top: 52px;
         }
 
         .project-badge {
             position: absolute;
             top: -60px;
             left: 0;
-            width: 160px;
-            height: 138px;
+            width: 126px;
+            height: 108px;
             background: #f4f5f7;
             border: 1px solid #d3d8de;
             display: flex;
@@ -111,7 +112,7 @@
             place-items: center;
             font-size: 0.8rem;
             color: #475569;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .project-badge .badge-name {
@@ -132,24 +133,24 @@
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(4px);
-            padding: 30px;
-            max-width: 760px;
+            padding: 6px;
+            max-width: 280px;
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
             font-weight: 600;
             margin-bottom: 10px;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: 0.84rem;
             margin-bottom: 12px;
             font-weight: 500;
         }
 
         .hero p {
-            font-size: 0.98rem;
+            font-size: 0.78rem;
             max-width: 66ch;
             opacity: 0.95;
         }
@@ -159,6 +160,35 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+        }
+
+        .action-box {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .intro-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 9px 14px;
+            border: 1px solid #334a5c;
+            color: #23384a;
+            background: transparent;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.45px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .intro-btn.primary {
+            background: #0d3f60;
+            color: #fff;
+            border-color: #0d3f60;
         }
 
         .btn {
@@ -183,58 +213,60 @@
         }
 
         .section {
-            padding: 52px 0;
+            padding: 30px 0;
         }
 
         .split {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 32px;
+            gap: 18px;
             align-items: start;
         }
 
         .card {
             background: transparent;
             border: 0;
-            padding: 22px;
+            padding: 6px;
         }
 
         h2 {
-            font-size: clamp(1.3rem, 3vw, 2rem);
+            font-size: clamp(0.98rem, 2.4vw, 1.25rem);
             font-weight: 600;
-            margin-bottom: 14px;
+            margin-bottom: 4px;
         }
 
         .lead {
             color: #334155;
-            margin-bottom: 14px;
+            margin-bottom: 4px;
         }
 
         .amenities-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(120px, 1fr));
-            gap: 12px;
+            transition: opacity 0.2s ease;
+            grid-template-columns: repeat(3, minmax(95px, 1fr));
+            gap: 8px;
         }
 
         .amenity {
             border: 1px solid #7f8f9d;
-            min-height: 108px;
+            min-height: 82px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 10px;
-            font-size: 0.76rem;
+            padding: 6px;
+            font-size: 0.64rem;
             background: #f4f6f8;
             color: #253949;
         }
 
         .amenity-icon {
-            font-size: 1.35rem;
-            line-height: 1;
-            margin-bottom: 8px;
-            opacity: 0.9;
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            margin-bottom: 4px;
+            opacity: 0.95;
         }
 
         .amenity-pager {
@@ -248,7 +280,10 @@
             width: 6px;
             height: 6px;
             border-radius: 999px;
+            border: 0;
+            padding: 0;
             background: #d2dae2;
+            cursor: pointer;
         }
 
         .amenity-pager .bullet.active {
@@ -320,7 +355,7 @@
             border: 1px solid #e5e7eb;
             background: #f8fafc;
             padding: 10px 12px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             font-size: 0.85rem;
         }
 
@@ -346,7 +381,7 @@
         .reg-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(160px, 1fr));
-            gap: 12px;
+            gap: 8px;
         }
 
         input,
@@ -414,7 +449,7 @@
         .app-section {
             background: var(--white);
             border: 1px solid var(--line);
-            padding: 30px;
+            padding: 6px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -480,6 +515,10 @@
                 padding: 20px;
             }
 
+            .intro-btn {
+                width: 100%;
+            }
+
             .header-inner {
                 min-height: 62px;
             }
@@ -509,20 +548,7 @@
 
     <section class="hero" id="overview">
         <div class="container">
-            <div class="hero-card">
-                <h1 id="project-title">Palm Central Private Residences</h1>
-                <p class="tagline" id="project-tagline">A Calm Called Home.</p>
-                <p id="project-description">
-                    Designed as a conversion-first real estate launch page: strong hero storytelling, visible action buttons,
-                    visual-rich amenities, location facts, and a friction-light lead form.
-                </p>
-                <div class="cta-row">
-                    <a class="btn primary" href="#register">Register Your Interest</a>
-                    <a class="btn" id="brochure-link" href="download.jfif" download aria-label="Download brochure PDF">Download Brochure</a>
-                    <a class="btn" id="floorplan-link" href="download22.jpeg" download aria-label="Download floor plan PDF">Download Floor Plan</a>
-                    <a class="btn" id="payment-link" href="download24.jpeg" download aria-label="Download payment plan PDF">Download Payment Plan</a>
-                </div>
-            </div>
+            <div class="hero-card" aria-hidden="true"></div>
         </div>
     </section>
 
@@ -542,14 +568,17 @@
                     The content and visual rhythm are tuned for high-intent users: first sell the lifestyle, then validate
                     through features, then convert through the form.
                 </p>
+                <div class="action-box" aria-label="Project actions">
+                    <a class="intro-btn primary" href="#register">Register Your Interest</a>
+                    <a class="intro-btn" id="brochure-link" href="download.jfif" download aria-label="Download brochure PDF">Download Brochure</a>
+                    <a class="intro-btn" id="floorplan-link" href="download22.jpeg" download aria-label="Download floor plan PDF">Download Floor Plan</a>
+                    <a class="intro-btn" id="payment-link" href="download24.jpeg" download aria-label="Download payment plan PDF">Download Payment Plan</a>
+                </div>
             </article>
             <article class="card">
                 <h2>Amenities</h2>
                 <div class="amenities-grid" id="amenities-grid"></div>
-                <div class="amenity-pager" aria-hidden="true">
-                    <span class="bullet active"></span>
-                    <span class="bullet"></span>
-                </div>
+                <div class="amenity-pager" id="amenity-dots" aria-label="Amenities pages"></div>
             </article>
         </div>
     </section>
@@ -728,36 +757,66 @@
 
         const activeProject = projectContent[projectSlug] || deriveProjectContent(projectSlug);
 
-        const titleElement = document.getElementById('project-title');
-        const taglineElement = document.getElementById('project-tagline');
-        const descriptionElement = document.getElementById('project-description');
         const heroElement = document.querySelector('.hero');
         const amenitiesGrid = document.getElementById('amenities-grid');
         const distanceList = document.getElementById('distance-list');
         const badgeName = document.getElementById('project-badge-name');
-        const amenityIcons = ['🏖️', '🏋️', '🏊', '🛝', '🧘', '🎾', '🎬', '🍽️', '🌿', '🎯', '🧒', '🚗'];
 
-        titleElement.textContent = activeProject.title;
-        taglineElement.textContent = activeProject.tagline;
-        descriptionElement.textContent = activeProject.description;
         heroElement.style.background = `linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('${activeProject.heroImage}') center/cover no-repeat`;
         document.title = `${activeProject.title} | Taiseel Development`;
         badgeName.textContent = activeProject.title;
 
-        activeProject.amenities.forEach((amenity, index) => {
-            const amenityCard = document.createElement('div');
-            amenityCard.className = 'amenity';
+        const amenityDots = document.getElementById('amenity-dots');
+        const amenityIconPngs = ['logo.png', 'logo2.png', 'images.png', 'mtn.png', 'Visitrwanda.png', 'qrcode.png', 'VisionCity.png', 'kigaliheight.png', 'Inzovumall.png', 'Equity.png', 'rdb.png', 'Y.png'];
+        const amenitiesPerPage = 6;
+        const amenityPages = [];
+        for (let i = 0; i < activeProject.amenities.length; i += amenitiesPerPage) {
+            amenityPages.push(activeProject.amenities.slice(i, i + amenitiesPerPage));
+        }
 
-            const icon = document.createElement('span');
-            icon.className = 'amenity-icon';
-            icon.textContent = amenityIcons[index % amenityIcons.length];
+        function renderAmenityPage(pageIndex) {
+            amenitiesGrid.innerHTML = '';
+            const items = amenityPages[pageIndex] || [];
+            items.forEach((amenity, index) => {
+                const amenityCard = document.createElement('div');
+                amenityCard.className = 'amenity';
 
-            const label = document.createElement('span');
-            label.textContent = amenity;
+                const icon = document.createElement('img');
+                icon.className = 'amenity-icon';
+                icon.src = amenityIconPngs[(pageIndex * amenitiesPerPage + index) % amenityIconPngs.length];
+                icon.alt = '';
 
-            amenityCard.append(icon, label);
-            amenitiesGrid.appendChild(amenityCard);
+                const label = document.createElement('span');
+                label.textContent = amenity;
+
+                amenityCard.append(icon, label);
+                amenitiesGrid.appendChild(amenityCard);
+            });
+
+            Array.from(amenityDots.children).forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === pageIndex);
+            });
+        }
+
+        amenityDots.innerHTML = '';
+        amenityPages.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'bullet' + (index === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Show amenities page ${index + 1}`);
+            dot.addEventListener('click', () => renderAmenityPage(index));
+            amenityDots.appendChild(dot);
         });
+
+        let currentAmenityPage = 0;
+        renderAmenityPage(currentAmenityPage);
+
+        if (amenityPages.length > 1) {
+            setInterval(() => {
+                currentAmenityPage = (currentAmenityPage + 1) % amenityPages.length;
+                renderAmenityPage(currentAmenityPage);
+            }, 3800);
+        }
 
         activeProject.distances.forEach((distance) => {
             const distanceItem = document.createElement('div');
