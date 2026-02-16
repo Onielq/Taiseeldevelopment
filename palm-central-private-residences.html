@@ -81,6 +81,48 @@
             padding: 56px 0 52px;
         }
 
+        .intro-section {
+            position: relative;
+            padding-top: 76px;
+        }
+
+        .project-badge {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            width: 160px;
+            height: 138px;
+            background: #f4f5f7;
+            border: 1px solid #d3d8de;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 3;
+        }
+
+        .project-badge .badge-mark {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #8a97a6;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .project-badge .badge-name {
+            font-size: 0.74rem;
+            letter-spacing: 1.2px;
+            color: #334155;
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
         .container {
             width: min(1200px, 94%);
             margin: 0 auto;
@@ -152,9 +194,9 @@
         }
 
         .card {
-            background: var(--white);
-            border: 1px solid var(--line);
-            padding: 28px;
+            background: transparent;
+            border: 0;
+            padding: 22px;
         }
 
         h2 {
@@ -175,14 +217,42 @@
         }
 
         .amenity {
-            border: 1px solid var(--line);
-            min-height: 105px;
-            display: grid;
-            place-items: center;
+            border: 1px solid #7f8f9d;
+            min-height: 108px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             padding: 10px;
-            font-size: 0.77rem;
-            background: #fbfcfd;
+            font-size: 0.76rem;
+            background: #f4f6f8;
+            color: #253949;
+        }
+
+        .amenity-icon {
+            font-size: 1.35rem;
+            line-height: 1;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .amenity-pager {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .amenity-pager .bullet {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #d2dae2;
+        }
+
+        .amenity-pager .bullet.active {
+            background: #0f3a55;
         }
 
         .visual-wrap {
@@ -381,6 +451,10 @@
                 grid-template-columns: repeat(2, minmax(150px, 1fr));
             }
 
+            .project-badge {
+                left: 10px;
+            }
+
             .menu {
                 display: none;
             }
@@ -409,6 +483,13 @@
             .header-inner {
                 min-height: 62px;
             }
+
+            .project-badge {
+                width: 138px;
+                height: 120px;
+                top: -52px;
+                left: 10px;
+            }
         }
     </style>
 </head>
@@ -429,24 +510,28 @@
     <section class="hero" id="overview">
         <div class="container">
             <div class="hero-card">
-                <h1>Palm Central Private Residences</h1>
-                <p class="tagline">A Calm Called Home.</p>
-                <p>
+                <h1 id="project-title">Palm Central Private Residences</h1>
+                <p class="tagline" id="project-tagline">A Calm Called Home.</p>
+                <p id="project-description">
                     Designed as a conversion-first real estate launch page: strong hero storytelling, visible action buttons,
                     visual-rich amenities, location facts, and a friction-light lead form.
                 </p>
                 <div class="cta-row">
                     <a class="btn primary" href="#register">Register Your Interest</a>
-                    <a class="btn" href="#" aria-label="Download brochure PDF">Download Brochure</a>
-                    <a class="btn" href="#" aria-label="Download floor plan PDF">Download Floor Plan</a>
-                    <a class="btn" href="#" aria-label="Download payment plan PDF">Download Payment Plan</a>
+                    <a class="btn" id="brochure-link" href="download.jfif" download aria-label="Download brochure PDF">Download Brochure</a>
+                    <a class="btn" id="floorplan-link" href="download22.jpeg" download aria-label="Download floor plan PDF">Download Floor Plan</a>
+                    <a class="btn" id="payment-link" href="download24.jpeg" download aria-label="Download payment plan PDF">Download Payment Plan</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section intro-section">
         <div class="container split">
+            <div class="project-badge" aria-hidden="true">
+                <div class="badge-mark">N</div>
+                <div class="badge-name" id="project-badge-name">Palm Central</div>
+            </div>
             <article class="card">
                 <h2>Where your home brings you closer to life at the edge of the sea.</h2>
                 <p class="lead">
@@ -460,16 +545,10 @@
             </article>
             <article class="card">
                 <h2>Amenities</h2>
-                <div class="amenities-grid">
-                    <div class="amenity">Padel Courts</div>
-                    <div class="amenity">Outdoor Co-Working</div>
-                    <div class="amenity">Outdoor Dining</div>
-                    <div class="amenity">Fitness Zone</div>
-                    <div class="amenity">Infinity Pool</div>
-                    <div class="amenity">Beach Volleyball</div>
-                    <div class="amenity">Event Lawn</div>
-                    <div class="amenity">Kids Play Area</div>
-                    <div class="amenity">Gym & Studio</div>
+                <div class="amenities-grid" id="amenities-grid"></div>
+                <div class="amenity-pager" aria-hidden="true">
+                    <span class="bullet active"></span>
+                    <span class="bullet"></span>
                 </div>
             </article>
         </div>
@@ -499,12 +578,7 @@
                     src="https://www.openstreetmap.org/export/embed.html?bbox=55.1301%2C25.0600%2C55.2200%2C25.1800&amp;layer=mapnik&amp;marker=25.1193%2C55.1826"></iframe>
                 <div class="location-panel">
                     <h2>The Location</h2>
-                    <div class="distance-item">16 minutes from Life Pharmacy Metro Station</div>
-                    <div class="distance-item">22 minutes from Dubai Frame</div>
-                    <div class="distance-item">24 minutes from Dubai World Trade Centre</div>
-                    <div class="distance-item">24 minutes from Downtown Dubai</div>
-                    <div class="distance-item">33 minutes from Business Bay</div>
-                    <div class="distance-item">34 minutes from Dubai Financial Centre</div>
+                    <div id="distance-list"></div>
                 </div>
             </div>
         </div>
@@ -600,7 +674,99 @@
     </section>
 
     <script>
-        const images = ['baygrove.png', 'VisionCity2.jpg', 'kigaliheight2.jpg', 'landscape4.jpg'];
+        const projectContent = {
+            'palm-central-private-residences': {
+                title: 'Palm Central Private Residences',
+                tagline: 'A Calm Called Home.',
+                description: 'Designed as a conversion-first real estate launch page: strong hero storytelling, visible action buttons, visual-rich amenities, location facts, and a friction-light lead form.',
+                heroImage: 'palmjebel.png',
+                images: ['baygrove.png', 'VisionCity2.jpg', 'kigaliheight2.jpg', 'landscape4.jpg'],
+                amenities: ['Padel Courts', 'Outdoor Co-Working', 'Outdoor Dining', 'Fitness Zone', 'Infinity Pool', 'Beach Volleyball', 'Event Lawn', 'Kids Play Area', 'Gym & Studio'],
+                distances: ['16 minutes from Life Pharmacy Metro Station', '22 minutes from Dubai Frame', '24 minutes from Dubai World Trade Centre', '24 minutes from Downtown Dubai', '33 minutes from Business Bay', '34 minutes from Dubai Financial Centre']
+            },
+            'the-heights-residences': {
+                title: 'The Heights Residences',
+                tagline: 'Connected Living Above The Green Podium.',
+                description: 'A district-scale residential product with connected towers, strong family-oriented amenities, and walkable social spaces built around a green core.',
+                heroImage: 'kigaliheight.jpg',
+                images: ['kigaliheight.jpg', 'kigaliheight2.jpg', 'landscape3.jpg', 'landscape4.jpg'],
+                amenities: ['Sky Lounge', 'Family Pool', 'Outdoor Gym', 'Kids Club', 'Community Lawn', 'Jogging Loop', 'Retail Deck', 'Clubhouse', 'Concierge'],
+                distances: ['8 minutes from CBD', '12 minutes from Financial District', '15 minutes from Convention Center', '18 minutes from Airport Corridor', '10 minutes from Lifestyle Mall', '14 minutes from Medical Hub']
+            },
+            'brilliant-tower': {
+                title: 'Brilliant Tower',
+                tagline: 'A Premium Mixed-Use Skyline Anchor.',
+                description: 'An urban commercial and lifestyle tower with strong frontage, destination retail, and workspace experiences for business-driven buyers.',
+                heroImage: 'brilliant tower.jpg',
+                images: ['brilliant tower.jpg', 'brillianttower.png', 'VisionCity.jpg', 'landscape2.jpg'],
+                amenities: ['Executive Lobby', 'Business Lounge', 'Meeting Suites', 'Retail Podium', 'Valet Drop-Off', 'Wellness Deck', 'Smart Access', 'Fine Dining', 'Sky Bar'],
+                distances: ['6 minutes from Kacyiru', '11 minutes from Convention Center', '13 minutes from CBD', '17 minutes from Airport Route', '7 minutes from Lifestyle District', '9 minutes from Embassy Quarter']
+            }
+        };
+
+        const defaultProjectSlug = 'palm-central-private-residences';
+        const projectSlug = new URLSearchParams(window.location.search).get('project') || defaultProjectSlug;
+
+        function slugToTitle(slug) {
+            return slug
+                .split('-')
+                .filter(Boolean)
+                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+                .join(' ');
+        }
+
+        function deriveProjectContent(slug) {
+            const fallback = projectContent[defaultProjectSlug];
+            const displayTitle = slugToTitle(slug);
+            return {
+                ...fallback,
+                title: displayTitle,
+                tagline: `${displayTitle} • Signature Living.`,
+                description: `${displayTitle} is presented in a conversion-first project experience with hero storytelling, amenity proof points, location context, and lead capture form UX.`
+            };
+        }
+
+        const activeProject = projectContent[projectSlug] || deriveProjectContent(projectSlug);
+
+        const titleElement = document.getElementById('project-title');
+        const taglineElement = document.getElementById('project-tagline');
+        const descriptionElement = document.getElementById('project-description');
+        const heroElement = document.querySelector('.hero');
+        const amenitiesGrid = document.getElementById('amenities-grid');
+        const distanceList = document.getElementById('distance-list');
+        const badgeName = document.getElementById('project-badge-name');
+        const amenityIcons = ['🏖️', '🏋️', '🏊', '🛝', '🧘', '🎾', '🎬', '🍽️', '🌿', '🎯', '🧒', '🚗'];
+
+        titleElement.textContent = activeProject.title;
+        taglineElement.textContent = activeProject.tagline;
+        descriptionElement.textContent = activeProject.description;
+        heroElement.style.background = `linear-gradient(rgba(7, 32, 49, 0.58), rgba(7, 32, 49, 0.58)), url('${activeProject.heroImage}') center/cover no-repeat`;
+        document.title = `${activeProject.title} | Taiseel Development`;
+        badgeName.textContent = activeProject.title;
+
+        activeProject.amenities.forEach((amenity, index) => {
+            const amenityCard = document.createElement('div');
+            amenityCard.className = 'amenity';
+
+            const icon = document.createElement('span');
+            icon.className = 'amenity-icon';
+            icon.textContent = amenityIcons[index % amenityIcons.length];
+
+            const label = document.createElement('span');
+            label.textContent = amenity;
+
+            amenityCard.append(icon, label);
+            amenitiesGrid.appendChild(amenityCard);
+        });
+
+        activeProject.distances.forEach((distance) => {
+            const distanceItem = document.createElement('div');
+            distanceItem.className = 'distance-item';
+            distanceItem.textContent = distance;
+            distanceList.appendChild(distanceItem);
+        });
+
+        const images = activeProject.images;
         const galleryImage = document.getElementById('gallery-image');
         const dots = Array.from(document.querySelectorAll('.dot'));
 
