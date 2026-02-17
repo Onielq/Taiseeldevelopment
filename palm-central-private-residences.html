@@ -183,13 +183,14 @@
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
             gap: 18px;
-            align-items: start;
+           align-items: stretch;
         }
 
         .card {
             background: transparent;
             border: 0;
             padding: 6px;
+            height: 100%;
         }
 
         .intro-offset-down {
@@ -210,14 +211,13 @@
 
         .amenities-grid {
             display: grid;
-            transition: opacity 10s ease;
-            grid-template-columns: repeat(3, minmax(95px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(3, minmax(25px, 1fr));            
+            gap: 45px;
         }
 
         .amenity {
             border: 1px solid #7f8f9d;
-            min-height: 82px;
+            aspect-ratio: 1 / 1;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -688,7 +688,7 @@
                 description: 'Designed as a conversion-first real estate launch page: strong hero storytelling, visible action buttons, visual-rich amenities, location facts, and a friction-light lead form.',
                 heroImage: 'palmjebel.png',
                 images: ['baygrove.png', 'VisionCity2.jpg', 'kigaliheight2.jpg', 'landscape4.jpg'],
-                amenities: ['Padel Courts', 'Outdoor Co-Working', 'Outdoor Dining', 'Fitness Zone', 'Infinity Pool', 'Beach Volleyball', 'Event Lawn', 'Kids Play Area', 'Gym & Studio'],
+                amenities: ['Padel Courts', 'Outdoor Co-Working', 'Outdoor Dining', 'Fitness Zone', 'Infinity Pool', 'Beach Volleyball', 'Event Lawn', 'Kids Play Area', 'Gym & Studio', 'Concierge Lounge', 'Rooftop Garden', 'Cinema Corner'],
                 distances: ['16 minutes from Life Pharmacy Metro Station', '22 minutes from Dubai Frame', '24 minutes from Dubai World Trade Centre', '24 minutes from Downtown Dubai', '33 minutes from Business Bay', '34 minutes from Dubai Financial Centre']
             },
             'the-heights-residences': {
@@ -706,7 +706,7 @@
                 description: 'An urban commercial and lifestyle tower with strong frontage, destination retail, and workspace experiences for business-driven buyers.',
                 heroImage: 'brilliant tower.jpg',
                 images: ['brilliant tower.jpg', 'brillianttower.png', 'VisionCity.jpg', 'landscape2.jpg'],
-                amenities: ['Executive Lobby', 'Business Lounge', 'Meeting Suites', 'Retail Podium', 'Valet Drop-Off', 'Wellness Deck', 'Smart Access', 'Fine Dining', 'Sky Bar'],
+                amenities: ['Executive Lobby', 'Business Lounge', 'Meeting Suites', 'Retail Podium', 'Valet Drop-Off', 'Wellness Deck', 'Smart Access', 'Fine Dining', 'Sky Bar', 'Board Room', 'Private Gym', 'Sunset Deck'],
                 distances: ['6 minutes from Kacyiru', '11 minutes from Convention Center', '13 minutes from CBD', '17 minutes from Airport Route', '7 minutes from Lifestyle District', '9 minutes from Embassy Quarter']
             }
         };
@@ -747,8 +747,21 @@
         projectMainTitle.textContent = activeProject.title;
 
         const amenityDots = document.getElementById('amenity-dots');
-        const amenityIconPngs = ['logo.png', 'logo2.png', 'images.png', 'mtn.png', 'Visitrwanda.png', 'qrcode.png', 'VisionCity.png', 'kigaliheight.png', 'Inzovumall.png', 'Equity.png', 'rdb.png', 'Y.png'];
-        const amenitiesPerPage = 6;
+        const amenityIconPngs = [
+            'https://api.iconify.design/arcticons:home.svg',
+            'https://api.iconify.design/arcticons:calendar.svg',
+            'https://api.iconify.design/arcticons:camera.svg',
+            'https://api.iconify.design/arcticons:compass.svg',
+            'https://api.iconify.design/arcticons:music.svg',
+            'https://api.iconify.design/arcticons:mail.svg',
+            'https://api.iconify.design/arcticons:phone.svg',
+            'https://api.iconify.design/arcticons:location.svg',
+            'https://api.iconify.design/arcticons:weather.svg',
+            'https://api.iconify.design/arcticons:shop.svg',
+            'https://api.iconify.design/arcticons:health.svg',
+            'https://api.iconify.design/arcticons:settings.svg'
+        ];
+        const amenitiesPerPage = 12;
         const amenityPages = [];
         for (let i = 0; i < activeProject.amenities.length; i += amenitiesPerPage) {
             amenityPages.push(activeProject.amenities.slice(i, i + amenitiesPerPage));
@@ -784,7 +797,10 @@
             dot.type = 'button';
             dot.className = 'bullet' + (index === 0 ? ' active' : '');
             dot.setAttribute('aria-label', `Show amenities page ${index + 1}`);
-            dot.addEventListener('click', () => renderAmenityPage(index));
+            dot.addEventListener('click', () => {
+                currentAmenityPage = index;
+                renderAmenityPage(index);
+            });
             amenityDots.appendChild(dot);
         });
 
@@ -793,13 +809,6 @@
             renderAmenityPage(currentAmenityPage);
         } else {
             amenityDots.style.display = 'none';
-        }
-
-        if (amenityPages.length > 1) {
-            setInterval(() => {
-                currentAmenityPage = (currentAmenityPage + 1) % amenityPages.length;
-                renderAmenityPage(currentAmenityPage);
-            }, 3800);
         }
 
         activeProject.distances.forEach((distance) => {
