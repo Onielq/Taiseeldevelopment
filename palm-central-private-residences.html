@@ -217,21 +217,22 @@
 
         .amenity {
             border: 1px solid #7f8f9d;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 1 / 0.5;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 6px;
+            padding: 12px;
             font-size: 0.64rem;
             background: #f4f6f8;
             color: #253949;
+            margin-top: 5%;
         }
 
         .amenity-icon {
-            width: 22px;
-            height: 22px;
+            width: 30px;
+            height: 30px;
             object-fit: contain;
             margin-bottom: 4px;
             opacity: 0.95;
@@ -241,7 +242,7 @@
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-top: 14px;
+            margin-top: 7px;
         }
 
         .amenity-pager .bullet {
@@ -697,7 +698,7 @@
                 description: 'A district-scale residential product with connected towers, strong family-oriented amenities, and walkable social spaces built around a green core.',
                 heroImage: 'kigaliheight.jpg',
                 images: ['kigaliheight.jpg', 'kigaliheight2.jpg', 'landscape3.jpg', 'landscape4.jpg'],
-                amenities: ['Sky Lounge', 'Family Pool', 'Outdoor Gym', 'Kids Club', 'Community Lawn', 'Jogging Loop', 'Retail Deck', 'Clubhouse', 'Concierge'],
+                amenities: ['Sky Lounge', 'Family Pool', 'Outdoor Gym', 'Kids Club', 'Community Lawn', 'Jogging Loop', 'Retail Deck', 'Clubhouse', 'Concierge', 'Yoga Studio', 'Pet Zone', 'BBQ Terrace'],
                 distances: ['8 minutes from CBD', '12 minutes from Financial District', '15 minutes from Convention Center', '18 minutes from Airport Corridor', '10 minutes from Lifestyle Mall', '14 minutes from Medical Hub']
             },
             'brilliant-tower': {
@@ -761,7 +762,7 @@
             'https://api.iconify.design/arcticons:health.svg',
             'https://api.iconify.design/arcticons:settings.svg'
         ];
-        const amenitiesPerPage = 12;
+        const amenitiesPerPage = 6;
         const amenityPages = [];
         for (let i = 0; i < activeProject.amenities.length; i += amenitiesPerPage) {
             amenityPages.push(activeProject.amenities.slice(i, i + amenitiesPerPage));
