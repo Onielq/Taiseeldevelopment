@@ -192,6 +192,10 @@
             padding: 6px;
         }
 
+        .intro-offset-down {
+           transform: translateY(10%);
+        }
+
         h2 {
             font-size: clamp(0.98rem, 2.4vw, 1.25rem);
             font-weight: 600;
@@ -200,12 +204,13 @@
 
         .lead {
             color: #334155;
+            font-size: 0.9rem;
             margin-bottom: 4px;
         }
 
         .amenities-grid {
             display: grid;
-            transition: opacity 0.2s ease;
+            transition: opacity 10s ease;
             grid-template-columns: repeat(3, minmax(95px, 1fr));
             gap: 8px;
         }
@@ -535,7 +540,7 @@
                 <div class="badge-mark">N</div>
                 <div class="badge-name" id="project-badge-name">Palm Central</div>
             </div>
-            <article class="card">
+            <article class="card intro-offset-down">
                 <h1 class="project-title" id="project-main-title">Palm Central Private Residences</h1>
                 <h2>A Calm Called Home.</h2>
                 <p class="lead">
@@ -553,7 +558,7 @@
                     <a class="intro-btn" id="payment-link" href="download24.jpeg" download aria-label="Download payment plan PDF">Download Payment Plan</a>
                 </div>
             </article>
-            <article class="card">
+            <article class="card intro-offset-down">
                 <h2>Amenities</h2>
                 <div class="amenities-grid" id="amenities-grid"></div>
                 <div class="amenity-pager" id="amenity-dots" aria-label="Amenities pages"></div>
