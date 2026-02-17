@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Palm Central Private Residences | Taiseel Development</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --navy: #052f4a;
@@ -125,7 +126,8 @@
         }
 
         .project-title {
-            font-size: clamp(1.2rem, 2.3vw, 2rem);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
             font-weight: 500;
             color: #1e293b;
             margin-bottom: 8px;
@@ -140,7 +142,7 @@
         .hero-card {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(0px);
             padding: 10px;
             max-width: 320px;
             min-height: 72px;
@@ -212,12 +214,14 @@
         .amenities-grid {
             display: grid;
             grid-template-columns: repeat(3, minmax(25px, 1fr));            
-            gap: 45px;
+            gap: 35px;
+            margin-top: 25px;
+            margin-bottom: 5px;
         }
 
         .amenity {
             border: 1px solid #7f8f9d;
-            aspect-ratio: 1 / 0.5;
+            aspect-ratio: 1 / 0.7;
             display: flex;
             flex-direction: column;
             align-items: center;
