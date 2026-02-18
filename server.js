@@ -64,6 +64,30 @@ function normalizeRegistration(payload) {
     return cleaned;
 }
 
+function normalizeStoredRegistration(payload) {
+    const normalized = normalizeRegistration(payload);
+
+    if (normalized) {
+        return normalized;
+    }
+
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+        return null;
+    }
+
+    const fallback = { ...payload };
+
+    if (!fallback['Email Address'] && fallback.Email) {
+        fallback['Email Address'] = fallback.Email;
+    }
+
+    if (!fallback.timestamp) {
+        fallback.timestamp = new Date().toISOString();
+    }
+
+    return fallback;
+}
+
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok' });
 });
@@ -71,7 +95,10 @@ app.get('/api/health', (req, res) => {
 app.get('/api/admin/registrations', async (req, res) => {
     try {
         const registrations = await readRegistrations();
-        res.status(200).json(registrations);
+        const normalizedRegistrations = registrations
+            .map((entry) => normalizeStoredRegistration(entry))
+            .filter(Boolean);
+        res.status(200).json(normalizedRegistrations);
     } catch (error) {
         console.error('Error reading registrations:', error);
         res.status(500).json({ error: 'Failed to retrieve registrations' });
