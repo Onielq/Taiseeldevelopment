@@ -2065,15 +2065,15 @@
                 <h2>REGISTER YOUR INTEREST</h2>
                 <p class="privacy-note">Taiseel's privacy policy explains how we handle your personal data.</p>
             </div>
-            <form class="reg-form">
+            <form class="reg-form"novalidate>
                 <div class="reg-grid">
                     <input type="text" name="First Name" placeholder="First Name*" required>
                     <input type="text" name="Last Name" placeholder="Last Name*" required>
                     <input type="email" name="Email Address" placeholder="Email Address*" required>
 
-                    <select name="Country of Residence" title="country of residence"></select>
-                    <option value="" disabled selected>Country of Residence</option>
-                        <option value="RW">Rwanda</option>
+                    <select name="Country of Residence" title="Country of residence" required>
+                    <option value="" selected>Country of Residence*</option>
+                    <option value="RW">Rwanda</option>
                         <option value="US">United States</option>
                         <option value="UK">United Kingdom</option>
                         <option value="AE">UAE</option>
@@ -2081,11 +2081,11 @@
                     </select>
 
                     <div class="phone-group">
-                        <select class="code-select" id="phone-code" title="Country Code"></select>
-                        <input type="tel" placeholder="780 000 000" required>
+                        <select class="code-select" id="phone-code" name="Phone Code" title="Country code" required></select>
+                        <input type="tel" name="Phone Number" placeholder="780 000 000" required>
                     </div>
 
-                    <select name="No of Bedrooms" title="Number of Bedrooms"></select>
+                    <select name="No of Bedrooms" title="Number of Bedrooms">
                     <option value="" disabled selected>No of Bedrooms</option>
                         <option value="1">1 Bedroom</option>
                         <option value="2">2 Bedrooms</option>
@@ -2093,7 +2093,7 @@
                         <option value="4+">4+ Bedrooms</option>
                     </select>
 
-                    <select name="How soon are you looking to buy" title="Purchase Timeline"></select>
+                    <select name="How soon are you looking to buy" title="Purchase Timeline">
                     <option value="" disabled selected>How soon are you looking to buy?</option>
                         <option value="Immediate">Immediately</option>
                         <option value="3months">Within 3 months</option>
@@ -2107,7 +2107,7 @@
                         <option value="Residence">Personal Residence</option>
                     </select>
 
-                    <select name="Other Purposes" title="Other Purposes"></select>
+                    <select name="Other Purposes" title="Other Purposes">
                     <option value="" disabled selected>Other Purposes</option>
                         <option value="PROPERTY MANAGEMENT">PROPERTY MANAGEMENT</option>
                         <option value="JOINT VENTURES">JOINT VENTURES</option>
@@ -2122,7 +2122,7 @@
                 </div>
 
                 <div class="broker-check">
-                    <select name="I am assisted by a broker" title="Broker"></select>
+                    <select name="I am assisted by a broker" title="Broker">
                     <option value="" disabled selected>I am assisted by a broker</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
