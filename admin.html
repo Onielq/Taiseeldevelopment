@@ -290,6 +290,10 @@
 
             try {
                 const response = await fetch('/api/admin/registrations');
+                if (!response.ok) {
+                    throw new Error(`Request failed with status ${response.status}`);
+                }
+
                 const data = await response.json();
                 currentLeads = data;
                 renderLeads(data);
@@ -297,10 +301,11 @@
             } catch (err) {
                 console.error('Fetch error:', err);
                 loader.innerText = 'Error loading data. Verify server connection.';
+                tableContainer.style.display = 'none';
+                return;        
             } finally {
-                loader.style.display = 'none';
-                tableContainer.style.display = 'block';
-            }
+                loader.style.display = 'none';    
+          }
         }
 
         function updateStats(data) {
@@ -331,7 +336,7 @@
             head.innerHTML = keys.map(k => `<th>${k.replace(/Address/g, '').replace(/[*?]/g, '')}</th>`).join('');
 
             // Render Body
-            body.innerHTML = data.reverse().map(lead => {
+            body.innerHTML = [...data].reverse().map(lead => {
                 return `<tr>
                     ${keys.map(k => {
                     let val = lead[k] || '-';
