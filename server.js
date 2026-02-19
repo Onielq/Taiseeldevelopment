@@ -57,11 +57,31 @@ function normalizeRegistration(payload) {
         return null;
     }
 
-    cleaned['Email Address'] = email;
+    const normalizedEmail = String(email).trim().toLowerCase();
+
+    if (!isValidEmail(normalizedEmail)) {
+        return null;
+    }
+
+    cleaned['Email Address'] = normalizedEmail;
     delete cleaned.Email;
     cleaned.timestamp = new Date().toISOString();
 
     return cleaned;
+}
+
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function hasDuplicateEmail(registrations, email) {
+    const target = String(email).trim().toLowerCase();
+
+    return registrations.some((entry) => {
+        const existing = entry?.['Email Address'] || entry?.Email;
+        if (!existing) return false;
+        return String(existing).trim().toLowerCase() === target;
+    });
 }
 
 function normalizeStoredRegistration(payload) {
@@ -114,6 +134,11 @@ app.post('/api/register', async (req, res) => {
 
     try {
         const registrations = await readRegistrations();
+
+        if (hasDuplicateEmail(registrations, registration['Email Address'])) {
+            return res.status(409).json({ error: 'A registration with this email already exists' });
+        }
+
         registrations.push(registration);
         await writeRegistrations(registrations);
         return res.status(200).json({ message: 'Registration successful!' });
