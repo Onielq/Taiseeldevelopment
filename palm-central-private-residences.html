@@ -553,7 +553,7 @@
             </div>
             <article class="card intro-offset-down">
                 <h1 class="project-title" id="project-main-title">Palm Central Private Residences</h1>
-                <h2>A Calm Called Home.</h2>
+                </h2>A Calm Called Home.</h2>
                 <p class="lead">
                     This section mirrors the Nakheel-style launch anatomy: concise storytelling copy on the left,
                     immediate conversion buttons below, and a scannable amenity system on the right.
@@ -570,7 +570,7 @@
                 </div>
             </article>
             <article class="card intro-offset-down">
-                <h2>Amenities</h2>
+            </h2>Amenities</h2>
                 <div class="amenities-grid" id="amenities-grid"></div>
                 <div class="amenity-pager" id="amenity-dots" aria-label="Amenities pages"></div>
             </article>
@@ -616,45 +616,45 @@
                         <input type="text" name="lastName" placeholder="Last Name*" required>
                         <input type="email" name="email" placeholder="Email Address*" required>
 
-                        </select name="country" required>
-                            <option value="">Country of Residence*</option>
-                            <option>UAE</option>
-                            <option>Rwanda</option>
-                            <option>Saudi Arabia</option>
-                            <option>United Kingdom</option>
-                            <option>United States</option>
-                        </select>
-                        </select name="bedrooms" required>
-                            <option value="">No of Bedrooms*</option>
-                            <option>1 Bedroom</option>
-                            <option>2 Bedrooms</option>
-                            <option>3 Bedrooms</option>
-                            <option>4+ Bedrooms</option>
-                        </select>
-                        </select name="timeline" required>
-                            <option value="">How soon are you looking to buy?*</option>
-                            <option>Immediately</option>
-                            <option>Within 3 months</option>
-                            <option>Within 6 months</option>
-                            <option>Within 12 months</option>
-                        </select>
+                    <select name="Country of Residence" title="Country of residence" required>
+                        <option value="" selected>Country of Residence*</option>
+                        <option value="RW">Rwanda</option>
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AE">UAE</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select name="No of Bedrooms" title="Number of bedrooms" required>
+                        <option value="" selected>No of Bedrooms*</option>
+                        <option value="1">1 Bedroom</option>
+                        <option value="2">2 Bedrooms</option>
+                        <option value="3">3 Bedrooms</option>
+                        <option value="4+">4+ Bedrooms</option>
+                    </select>
+                    <select name="timeline" title="Purchase Timeline" required>
+                        <option value=""selected>How soon are you looking to buy?*</option>
+                        <option value="Immediately">Immediately</option>
+                        <option value="Within 3 months">Within 3 months</option>
+                        <option value="Within 6 months">Within 6 months</option>
+                        <option value="Within 12 months">Within 12 months</option>
+                    </select>
 
                         <div class="toggle-group">
-                            </strong style="font-size:0.86rem;">Purpose:</strong>
+                        </strong style="font-size:0.68rem;">Purpose:</strong>
                             <label><input type="radio" name="purpose" value="Investment" required> Investment</label>
                             <label><input type="radio" name="purpose" value="Self-Use"> Self-Use</label>
                         </div>
 
-                        </select name="broker" id="broker-assistance" required>
-                            <option value="">I am assisted by a broker*</option>
-                            <option value="No">No</option>
-                            <option value="Yes">Yes</option>
-                        </select>
+                    <select name="broker" id="broker-assistance" required>
+                        <option value=""selected>I am assisted by a broker*</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                     </select>
 
                         <input class="hidden" type="email" id="broker-email" name="brokerEmail" placeholder="Broker Email*">
                     </div>
 
-                    <label class="consent-row">
+                    <label class="consent-group">
                         <input type="checkbox" id="consent" required>
                         <span>By accepting and providing my personal information, I consent to Taiseel's privacy policy and applicable data protection laws.</span>
                     </label>
@@ -670,7 +670,7 @@
         <div class="container">
             <div class="app-section">
                 <div>
-                    <h2>My Nakheel App</h2>
+                    <h2>My Taiseel App</h2>
                     <p class="lead">Extending trust beyond the property page with always-on service support.</p>
                     <ul class="bullets">
                         <li>Access properties securely</li>
