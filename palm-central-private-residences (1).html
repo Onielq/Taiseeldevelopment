@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Central Private Residences | Taiseel Development</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --navy: #052f4a;
+            --teal: #6ed6e7;
+            --ink: #1f2a37;
+            --muted: #64748b;
+            --surface: #f3f4f6;
+            --line: #d9dde3;
+            --white: #fff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; color: var(--ink); background: var(--surface); line-height: 1.42; font-size: 13px; }
+        a { color: inherit; }
+
+        /* ── HEADER ── */
+        .site-header { position: sticky; top: 0; z-index: 100; background: linear-gradient(180deg,rgba(5,47,74,.96),rgba(5,47,74,.88)); color: #fff; border-bottom: 1px solid rgba(255,255,255,.15); }
+        .header-inner { width: min(1200px,94%); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; min-height: 58px; gap: 24px; }
+        .logo { text-decoration: none; font-weight: 800; letter-spacing: 1px; font-size: 1.08rem; }
+        .menu { display: flex; gap: 26px; font-size: .85rem; font-weight: 500; opacity: .95; }
+        .menu a { text-decoration: none; }
+
+        /* ── HERO ── */
+        .hero { min-height: 68vh; background: linear-gradient(rgba(7,32,49,.58),rgba(7,32,49,.58)), url('brilliant tower.jpg') center/cover no-repeat; color: #fff; display: flex; align-items: flex-end; padding: 30px 0 28px; }
+        .intro-section { position: relative; padding-top: 58px; }
+        .project-badge { position: absolute; top: -109px; left: 8%; width: 160px; height: 110px; background: #f4f5f7; border: 1px solid #d3d8de; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 3; }
+        .project-badge .badge-mark { width: 45px; height: 34px; border: 1px solid #8a97a6; border-radius: 999px; display: grid; place-items: center; font-size: .8rem; color: #475569; margin-bottom: 4px; }
+        .project-badge .badge-name { font-size: .74rem; letter-spacing: 1.2px; color: #334155; text-transform: uppercase; font-weight: 600; line-height: 1.35; }
+        .project-title { font-family: 'Playfair Display',serif; font-size: x-large; font-weight: 500; color: #1e293b; margin-left: 30px; margin-bottom: 20px; letter-spacing: .2px; }
+        .container { width: min(1200px,94%); margin: 0 auto; }
+        .hero-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); padding: 10px; max-width: 320px; min-height: 72px; }
+        .action-box { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px; margin-left: 30px; }
+        .intro-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 9px 14px; border: 1px solid #334a5c; color: #23384a; background: transparent; text-decoration: none; text-transform: uppercase; letter-spacing: .45px; font-size: .72rem; font-weight: 700; }
+        .intro-btn.primary { background: #0d3f60; color: #fff; border-color: #0d3f60; }
+        .section { padding: 30px 0; }
+        .split { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; align-items: stretch; }
+        .card { background: transparent; border: 0; padding: 6px; height: 100%; }
+        .intro-offset-down { transform: translateY(10%); }
+        h2 { font-size: clamp(.98rem,2.4vw,1.25rem); font-weight: 600; margin-left: 30px; margin-bottom: 4px; }
+        .lead { color: #334155; font-size: .81rem; margin-left: 30px; margin-bottom: 4px; }
+
+        /* ── AMENITIES ── */
+        .amenities-grid { display: grid; grid-template-columns: repeat(3,minmax(25px,1fr)); row-gap: 15px; column-gap: 15px; margin-top: 25px; margin-bottom: 5px; }
+        .amenity { border: 1px solid #7f8f9d; aspect-ratio: 1/.7; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px; font-size: .64rem; background: #f4f6f8; color: #253949; margin-top: 5%; }
+        .amenity-icon { width: 30px; height: 30px; object-fit: contain; margin-bottom: 4px; opacity: .95; }
+        .amenity-pager { display: flex; justify-content: center; gap: 8px; margin-top: 7px; }
+        .amenity-pager .bullet { width: 6px; height: 6px; border-radius: 999px; border: 0; padding: 0; background: #d2dae2; cursor: pointer; }
+        .amenity-pager .bullet.active { background: #0f3a55; }
+
+        /* ── GALLERY ── */
+        .visual-wrap { background: #fff; }
+        .gallery-stage { width: 100%; height: 500px; overflow: hidden; position: relative; }
+        .gallery-stage img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-controls { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; }
+        .dot { width: 8px; height: 8px; border-radius: 999px; border: 0; background: #cbd5e1; cursor: pointer; }
+        .dot.active { background: var(--navy); }
+
+        /* ── LOCATION ── */
+        .location-layout { display: grid; grid-template-columns: 1fr 1fr; background: #fff; border: 1px solid var(--line); }
+        .map-frame { width: 100%; height: 420px; border: 0; }
+        .location-panel { padding: 24px; }
+        .distance-item { display: grid; grid-template-columns: 1fr; gap: 6px; border: 1px solid #e5e7eb; background: #f8fafc; padding: 10px 12px; margin-bottom: 4px; font-size: .85rem; }
+
+        /* ── FORM ── */
+        .form-shell { background: #fff; border: 1px solid var(--line); padding: 26px; }
+        .form-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 18px; }
+        .privacy { color: var(--muted); font-size: .83rem; }
+        .reg-grid { display: grid; grid-template-columns: repeat(3,minmax(160px,1fr)); gap: 8px; }
+        input, select { width: 100%; min-height: 46px; border: 1px solid #cfd6df; padding: 10px 12px; font-family: inherit; background: #fff; }
+        .toggle-group { display: flex; gap: 18px; align-items: center; min-height: 46px; border: 1px solid #cfd6df; padding: 10px 12px; background: #fff; }
+        .hidden { display: none; }
+        .consent-row { margin-top: 14px; display: flex; gap: 10px; align-items: flex-start; font-size: .88rem; color: #475569; }
+        .submit-btn { margin-top: 14px; border: 0; background: var(--teal); color: #0f172a; font-weight: 700; letter-spacing: .5px; min-height: 48px; padding: 0 24px; cursor: pointer; text-transform: uppercase; }
+        .submit-btn:disabled { opacity: .55; cursor: not-allowed; }
+        .success { margin-top: 10px; color: #047857; font-weight: 600; display: none; }
+        .app-section { background: #fff; border: 1px solid var(--line); padding: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .bullets { padding-left: 20px; color: #334155; }
+        .app-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .small-link { text-decoration: none; border: 1px solid var(--line); padding: 8px 12px; font-size: .82rem; background: #f8fafc; }
+
+        /* ══════════════════════════════════════════
+           VALUATION MODULE
+        ══════════════════════════════════════════ */
+        .valuation-wrap {
+            background: #f5f6f8;
+            border-top: 3px solid #052f4a;
+            padding: 36px 0 52px;
+        }
+        .val-eyebrow { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; color: #6ed6e7; font-weight: 700; margin-bottom: 4px; }
+        .val-heading { font-family: 'Playfair Display',serif; font-size: clamp(1.2rem,2.8vw,1.8rem); color: #052f4a; font-weight: 600; margin-bottom: 6px; }
+        .val-sub { font-size: .8rem; color: #64748b; margin-bottom: 22px; }
+
+        /* Snapshot bar */
+        .prop-snapshot { display: flex; background: #052f4a; color: #fff; border-radius: 12px 12px 0 0; overflow: hidden; }
+        .snap-main { flex: 1; padding: 18px 22px; }
+        .snap-price { font-size: clamp(1.5rem,3vw,2.2rem); font-weight: 800; letter-spacing: -.5px; }
+        .snap-addr { font-size: .78rem; opacity: .75; margin-top: 2px; }
+        .snap-stats { display: flex; gap: 20px; margin-top: 10px; }
+        .snap-stat strong { display: block; font-size: 1.1rem; font-weight: 700; }
+        .snap-stat span { font-size: .68rem; opacity: .7; text-transform: uppercase; letter-spacing: .5px; }
+        .snap-meta { display: flex; flex-direction: column; border-left: 1px solid rgba(255,255,255,.12); }
+        .snap-meta-item { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: .75rem; }
+        .snap-meta-item:last-child { border-bottom: 0; }
+        .snap-meta-item strong { display: block; font-size: .95rem; font-weight: 700; }
+        .snap-meta-lbl { opacity: .6; font-size: .65rem; text-transform: uppercase; letter-spacing: .5px; }
+
+        /* Tabs */
+        .val-tabs { display: flex; background: #fff; border: 1px solid #d9dde3; border-top: 0; border-radius: 0; overflow-x: auto; }
+        .val-tab { border: 0; background: transparent; padding: 14px 22px; font-size: .85rem; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; cursor: pointer; white-space: nowrap; font-family: 'Montserrat',sans-serif; transition: color .15s; }
+        .val-tab.active { color: #052f4a; border-bottom-color: #6ed6e7; }
+        .val-tab:hover { color: #052f4a; }
+
+        /* Body grid */
+        .val-body { display: grid; grid-template-columns: minmax(0,1fr) 290px; gap: 20px; margin-top: 20px; align-items: start; }
+        .val-panel { display: none; }
+        .val-panel.active { display: block; }
+
+        /* ── Panel: Home Value ── */
+        .value-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 20px; }
+        .value-card { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 14px 16px; }
+        .vc-label { font-size: .68rem; color: #64748b; text-transform: uppercase; letter-spacing: .8px; font-weight: 600; }
+        .vc-amt { font-size: 1.35rem; font-weight: 800; color: #052f4a; margin-top: 4px; }
+        .vc-sub { font-size: .68rem; color: #64748b; margin-top: 2px; }
+        .chart-card { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 18px; }
+        .chart-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+        .trend-badge { font-size: .75rem; font-weight: 700; color: #0f766e; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 999px; padding: 3px 10px; }
+        .chart-switch { display: flex; gap: 6px; margin-bottom: 14px; }
+        .cs-btn { border: 1px solid #d4dae1; background: #fff; padding: 6px 12px; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: .75rem; color: #334155; font-family: 'Montserrat',sans-serif; }
+        .cs-btn.active { border-color: #052f4a; color: #052f4a; background: #e8f4f8; }
+        .chart-container { position: relative; height: 220px; }
+        .table-btn { border: 0; background: none; color: #1558d6; font-weight: 700; cursor: pointer; font-size: .78rem; font-family: 'Montserrat',sans-serif; margin-top: 10px; }
+
+        /* ── Panel: Cost Calculator ── */
+        .calc-net-box { text-align: center; background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+        .calc-net-lbl { font-size: .7rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .calc-net-amt { font-size: 2.2rem; font-weight: 800; color: #052f4a; }
+        .calc-body { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+        .calc-row { margin-bottom: 18px; }
+        .calc-lbl { display: flex; justify-content: space-between; font-weight: 600; font-size: .82rem; margin-bottom: 8px; color: #1e293b; }
+        input[type="range"] { width: 100%; min-height: auto; border: none; padding: 0; accent-color: #052f4a; cursor: pointer; }
+        .acc-item { border-top: 1px solid #e2e8f0; padding: 12px 0; }
+        .acc-trigger { width: 100%; border: 0; background: none; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: .82rem; cursor: pointer; font-family: 'Montserrat',sans-serif; color: #1e293b; padding: 0; }
+        .acc-trigger .chev { transition: transform .2s; font-style: normal; }
+        .acc-item.open .acc-trigger .chev { transform: rotate(180deg); }
+        .acc-body { display: none; margin-top: 10px; }
+        .acc-item.open .acc-body { display: block; }
+        .line-item { display: flex; justify-content: space-between; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; background: #f8fafc; font-size: .78rem; }
+        .li-pct { color: #64748b; font-size: .72rem; }
+        .total-row { display: flex; justify-content: space-between; font-weight: 800; font-size: .9rem; padding: 14px 0 4px; border-top: 2px solid #052f4a; margin-top: 8px; }
+        .calc-note { font-size: .68rem; color: #94a3b8; margin-top: 8px; line-height: 1.5; }
+
+        /* Owner Options */
+        .owner-options { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .owner-options h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 16px; }
+        .owner-opt-item { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+        .owner-opt-item:last-child { border-bottom: 0; }
+        .owner-opt-icon { width: 44px; height: 44px; border-radius: 10px; background: #e8f5f0; display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0; }
+        .owner-opt-text { flex: 1; }
+        .owner-opt-text strong { display: block; font-size: .88rem; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+        .owner-opt-text p { font-size: .75rem; color: #64748b; line-height: 1.5; margin-bottom: 5px; }
+        .owner-opt-text a { color: #0a5a8a; font-weight: 700; font-size: .78rem; text-decoration: none; }
+        .owner-opt-meta { text-align: right; flex-shrink: 0; }
+        .owner-opt-meta strong { display: block; font-size: .95rem; font-weight: 800; color: #052f4a; }
+        .owner-opt-meta span { font-size: .68rem; color: #64748b; }
+        .sell-options { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .sell-options h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 16px; }
+        .sell-opt-item { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .sell-opt-item:last-child { border-bottom: 0; }
+        .sell-opt-icon { width: 40px; height: 40px; border-radius: 8px; background: #f0f7fb; display: grid; place-items: center; font-size: 1.1rem; flex-shrink: 0; }
+        .sell-opt-text strong { display: block; font-size: .85rem; font-weight: 700; color: #1e293b; margin-bottom: 3px; }
+        .sell-opt-text p { font-size: .75rem; color: #64748b; line-height: 1.5; margin-bottom: 5px; }
+        .sell-opt-text a { color: #0a5a8a; font-weight: 700; font-size: .78rem; text-decoration: none; }
+
+        /* ── Panel: Home Details ── */
+        .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .detail-card { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 14px 16px; }
+        .det-lbl { font-size: .65rem; color: #64748b; text-transform: uppercase; letter-spacing: .8px; font-weight: 600; margin-bottom: 4px; }
+        .det-val { font-size: 1rem; font-weight: 700; color: #052f4a; }
+        .det-sub { font-size: .7rem; color: #94a3b8; margin-top: 2px; }
+        .history-table { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 18px; }
+        .history-table h4 { font-size: .88rem; font-weight: 700; color: #052f4a; margin-bottom: 10px; }
+        .h-row { display: flex; justify-content: space-between; padding: 9px 4px; border-bottom: 1px solid #e5eaf0; font-size: .82rem; }
+        .h-row.head { font-weight: 800; border-bottom: 2px solid #e5eaf0; }
+        .h-row.sold { background: #fff7ed; font-weight: 700; color: #c2410c; border-radius: 6px; padding: 8px 6px; }
+
+        /* ── Panel: Neighborhood ── */
+        .nbhd-map-wrap { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; overflow: hidden; margin-bottom: 16px; }
+        .nbhd-map-head { padding: 14px 16px 0; }
+        .nbhd-map-head h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
+        .nbhd-map-controls { display: flex; gap: 8px; padding: 0 16px 10px; }
+        .map-ctrl-btn { display: flex; align-items: center; gap: 5px; border: 1px solid #d4dae1; background: #fff; padding: 6px 12px; border-radius: 6px; font-size: .75rem; font-weight: 600; cursor: pointer; font-family: 'Montserrat',sans-serif; }
+        .map-ctrl-btn.active { background: #052f4a; color: #fff; border-color: #052f4a; }
+        .nbhd-map-frame { width: 100%; height: 340px; border: 0; border-top: 1px solid #e5eaf0; }
+
+        /* Walk / Transit / Bike scores */
+        .transport-section { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .transport-section h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 16px; }
+        .score-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+        .score-card { display: flex; gap: 12px; align-items: center; }
+        .score-icon { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; flex-shrink: 0; }
+        .score-icon.walk { background: #1a4731; color: #fff; }
+        .score-icon.transit { background: #1a4731; color: #fff; }
+        .score-icon.bike { background: #1a4731; color: #fff; }
+        .score-info strong { display: block; font-size: 1rem; font-weight: 800; color: #1e293b; }
+        .score-info .score-num { font-size: .72rem; color: #64748b; text-decoration: underline dotted; cursor: help; }
+        .score-info .score-desc { font-size: .72rem; color: #64748b; display: block; margin-top: 1px; }
+
+        /* Schools */
+        .schools-section { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .schools-section h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+        .schools-sub { font-size: .78rem; color: #64748b; margin-bottom: 14px; }
+        .no-schools { display: flex; flex-direction: column; align-items: center; padding: 24px 0; color: #94a3b8; }
+        .no-schools-circle { width: 64px; height: 64px; border-radius: 50%; border: 2px solid #cbd5e1; display: grid; place-items: center; font-size: 1.5rem; margin-bottom: 10px; color: #cbd5e1; }
+        .no-schools p { font-size: .82rem; font-weight: 600; color: #64748b; }
+        .no-schools small { font-size: .72rem; color: #94a3b8; margin-top: 3px; }
+        .show-more-btn { border: 0; background: none; color: #0a5a8a; font-weight: 700; font-size: .82rem; cursor: pointer; display: flex; align-items: center; gap: 4px; margin-top: 10px; font-family: 'Montserrat',sans-serif; }
+
+        /* Legal */
+        .legal-section { background: #fff; border: 1px solid #d9dde3; border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .legal-section h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 12px; }
+        .legal-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; }
+        .legal-item-icon { font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+        .legal-item p { font-size: .82rem; color: #334155; line-height: 1.5; }
+
+        /* Neighborhood breadcrumb */
+        .nbhd-breadcrumb { font-size: .75rem; color: #64748b; padding: 10px 0; }
+        .nbhd-breadcrumb a { color: #0a5a8a; text-decoration: none; }
+        .nbhd-breadcrumb a:hover { text-decoration: underline; }
+
+        /* Side CTA */
+        .side-cta { background: #fff; border: 1px solid #d9dde3; border-radius: 14px; padding: 18px; position: sticky; top: 80px; }
+        .side-cta-lbl { font-size: .65rem; color: #64748b; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 4px; }
+        .side-cta-val { font-size: 1.6rem; font-weight: 800; color: #052f4a; }
+        .side-cta-sub { font-size: .72rem; color: #64748b; margin-bottom: 14px; text-decoration: underline; cursor: pointer; }
+        .cta-btn { width: 100%; border: 0; border-radius: 10px; background: #052f4a; color: #fff; min-height: 44px; font-weight: 700; cursor: pointer; font-size: .85rem; font-family: 'Montserrat',sans-serif; margin-top: 8px; transition: background .15s; }
+        .cta-btn:hover { background: #0d3f60; }
+        .cta-btn.outline { background: transparent; border: 1px solid #052f4a; color: #052f4a; }
+        .cta-btn.outline:hover { background: #f0f7fb; }
+        .cta-div { border: 0; border-top: 1px solid #e5eaf0; margin: 14px 0; }
+        .rent-chip { display: flex; justify-content: space-between; align-items: center; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+        .rent-chip-lbl { font-size: .72rem; color: #334155; font-weight: 600; }
+        .rent-chip-val { font-size: 1rem; font-weight: 800; color: #0f766e; }
+
+        /* History Modal */
+        .hist-modal { position: fixed; inset: 0; background: rgba(13,20,30,.5); display: none; align-items: center; justify-content: center; z-index: 999; }
+        .hist-modal.open { display: flex; }
+        .hist-dialog { width: min(500px,92vw); max-height: 78vh; overflow: auto; background: #fff; border-radius: 14px; padding: 20px; }
+        .hist-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-weight: 700; font-size: 1rem; }
+        .hist-close { border: 0; background: none; font-size: 1.3rem; cursor: pointer; color: #64748b; }
+        .hist-row { display: flex; justify-content: space-between; padding: 10px 4px; border-bottom: 1px solid #e5eaf0; font-size: .85rem; }
+        .hist-row.sold { background: #fff7ed; font-weight: 700; color: #c2410c; border-radius: 6px; padding: 8px 6px; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width:980px) {
+            .val-body { grid-template-columns: 1fr; }
+            .side-cta { position: static; }
+            .value-cards, .score-grid { grid-template-columns: 1fr; }
+            .prop-snapshot { flex-direction: column; }
+            .snap-meta { border-left: 0; border-top: 1px solid rgba(255,255,255,.12); flex-direction: row; flex-wrap: wrap; }
+            .snap-meta-item { border-right: 1px solid rgba(255,255,255,.08); border-bottom: 0; }
+        }
+        @media (max-width:960px) {
+            .split,.location-layout,.app-section { grid-template-columns: 1fr; }
+            .reg-grid { grid-template-columns: repeat(2,minmax(150px,1fr)); }
+            .project-badge { left: 20%; }
+            .menu { display: none; }
+            .gallery-stage { height: 380px; }
+            .hero { min-height: 58vh; }
+            .details-grid { grid-template-columns: 1fr; }
+            .value-cards { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width:640px) {
+            .amenities-grid { grid-template-columns: repeat(2,minmax(120px,1fr)); }
+            .reg-grid { grid-template-columns: 1fr; }
+            .hero-card,.card,.form-shell,.app-section { padding: 20px; }
+            .intro-btn { width: 100%; }
+            .header-inner { min-height: 62px; }
+            .project-badge { width: 152px; height: 130px; top: -52px; left: 12%; }
+            .hero { min-height: 52vh; padding: 20px 0; }
+            .hero-card { min-height: 56px; max-width: 250px; }
+            .value-cards { grid-template-columns: 1fr; }
+            .val-tab { padding: 12px 14px; font-size: .78rem; }
+            .score-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="logo" href="index.html">TAISEEL</a>
+        <nav class="menu">
+            <a href="#overview">New Launches</a>
+            <a href="#visual-collection">Visual Collection</a>
+            <a href="#valuation">Home Value</a>
+            <a href="#location">The Location</a>
+            <a href="#register">Register</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero" id="overview">
+    <div class="container">
+        <div class="hero-card" aria-hidden="true"></div>
+    </div>
+</section>
+
+<section class="section intro-section">
+    <div class="container split">
+        <div class="project-badge" aria-hidden="true">
+            <div class="badge-mark">N</div>
+            <div class="badge-name" id="project-badge-name">Palm Central</div>
+        </div>
+        <article class="card intro-offset-down">
+            <h1 class="project-title" id="project-main-title">Palm Central Private Residences</h1>
+            <h2>A Calm Called Home.</h2>
+            <p class="lead">This section mirrors the Nakheel-style launch anatomy: concise storytelling copy on the left, immediate conversion buttons below, and a scannable amenity system on the right.</p>
+            <p class="lead">The content and visual rhythm are tuned for high-intent users: first sell the lifestyle, then validate through features, then convert through the form.</p>
+            <div class="action-box">
+                <a class="intro-btn primary" href="#register">Register Your Interest</a>
+                <a class="intro-btn" href="download.jfif" download>Download Brochure</a>
+                <a class="intro-btn" href="download22.jpeg" download>Download Floor Plan</a>
+                <a class="intro-btn" href="download24.jpeg" download>Download Payment Plan</a>
+            </div>
+        </article>
+        <article class="card intro-offset-down">
+            <h2>Amenities</h2>
+            <div class="amenities-grid" id="amenities-grid"></div>
+            <div class="amenity-pager" id="amenity-dots"></div>
+        </article>
+    </div>
+</section>
+
+<section class="section" id="visual-collection">
+    <div class="container">
+        <div class="visual-wrap">
+            <h2 style="margin-bottom:12px;">Visual Collection</h2>
+            <div class="gallery-stage">
+                <img id="gallery-image" src="baygrove.png" alt="Palm Central visual render">
+            </div>
+            <div class="gallery-controls" id="gallery-dots"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     VALUATION MODULE — all 4 tabs
+══════════════════════════════════════════════════ -->
+<section class="valuation-wrap" id="valuation">
+    <div class="container">
+        <div class="val-eyebrow">Real Estate Intelligence</div>
+        <div class="val-heading">Know What Your Investment Is Worth</div>
+        <div class="val-sub">Live market data · comparable sales · estimated returns — all in one place.</div>
+
+        <!-- Snapshot bar -->
+        <div class="prop-snapshot">
+            <div class="snap-main">
+                <div class="snap-price">$490,000</div>
+                <div class="snap-addr">6035 Pembridge Rd, Knoxville, TN 37912</div>
+                <div class="snap-stats">
+                    <div class="snap-stat"><strong>3</strong><span>Beds</span></div>
+                    <div class="snap-stat"><strong>3</strong><span>Baths</span></div>
+                    <div class="snap-stat"><strong>2,345</strong><span>Sqft</span></div>
+                    <div class="snap-stat"><strong>$209</strong><span>/ sqft</span></div>
+                </div>
+            </div>
+            <div class="snap-meta">
+                <div class="snap-meta-item"><div class="snap-meta-lbl">Type</div><strong>Single Family</strong></div>
+                <div class="snap-meta-item"><div class="snap-meta-lbl">Year Built</div><strong>2015</strong></div>
+                <div class="snap-meta-item"><div class="snap-meta-lbl">Lot Size</div><strong>10,019 sqft</strong></div>
+                <div class="snap-meta-item"><div class="snap-meta-lbl">Est. Rent</div><strong>$2,619/mo</strong></div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="val-tabs">
+            <button class="val-tab active" data-tab="home-value">Home Value</button>
+            <button class="val-tab" data-tab="cost-calc">Cost Calculator</button>
+            <button class="val-tab" data-tab="home-details">Home Details</button>
+            <button class="val-tab" data-tab="neighborhood">Neighborhood</button>
+        </div>
+
+        <!-- Body -->
+        <div class="val-body">
+            <div>
+
+                <!-- ── TAB 1: HOME VALUE ── -->
+                <div class="val-panel active" id="panel-home-value">
+                    <div class="value-cards">
+                        <div class="value-card">
+                            <div class="vc-label">Zestimate®</div>
+                            <div class="vc-amt">$501,800</div>
+                            <div class="vc-sub">Estimated market value</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="vc-label">Estimated Sales Range</div>
+                            <div class="vc-amt" style="font-size:1rem;padding-top:4px;">$477K – $527K</div>
+                            <div class="vc-sub">Based on comparable sales</div>
+                        </div>
+                        <div class="value-card">
+                            <div class="vc-label">Rent Zestimate®</div>
+                            <div class="vc-amt">$2,619<span style="font-size:.85rem;font-weight:600;">/mo</span></div>
+                            <div class="vc-sub">Estimated rental income</div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-head">
+                            <div>
+                                <div style="font-weight:700;font-size:.9rem;color:#052f4a;">Zestimate® History</div>
+                                <div class="trend-badge" id="trend-label">+101% in last 10 years</div>
+                            </div>
+                            <button class="table-btn" id="open-history">Table view ›</button>
+                        </div>
+                        <div class="chart-switch">
+                            <button class="cs-btn active" data-chart="value">Home Values</button>
+                            <button class="cs-btn" data-chart="rent">Rent Zestimate</button>
+                            <button class="cs-btn" data-chart="tax">Tax Paid</button>
+                        </div>
+                        <div class="chart-container"><canvas id="valueChart"></canvas></div>
+                        <div style="display:flex;justify-content:space-between;color:#64748b;font-size:.75rem;margin-top:8px;">
+                            <span>2016</span><span>2018</span><span>2020</span><span>2022</span><span>2024</span><span>2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB 2: COST CALCULATOR ── -->
+                <div class="val-panel" id="panel-cost-calc">
+                    <!-- Net proceeds -->
+                    <div class="calc-net-box">
+                        <div class="calc-net-lbl">Estimated Net Proceeds</div>
+                        <div class="calc-net-amt" id="net-proceeds">$334,354</div>
+                    </div>
+
+                    <!-- Sliders + breakdown -->
+                    <div class="calc-body">
+                        <div class="calc-row">
+                            <div class="calc-lbl">
+                                <span>Est. selling price of your home</span>
+                                <span id="sell-price-display">$490,000</span>
+                            </div>
+                            <input type="range" id="sell-price-range" min="400000" max="600000" step="1000" value="490000">
+                        </div>
+                        <div class="calc-row">
+                            <div class="calc-lbl">
+                                <span>Est. remaining mortgage</span>
+                                <span id="mortgage-display">$110,000</span>
+                            </div>
+                            <input type="range" id="mortgage-range" min="0" max="400000" step="1000" value="110000">
+                        </div>
+                        <div class="acc-item open">
+                            <button class="acc-trigger" type="button">
+                                <span>Est. prep &amp; repair costs <span style="color:#64748b;font-weight:400;">$6,000</span></span>
+                                <i class="chev">▾</i>
+                            </button>
+                            <div class="acc-body">
+                                <div class="line-item"><span>Home improvement</span><span>$0 <span class="li-pct">0%</span></span></div>
+                                <div class="line-item"><span>Staging &amp; landscaping</span><span>$6,000 <span class="li-pct">1.2%</span></span></div>
+                            </div>
+                        </div>
+                        <div class="acc-item open">
+                            <button class="acc-trigger" type="button">
+                                <span>Est. closing costs <span style="color:#64748b;font-weight:400;" id="closing-display">$39,646</span></span>
+                                <i class="chev">▾</i>
+                            </button>
+                            <div class="acc-body">
+                                <div class="line-item"><span>Agent commission</span><span id="commission-display">$29,400 <span class="li-pct">6%</span></span></div>
+                                <div class="line-item"><span>Selling concessions</span><span>$4,900 <span class="li-pct">1%</span></span></div>
+                                <div class="line-item"><span>Closing fees</span><span>$2,945 <span class="li-pct">0.6%</span></span></div>
+                                <div class="line-item"><span>Taxes</span><span>$2,401 <span class="li-pct">0.5%</span></span></div>
+                            </div>
+                        </div>
+                        <div class="total-row">
+                            <span>Est. total selling costs (9%)</span>
+                            <span id="total-costs-display">$45,646</span>
+                        </div>
+                        <div class="calc-note">All calculations are estimates for informational purposes only. Actual amounts may vary.</div>
+                    </div>
+
+                    <!-- Owner Options -->
+                    <div class="owner-options">
+                        <h3>Owner options</h3>
+                        <div class="owner-opt-item">
+                            <div class="owner-opt-icon">🔑</div>
+                            <div class="owner-opt-text">
+                                <strong>List your home for rent</strong>
+                                <p>Find your next renter. With online applications, you can quickly screen prospective tenants — for free.</p>
+                                <a href="#register">Learn more</a>
+                            </div>
+                            <div class="owner-opt-meta">
+                                <strong>$2,619/mo</strong>
+                                <span>Rent Zestimate®</span>
+                            </div>
+                        </div>
+                        <div class="owner-opt-item">
+                            <div class="owner-opt-icon">💰</div>
+                            <div class="owner-opt-text">
+                                <strong>Refinance and save</strong>
+                                <p>Refinancing to a lower rate could help reduce your monthly payments and save thousands over the life of the loan.</p>
+                                <a href="#register">See today's rates</a>
+                            </div>
+                            <div class="owner-opt-meta">
+                                <strong>$2,231/mo</strong>
+                                <span>Est. payment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Explore Selling Options -->
+                    <div class="sell-options">
+                        <h3>Explore your selling options</h3>
+                        <div class="sell-opt-item">
+                            <div class="sell-opt-icon">🏆</div>
+                            <div class="sell-opt-text">
+                                <strong>Work with a Taiseel partner agent</strong>
+                                <p>Leverage their expertise and Taiseel's premium listings to get your home seen by more buyers.</p>
+                                <a href="#register">Get started</a>
+                            </div>
+                        </div>
+                        <div class="sell-opt-item">
+                            <div class="sell-opt-icon">🏠</div>
+                            <div class="sell-opt-text">
+                                <strong>List with your own agent</strong>
+                                <p>Get your home in front of millions of buyers by listing it on Taiseel.</p>
+                                <a href="#register">Learn how to do it</a>
+                            </div>
+                        </div>
+                        <div class="sell-opt-item">
+                            <div class="sell-opt-icon">🤝</div>
+                            <div class="sell-opt-text">
+                                <strong>Sell it yourself</strong>
+                                <p>Take full control of how buyers see your home by listing For Sale by Owner (FSBO).</p>
+                                <a href="#register">List your home</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── TAB 3: HOME DETAILS ── -->
+                <div class="val-panel" id="panel-home-details">
+                    <div class="details-grid">
+                        <div class="detail-card"><div class="det-lbl">Property Type</div><div class="det-val">Single Family Residence</div></div>
+                        <div class="detail-card"><div class="det-lbl">Year Built</div><div class="det-val">2015</div><div class="det-sub">9 years old</div></div>
+                        <div class="detail-card"><div class="det-lbl">Living Area</div><div class="det-val">2,345 sqft</div><div class="det-sub">$209 / sqft</div></div>
+                        <div class="detail-card"><div class="det-lbl">Lot Size</div><div class="det-val">10,019 sqft</div><div class="det-sub">0.23 acres</div></div>
+                        <div class="detail-card"><div class="det-lbl">Bedrooms</div><div class="det-val">3</div></div>
+                        <div class="detail-card"><div class="det-lbl">Bathrooms</div><div class="det-val">3 Full</div></div>
+                        <div class="detail-card"><div class="det-lbl">Garage</div><div class="det-val">2-Car Attached</div></div>
+                        <div class="detail-card"><div class="det-lbl">Zoning</div><div class="det-val">Residential</div><div class="det-sub">Knox County, TN</div></div>
+                    </div>
+                    <div class="history-table">
+                        <h4>Price History</h4>
+                        <div class="h-row head"><span>Date</span><span>Event</span><span>Price</span></div>
+                        <div class="h-row sold"><span>Jul 3, 2023</span><span>Sold</span><span>$490,000</span></div>
+                        <div class="h-row"><span>Jun 2023</span><span>Listed</span><span>$494,900</span></div>
+                        <div class="h-row"><span>Jan 2023</span><span>Zestimate</span><span>$448,600</span></div>
+                        <div class="h-row"><span>Jan 2022</span><span>Zestimate</span><span>$380,000</span></div>
+                        <div class="h-row"><span>Jan 2020</span><span>Zestimate</span><span>$280,000</span></div>
+                        <div class="h-row"><span>Jan 2018</span><span>Zestimate</span><span>$249,000</span></div>
+                    </div>
+                </div>
+
+                <!-- ── TAB 4: NEIGHBORHOOD ── -->
+                <div class="val-panel" id="panel-neighborhood">
+
+                    <!-- Map with lot lines -->
+                    <div class="nbhd-map-wrap">
+                        <div class="nbhd-map-head">
+                            <h3>Neighborhood: 37912</h3>
+                        </div>
+                        <div class="nbhd-map-controls">
+                            <button class="map-ctrl-btn active">🗺 Lot lines</button>
+                            <button class="map-ctrl-btn">🚗 Road</button>
+                            <button class="map-ctrl-btn">🛰 Satellite</button>
+                        </div>
+                        <iframe
+                            class="nbhd-map-frame"
+                            title="Neighborhood map"
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=-83.9800%2C36.0200%2C-83.9400%2C36.0600&layer=mapnik&marker=36.0400%2C-83.9600"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+
+                    <!-- Getting Around -->
+                    <div class="transport-section">
+                        <h3>Getting around</h3>
+                        <div class="score-grid">
+                            <div class="score-card">
+                                <div class="score-icon walk">🚶</div>
+                                <div class="score-info">
+                                    <strong>Walk Score®</strong>
+                                    <span class="score-num">0 / 100</span>
+                                    <span class="score-desc">Car-Dependent</span>
+                                </div>
+                            </div>
+                            <div class="score-card">
+                                <div class="score-icon transit">🚌</div>
+                                <div class="score-info">
+                                    <strong>Transit Score®</strong>
+                                    <span class="score-num">9 / 100</span>
+                                    <span class="score-desc">Minimal Transit</span>
+                                </div>
+                            </div>
+                            <div class="score-card">
+                                <div class="score-icon bike">🚲</div>
+                                <div class="score-info">
+                                    <strong>Bike Score®</strong>
+                                    <span class="score-num">12 / 100</span>
+                                    <span class="score-desc">Somewhat Bikeable</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nearby Schools -->
+                    <div class="schools-section">
+                        <h3>Nearby schools</h3>
+                        <div class="schools-sub">GreatSchools rating</div>
+                        <div class="no-schools">
+                            <div class="no-schools-circle">⊘</div>
+                            <p>No schools nearby</p>
+                            <small>We couldn't find any schools near this home.</small>
+                        </div>
+                        <button class="show-more-btn">▼ Show more</button>
+                    </div>
+
+                    <!-- Local Legal Protections -->
+                    <div class="legal-section">
+                        <h3>Local legal protections</h3>
+                        <div class="legal-item">
+                            <div class="legal-item-icon">⚖️</div>
+                            <p>Current legal protections at the state level in Tennessee — <a href="#register" style="color:#0a5a8a;font-weight:700;text-decoration:none;">Show more</a></p>
+                        </div>
+                        <button class="show-more-btn">▼ Show more</button>
+                    </div>
+
+                    <!-- Breadcrumb -->
+                    <div class="nbhd-breadcrumb">
+                        <a href="#">Tennessee</a> · <a href="#">Knoxville</a> · <a href="#">37912</a> · 6035 Pembridge Rd
+                    </div>
+                </div>
+
+            </div><!-- end main panels -->
+
+            <!-- SIDE CTA (sticky) -->
+            <div class="side-cta">
+                <div class="side-cta-lbl">Estimated Market Value</div>
+                <div class="side-cta-val">$501,800</div>
+                <div class="side-cta-sub">What is this number?</div>
+                <button class="cta-btn" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Get a Cash Offer in 3 Min</button>
+                <button class="cta-btn outline" style="margin-top:8px;" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">Claim Home</button>
+                <hr class="cta-div">
+                <div class="side-cta-lbl">Rental Potential</div>
+                <div class="rent-chip">
+                    <span class="rent-chip-lbl">Monthly Rent Estimate</span>
+                    <span class="rent-chip-val">$2,619</span>
+                </div>
+                <hr class="cta-div">
+                <div style="font-size:.72rem;color:#64748b;line-height:1.7;">
+                    <strong style="color:#1e293b;display:block;margin-bottom:4px;">10-Year Growth</strong>
+                    🏠 Home Value <strong style="color:#0f766e;">+101%</strong><br>
+                    🏘 Rent Income <strong style="color:#0f766e;">+48%</strong><br>
+                    📈 Avg Appreciation <strong style="color:#0f766e;">~7.2% / yr</strong>
+                </div>
+            </div>
+
+        </div><!-- end val-body -->
+    </div><!-- end container -->
+</section>
+
+<!-- History Modal -->
+<div class="hist-modal" id="history-modal">
+    <div class="hist-dialog">
+        <div class="hist-head">
+            <span>Zestimate History</span>
+            <button class="hist-close" id="close-history">✕</button>
+        </div>
+        <div class="hist-row" style="font-weight:700;border-bottom:2px solid #e5eaf0;">
+            <span>Month</span><span>Value</span>
+        </div>
+        <div id="history-list"></div>
+    </div>
+</div>
+
+<section class="section" id="location">
+    <div class="container">
+        <div class="location-layout">
+            <iframe class="map-frame" title="Palm Central location map"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=55.1301%2C25.0600%2C55.2200%2C25.1800&layer=mapnik&marker=25.1193%2C55.1826"></iframe>
+            <div class="location-panel">
+                <h2>The Location</h2>
+                <div id="distance-list"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="register">
+    <div class="container">
+        <div class="form-shell">
+            <div class="form-head">
+                <h2 style="margin-bottom:0;">Register Your Interest</h2>
+                <p class="privacy">Taiseel privacy policy explains how we handle your personal data.</p>
+            </div>
+            <form id="interest-form" novalidate>
+                <div class="reg-grid">
+                    <input type="text" name="firstName" placeholder="First Name*" required>
+                    <input type="text" name="lastName" placeholder="Last Name*" required>
+                    <input type="email" name="email" placeholder="Email Address*" required>
+                    <select name="country" required>
+                        <option value="" selected>Country of Residence*</option>
+                        <option value="RW">Rwanda</option>
+                        <option value="US">United States</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AE">UAE</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <select name="bedrooms" required>
+                        <option value="" selected>No of Bedrooms*</option>
+                        <option value="1">1 Bedroom</option>
+                        <option value="2">2 Bedrooms</option>
+                        <option value="3">3 Bedrooms</option>
+                        <option value="4+">4+ Bedrooms</option>
+                    </select>
+                    <select name="timeline" required>
+                        <option value="" selected>How soon are you looking to buy?*</option>
+                        <option value="Immediately">Immediately</option>
+                        <option value="3mo">Within 3 months</option>
+                        <option value="6mo">Within 6 months</option>
+                        <option value="12mo">Within 12 months</option>
+                    </select>
+                    <div class="toggle-group">
+                        <strong style="font-size:.68rem;">Purpose:</strong>
+                        <label><input type="radio" name="purpose" value="Investment" required> Investment</label>
+                        <label><input type="radio" name="purpose" value="Self-Use"> Self-Use</label>
+                    </div>
+                    <select name="broker" id="broker-assistance" required>
+                        <option value="" selected>I am assisted by a broker*</option>
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                    <input class="hidden" type="email" id="broker-email" name="brokerEmail" placeholder="Broker Email*">
+                </div>
+                <label class="consent-row">
+                    <input type="checkbox" id="consent" required>
+                    <span>By accepting and providing my personal information, I consent to Taiseel's privacy policy and applicable data protection laws.</span>
+                </label>
+                <button id="submit-btn" class="submit-btn" type="submit" disabled>Register Your Interest</button>
+                <p class="success" id="form-success">One of our sales representatives will contact you shortly.</p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="app-section">
+            <div>
+                <h2>My Taiseel App</h2>
+                <p class="lead">Extending trust beyond the property page with always-on service support.</p>
+                <ul class="bullets">
+                    <li>Access properties securely</li>
+                    <li>Raise and track service requests</li>
+                    <li>Make online payments</li>
+                    <li>Schedule customer care meetings</li>
+                </ul>
+            </div>
+            <div>
+                <h2>Next Step</h2>
+                <p class="lead">This demo page is wired for UX behavior and ready to be connected to backend lead APIs.</p>
+                <div class="app-actions">
+                    <a class="small-link" href="index.html#register">Open Main Taiseel Form</a>
+                    <a class="small-link" href="index.html#projects">Back to Projects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// ── PROJECT DATA ─────────────────────────────────────
+const projectContent = {
+    'palm-central-private-residences': {
+        title: 'Palm Central Private Residences',
+        images: ['baygrove.png','VisionCity2.jpg','kigaliheight2.jpg','landscape4.jpg'],
+        amenities: ['Padel Courts','Outdoor Co-Working','Outdoor Dining','Fitness Zone','Infinity Pool','Beach Volleyball','Event Lawn','Kids Play Area','Gym & Studio','Concierge Lounge','Rooftop Garden','Cinema Corner'],
+        distances: ['16 minutes from Life Pharmacy Metro Station','22 minutes from Dubai Frame','24 minutes from Dubai World Trade Centre','24 minutes from Downtown Dubai','33 minutes from Business Bay','34 minutes from Dubai Financial Centre']
+    },
+    'the-heights-residences': {
+        title: 'The Heights Residences',
+        images: ['kigaliheight.jpg','kigaliheight2.jpg','landscape3.jpg','landscape4.jpg'],
+        amenities: ['Sky Lounge','Family Pool','Outdoor Gym','Kids Club','Community Lawn','Jogging Loop','Retail Deck','Clubhouse','Concierge','Yoga Studio','Pet Zone','BBQ Terrace'],
+        distances: ['8 minutes from CBD','12 minutes from Financial District','15 minutes from Convention Center','18 minutes from Airport Corridor','10 minutes from Lifestyle Mall','14 minutes from Medical Hub']
+    },
+    'brilliant-tower': {
+        title: 'Brilliant Tower',
+        images: ['brilliant tower.jpg','brillianttower.png','VisionCity.jpg','landscape2.jpg'],
+        amenities: ['Executive Lobby','Business Lounge','Meeting Suites','Retail Podium','Valet Drop-Off','Wellness Deck','Smart Access','Fine Dining','Sky Bar','Board Room','Private Gym','Sunset Deck'],
+        distances: ['6 minutes from Kacyiru','11 minutes from Convention Center','13 minutes from CBD','17 minutes from Airport Route','7 minutes from Lifestyle District','9 minutes from Embassy Quarter']
+    }
+};
+
+const slug = new URLSearchParams(window.location.search).get('project') || 'palm-central-private-residences';
+function deriveProject(s) {
+    const fb = projectContent['palm-central-private-residences'];
+    const t = s.split('-').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+    return {...fb, title: t};
+}
+const proj = projectContent[slug] || deriveProject(slug);
+
+document.getElementById('project-badge-name').textContent = proj.title;
+document.getElementById('project-main-title').textContent = proj.title;
+document.title = proj.title + ' | Taiseel Development';
+
+// ── AMENITIES ────────────────────────────────────────
+const agrid = document.getElementById('amenities-grid');
+const adots = document.getElementById('amenity-dots');
+const aicons = ['https://api.iconify.design/arcticons:home.svg','https://api.iconify.design/arcticons:calendar.svg','https://api.iconify.design/arcticons:camera.svg','https://api.iconify.design/arcticons:compass.svg','https://api.iconify.design/arcticons:music.svg','https://api.iconify.design/arcticons:mail.svg','https://api.iconify.design/arcticons:phone.svg','https://api.iconify.design/arcticons:location.svg','https://api.iconify.design/arcticons:weather.svg','https://api.iconify.design/arcticons:shop.svg','https://api.iconify.design/arcticons:health.svg','https://api.iconify.design/arcticons:settings.svg'];
+const pp = 6;
+const apages = [];
+for (let i=0;i<proj.amenities.length;i+=pp) apages.push(proj.amenities.slice(i,i+pp));
+
+function renderAP(idx){
+    agrid.innerHTML='';
+    (apages[idx]||[]).forEach((n,i)=>{
+        const c=document.createElement('div'); c.className='amenity';
+        const ic=document.createElement('img'); ic.className='amenity-icon';
+        ic.src=aicons[(idx*pp+i)%aicons.length]; ic.alt='';
+        const lb=document.createElement('span'); lb.textContent=n;
+        c.append(ic,lb); agrid.appendChild(c);
+    });
+    [...adots.children].forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+apages.forEach((_,i)=>{
+    const d=document.createElement('button'); d.type='button';
+    d.className='bullet'+(i===0?' active':'');
+    d.setAttribute('aria-label',`Amenities page ${i+1}`);
+    d.addEventListener('click',()=>renderAP(i));
+    adots.appendChild(d);
+});
+if(apages.length) renderAP(0);
+
+// ── GALLERY ──────────────────────────────────────────
+const imgs=proj.images;
+const gimg=document.getElementById('gallery-image');
+const gdots=document.getElementById('gallery-dots');
+let gidx=0;
+function setSlide(i){
+    const s=((i%imgs.length)+imgs.length)%imgs.length;
+    gimg.src=imgs[s];
+    [...gdots.children].forEach((d,j)=>d.classList.toggle('active',j===s));
+    return s;
+}
+imgs.forEach((_,i)=>{
+    const d=document.createElement('button'); d.type='button';
+    d.className='dot'+(i===0?' active':'');
+    d.setAttribute('aria-label',`Image ${i+1}`);
+    d.addEventListener('click',()=>{gidx=setSlide(i);});
+    gdots.appendChild(d);
+});
+setSlide(0);
+if(imgs.length>1) setInterval(()=>{gidx=setSlide(gidx+1);},4500);
+
+// ── DISTANCES ────────────────────────────────────────
+const dl=document.getElementById('distance-list');
+proj.distances.forEach(d=>{
+    const el=document.createElement('div'); el.className='distance-item'; el.textContent=d; dl.appendChild(el);
+});
+
+// ── FORM ─────────────────────────────────────────────
+const form=document.getElementById('interest-form');
+const bsel=document.getElementById('broker-assistance');
+const bemail=document.getElementById('broker-email');
+const sbtn=document.getElementById('submit-btn');
+const consent=document.getElementById('consent');
+function validateForm(){sbtn.disabled=!(form.checkValidity()&&consent.checked);}
+bsel.addEventListener('change',()=>{
+    const y=bsel.value==='Yes';
+    bemail.classList.toggle('hidden',!y); bemail.required=y;
+    if(!y) bemail.value=''; validateForm();
+});
+form.addEventListener('input',validateForm);
+consent.addEventListener('change',validateForm);
+form.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(!(form.checkValidity()&&consent.checked)) return;
+    document.getElementById('form-success').style.display='block';
+    form.reset(); bemail.classList.add('hidden'); bemail.required=false; sbtn.disabled=true;
+});
+
+// ── VALUATION TABS ───────────────────────────────────
+document.querySelectorAll('.val-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.val-tab').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.val-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    });
+});
+
+// ── ACCORDIONS ───────────────────────────────────────
+document.querySelectorAll('.acc-trigger').forEach(btn=>{
+    btn.addEventListener('click',()=>btn.closest('.acc-item').classList.toggle('open'));
+});
+
+// ── MAP CONTROLS ─────────────────────────────────────
+document.querySelectorAll('.map-ctrl-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.map-ctrl-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+    });
+});
+
+// ── CHART ────────────────────────────────────────────
+const chartLabels=['2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026'];
+const chartData={
+    value:{data:[249000,261000,275000,283000,272000,310000,395000,480000,501800,498000,501800],color:'#052f4a',trend:'+101% in last 10 years'},
+    rent: {data:[1770,1820,1870,1920,1780,1960,2100,2450,2619,2580,2619],color:'#0f766e',trend:'+48% in last 10 years'},
+    tax:  {data:[3200,1480,1490,1500,1510,1490,1495,1490,1495,1490,1495],color:'#c2410c',trend:'-5% in last 8 years'}
+};
+let activeChart='value';
+const ctx=document.getElementById('valueChart').getContext('2d');
+const chartInst=new Chart(ctx,{
+    type:'line',
+    data:{
+        labels:chartLabels,
+        datasets:[{
+            data:chartData.value.data,
+            borderColor:chartData.value.color,
+            backgroundColor:'rgba(5,47,74,0.06)',
+            borderWidth:2.5, pointRadius:3, pointHoverRadius:6, fill:true, tension:0.35
+        }]
+    },
+    options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{
+            const v=c.parsed.y;
+            return activeChart==='rent'?'$'+v.toLocaleString()+'/mo':'$'+v.toLocaleString();
+        }}}},
+        scales:{
+            x:{grid:{display:false},ticks:{font:{size:10}}},
+            y:{grid:{color:'#f0f4f8'},ticks:{font:{size:10},callback:v=>activeChart==='value'?'$'+(v/1000).toFixed(0)+'K':'$'+v.toLocaleString()}}
+        }
+    }
+});
+document.querySelectorAll('.cs-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        document.querySelectorAll('.cs-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        activeChart=btn.dataset.chart;
+        const ds=chartData[activeChart];
+        chartInst.data.datasets[0].data=ds.data;
+        chartInst.data.datasets[0].borderColor=ds.color;
+        chartInst.data.datasets[0].backgroundColor=ds.color.includes('766')
+            ?'rgba(15,118,110,0.06)':ds.color.includes('c24')
+            ?'rgba(194,65,12,0.06)':'rgba(5,47,74,0.06)';
+        chartInst.update();
+        const tl=document.getElementById('trend-label');
+        tl.textContent=ds.trend;
+        const neg=activeChart==='tax';
+        tl.style.color=neg?'#c2410c':'#0f766e';
+        tl.style.background=neg?'#fff7ed':'#f0fdf4';
+        tl.style.borderColor=neg?'#fecaca':'#bbf7d0';
+    });
+});
+
+// ── HISTORY MODAL ────────────────────────────────────
+const histData=[
+    {m:'Nov 2023',v:'$499,200'},{m:'Oct 2023',v:'$498,500'},{m:'Sep 2023',v:'$497,100'},
+    {m:'Aug 2023',v:'$495,100'},{m:'Jul 2023',v:'$491,500'},{m:'Jul 3, 2023',v:'Sold for $490K',sold:true},
+    {m:'Jun 2023',v:'$494,900'},{m:'May 2023',v:'$475,500'},{m:'Apr 2023',v:'$469,900'},
+    {m:'Mar 2023',v:'$462,400'},{m:'Feb 2023',v:'$451,900'},{m:'Jan 2023',v:'$448,600'},
+    {m:'Dec 2022',v:'$447,100'},{m:'Oct 2022',v:'$440,000'},{m:'Jan 2022',v:'$395,000'},
+    {m:'Jan 2021',v:'$310,000'},{m:'Jan 2020',v:'$272,000'},{m:'Jan 2018',v:'$249,000'},
+];
+const hl=document.getElementById('history-list');
+histData.forEach(r=>{
+    const row=document.createElement('div');
+    row.className='hist-row'+(r.sold?' sold':'');
+    row.innerHTML=`<span>${r.m}</span><span>${r.v}</span>`;
+    hl.appendChild(row);
+});
+document.getElementById('open-history').addEventListener('click',()=>document.getElementById('history-modal').classList.add('open'));
+document.getElementById('close-history').addEventListener('click',()=>document.getElementById('history-modal').classList.remove('open'));
+document.getElementById('history-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)e.currentTarget.classList.remove('open');});
+
+// ── COST CALCULATOR ──────────────────────────────────
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function recalc(){
+    const sell=+document.getElementById('sell-price-range').value;
+    const mort=+document.getElementById('mortgage-range').value;
+    const prep=6000;
+    const comm=sell*0.06;
+    const closing=comm+4900+2945+2401;
+    const total=prep+closing;
+    const net=sell-mort-total;
+    document.getElementById('sell-price-display').textContent=fmt(sell);
+    document.getElementById('mortgage-display').textContent=fmt(mort);
+    document.getElementById('closing-display').textContent=fmt(closing);
+    document.getElementById('commission-display').innerHTML=fmt(comm)+' <span class="li-pct">6%</span>';
+    document.getElementById('total-costs-display').textContent=fmt(total);
+    document.getElementById('net-proceeds').textContent=fmt(net);
+}
+document.getElementById('sell-price-range').addEventListener('input',recalc);
+document.getElementById('mortgage-range').addEventListener('input',recalc);
+recalc();
+</script>
+</body>
+</html>
