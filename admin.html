@@ -17,11 +17,7 @@
             --border: #eeeeee;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
@@ -31,32 +27,13 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Sidebar sidebar-less layout for extreme minimalism */
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 60px 5%;
-        }
+        .container { max-width: 1300px; margin: 0 auto; padding: 60px 5%; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 60px;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
 
-        .brand h1 {
-            font-weight: 300;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-            font-size: 1.2rem;
-            color: var(--primary);
-        }
+        .brand h1 { font-weight: 300; letter-spacing: 5px; text-transform: uppercase; font-size: 1.2rem; color: var(--primary); }
 
-        .actions {
-            display: flex;
-            gap: 20px;
-        }
+        .actions { display: flex; gap: 20px; }
 
         .btn {
             padding: 12px 24px;
@@ -74,153 +51,46 @@
             display: inline-block;
         }
 
-        .btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
+        .btn:hover { border-color: var(--primary); color: var(--primary); }
 
-        .btn-primary {
-            background: var(--primary);
-            color: var(--white);
-            border-color: var(--primary);
-        }
+        .btn-primary { background: var(--primary); color: var(--white); border-color: var(--primary); }
+        .btn-primary:hover { background: #15311b; color: var(--white); }
 
-        .btn-primary:hover {
-            background: #15311b;
-            color: var(--white);
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; }
 
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
+        .stat-card { background: var(--white); padding: 40px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: transform 0.3s ease; }
+        .stat-card:hover { transform: translateY(-5px); }
 
-        .stat-card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-            transition: transform 0.3s ease;
-        }
+        .stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; display: block; }
 
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
+        .stat-value { font-size: 2.5rem; font-weight: 300; color: var(--primary); }
 
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            display: block;
-        }
+        .leads-section { background: var(--white); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
 
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: var(--primary);
-        }
+        .table-header { padding: 30px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
-        /* Lead Table */
-        .leads-section {
-            background: var(--white);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-        }
+        .table-header h2 { font-size: 1rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
 
-        .table-header {
-            padding: 30px 40px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .table-wrapper { overflow-x: auto; }
 
-        .table-header h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
 
-        .table-wrapper {
-            overflow-x: auto;
-        }
+        th { background: #f9f9f9; padding: 20px 40px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); border-bottom: 1px solid var(--border); }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
+        td { padding: 20px 40px; font-size: 0.9rem; border-bottom: 1px solid var(--border); color: #555; }
 
-        th {
-            background: #f9f9f9;
-            padding: 20px 40px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--muted);
-            border-bottom: 1px solid var(--border);
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafafa; }
 
-        td {
-            padding: 20px 40px;
-            font-size: 0.9rem;
-            border-bottom: 1px solid var(--border);
-            color: #555;
-        }
+        .timestamp { font-size: 0.75rem; color: var(--muted); }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+        #loader { padding: 60px; text-align: center; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
 
-        tr:hover td {
-            background: #fafafa;
-        }
-
-        .timestamp {
-            font-size: 0.75rem;
-            color: var(--muted);
-        }
-
-        /* Loading & Empty States */
-        #loader {
-            padding: 60px;
-            text-align: center;
-            color: var(--muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: #e9f5ed;
-            color: #2e7d32;
-        }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: #e9f5ed; color: #2e7d32; }
 
         @media (max-width: 900px) {
-            .container {
-                padding: 40px 5%;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+            .container { padding: 40px 5%; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -229,9 +99,7 @@
 
     <div class="container">
         <header>
-            <div class="brand">
-                <h1>Taiseel Management</h1>
-            </div>
+            <div class="brand"><h1>Taiseel Management</h1></div>
             <div class="actions">
                 <a href="index.html" class="btn">View Site</a>
                 <button onclick="fetchLeads()" class="btn btn-primary">Refresh</button>
@@ -257,22 +125,15 @@
             <section class="leads-section">
                 <div class="table-header">
                     <h2>Registrations</h2>
-                    <button onclick="exportCSV()" class="btn" style="padding: 8px 16px; font-size: 0.7rem;">Export
-                        CSV</button>
+                    <button onclick="exportCSV()" class="btn" style="padding:8px 16px; font-size:0.7rem;">Export CSV</button>
                 </div>
 
                 <div id="loader">Fetching latest registrations...</div>
 
-                <div class="table-wrapper" id="tableContainer" style="display: none;">
+                <div class="table-wrapper" id="tableContainer" style="display:none;">
                     <table>
-                        <thead>
-                            <tr id="tableHead">
-                                <!-- Headers dynamic -->
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-                            <!-- Data dynamic -->
-                        </tbody>
+                        <thead><tr id="tableHead"></tr></thead>
+                        <tbody id="tableBody"></tbody>
                     </table>
                 </div>
             </section>
@@ -281,36 +142,40 @@
 
     <script>
         let currentLeads = [];
+        let hasError = false;
 
         async function fetchLeads() {
             const loader = document.getElementById('loader');
             const tableContainer = document.getElementById('tableContainer');
+
             loader.style.display = 'block';
+            loader.innerText = 'Fetching latest registrations...';
             tableContainer.style.display = 'none';
+            hasError = false;
 
             try {
                 const response = await fetch('/api/admin/registrations');
-                if (!response.ok) {
-                    throw new Error(`Request failed with status ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
 
                 const data = await response.json();
                 currentLeads = data;
                 renderLeads(data);
                 updateStats(data);
+
+                // FIX: only hide loader and show table on SUCCESS
+                loader.style.display = 'none';
+                tableContainer.style.display = 'block';
+
             } catch (err) {
                 console.error('Fetch error:', err);
+                // FIX: keep loader visible with error message; do NOT hide it in finally
                 loader.innerText = 'Error loading data. Verify server connection.';
-                tableContainer.style.display = 'none';
-                return;        
-            } finally {
-                loader.style.display = 'none';    
-          }
+                hasError = true;
+            }
         }
 
         function updateStats(data) {
             document.getElementById('totalLeads').innerText = data.length;
-            // Simple placeholder stats
             document.getElementById('growthRate').innerText = '+' + (data.length > 0 ? '100%' : '0%');
         }
 
@@ -319,40 +184,31 @@
             const body = document.getElementById('tableBody');
 
             if (data.length === 0) {
-                body.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding: 60px;">No registrations found yet.</td></tr>';
+                body.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding:60px;">No registrations found yet.</td></tr>';
                 return;
             }
 
-            // Extract all unique keys from all objects for dynamic columns
             const keys = ['timestamp', 'First Name', 'Last Name', 'Email Address'];
-            // Add other keys that might exist
             data.forEach(lead => {
-                Object.keys(lead).forEach(k => {
-                    if (!keys.includes(k) && k !== 'timestamp') keys.push(k);
-                });
+                Object.keys(lead).forEach(k => { if (!keys.includes(k) && k !== 'timestamp') keys.push(k); });
             });
 
-            // Render Header
-            head.innerHTML = keys.map(k => `<th>${k.replace(/Address/g, '').replace(/[*?]/g, '')}</th>`).join('');
+            head.innerHTML = keys.map(k => `<th>${k.replace(/Address/g,'').replace(/[*?]/g,'')}</th>`).join('');
 
-            // Render Body
-            body.innerHTML = [...data].reverse().map(lead => {
-                return `<tr>
-                    ${keys.map(k => {
+            body.innerHTML = [...data].reverse().map(lead => `<tr>${
+                keys.map(k => {
                     let val = lead[k] || '-';
                     if (k === 'timestamp') {
-                        const date = new Date(val);
-                        val = `<span class="timestamp">${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>`;
+                        const d = new Date(val);
+                        val = `<span class="timestamp">${d.toLocaleDateString()} ${d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>`;
                     }
                     return `<td>${val}</td>`;
-                }).join('')}
-                </tr>`;
-            }).join('');
+                }).join('')
+            }</tr>`).join('');
         }
 
         function exportCSV() {
             if (currentLeads.length === 0) return alert('No data to export');
-
             const keys = Object.keys(currentLeads[0]);
             const csv = [
                 keys.join(','),
@@ -360,14 +216,14 @@
             ].join('\n');
 
             const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.setAttribute('href', url);
-            a.setAttribute('download', `leads_${new Date().toISOString().split('T')[0]}.csv`);
+            a.href = url;
+            a.download = `leads_${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
+            URL.revokeObjectURL(url);
         }
 
-        // Initialize
         fetchLeads();
     </script>
 </body>
