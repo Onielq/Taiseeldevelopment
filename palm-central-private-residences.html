@@ -776,12 +776,41 @@ document.querySelectorAll('.acc-trigger').forEach(btn=>{btn.addEventListener('cl
 document.querySelectorAll('.map-ctrl-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.map-ctrl-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');});});
 
 // CHART
-const chartLabels=['2019','2020','2021','2022','2023','2024','2025'];
-const chartData={value:{data:[11900000,12300000,15800000,18400000,20100000,22200000,24120000],color:'#052f4a',trend:'+103% portfolio growth in 6 years'},rent:{data:[41000,39800,46000,53500,57800,62100,67320],color:'#0f766e',trend:'+64% rent roll growth in 6 years'},tax:{data:[598000,614000,790000,920000,1005000,1110000,1206000],color:'#c2410c',trend:'+102% per-unit avg in 6 years'}};
+const chartColors={value:'#052f4a',rent:'#0f766e',tax:'#c2410c'};
+const chartData={value:{data:[],color:chartColors.value,trend:''},rent:{data:[],color:chartColors.rent,trend:''},tax:{data:[],color:chartColors.tax,trend:''}};
 let activeChart='value';
+let chartLabels=[];
 const ctx=document.getElementById('valueChart').getContext('2d');
-const chartInst=new Chart(ctx,{type:'line',data:{labels:chartLabels,datasets:[{data:chartData.value.data,borderColor:chartData.value.color,backgroundColor:'rgba(5,47,74,0.06)',borderWidth:2.5,pointRadius:3,pointHoverRadius:6,fill:true,tension:0.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.parsed.y;if(activeChart==='rent')return'$'+v.toLocaleString()+'/mo';if(v>=1000000)return'$'+(v/1000000).toFixed(2)+'M';return'$'+v.toLocaleString();}}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#f0f4f8'},ticks:{font:{size:10},callback:v=>{if(activeChart==='rent')return'$'+(v/1000).toFixed(0)+'K';if(v>=1000000)return'$'+(v/1000000).toFixed(1)+'M';return'$'+(v/1000).toFixed(0)+'K';}}}}}}); 
-document.querySelectorAll('.cs-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.cs-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeChart=btn.dataset.chart;const ds=chartData[activeChart];chartInst.data.datasets[0].data=ds.data;chartInst.data.datasets[0].borderColor=ds.color;chartInst.data.datasets[0].backgroundColor=ds.color.includes('766')?'rgba(15,118,110,0.06)':ds.color.includes('c24')?'rgba(194,65,12,0.06)':'rgba(5,47,74,0.06)';chartInst.update();const tl=document.getElementById('trend-label');tl.textContent=ds.trend;tl.style.color='#0f766e';tl.style.background='#f0fdf4';tl.style.borderColor='#bbf7d0';});});
+const chartInst=new Chart(ctx,{type:'line',data:{labels:chartLabels,datasets:[{data:chartData.value.data,borderColor:chartData.value.color,backgroundColor:'rgba(5,47,74,0.06)',borderWidth:2.5,pointRadius:3,pointHoverRadius:6,fill:true,tension:0.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.parsed.y;if(activeChart==='rent')return'$'+v.toLocaleString()+'/mo';if(v>=1000000)return'$'+(v/1000000).toFixed(2)+'M';return'$'+v.toLocaleString();}}}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#f0f4f8'},ticks:{font:{size:10},callback:v=>{if(activeChart==='rent')return'$'+(v/1000).toFixed(0)+'K';if(v>=1000000)return'$'+(v/1000000).toFixed(1)+'M';return'$'+(v/1000).toFixed(0)+'K';}}}}}});
+
+function computeTrend(values,suffix=''){if(!values.length)return 'No data';const first=values[0];const last=values[values.length-1];if(!first)return 'No data';const pct=((last-first)/first*100).toFixed(0);const sign=pct>=0?'+':'';return `${sign}${pct}% growth ${suffix}`.trim();}
+
+async function loadValuationHistory(){
+    const response=await fetch('/api/valuation-history');
+    if(!response.ok)throw new Error(`Unable to load valuation history: ${response.status}`);
+    const rows=await response.json();
+    chartLabels=rows.map(r=>r.label);
+    chartData.value.data=rows.map(r=>r.total_value);
+    chartData.rent.data=rows.map(r=>r.rent_roll);
+    chartData.tax.data=rows.map(r=>r.per_unit_avg);
+    chartData.value.trend=computeTrend(chartData.value.data,'in selected range');
+    chartData.rent.trend=computeTrend(chartData.rent.data,'for rent roll');
+    chartData.tax.trend=computeTrend(chartData.tax.data,'for per-unit avg');
+    chartInst.data.labels=chartLabels;
+    applyChartState();
+}
+
+function applyChartState(){
+    const ds=chartData[activeChart];
+    chartInst.data.datasets[0].data=ds.data;
+    chartInst.data.datasets[0].borderColor=ds.color;
+    chartInst.data.datasets[0].backgroundColor=activeChart==='rent'?'rgba(15,118,110,0.06)':activeChart==='tax'?'rgba(194,65,12,0.06)':'rgba(5,47,74,0.06)';
+    chartInst.update();
+    const tl=document.getElementById('trend-label');
+    tl.textContent=ds.trend;
+}
+
+document.querySelectorAll('.cs-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.cs-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeChart=btn.dataset.chart;applyChartState();});});
 
 // HISTORY MODAL
 const histData=[{m:'Q4 2025',v:'$24,120,000'},{m:'Q3 2025',v:'$23,800,000'},{m:'Q2 2025',v:'$23,400,000'},{m:'Q1 2025',v:'$23,000,000'},{m:'Q4 2024',v:'$22,200,000'},{m:'Q3 2024',v:'$21,800,000'},{m:'Q2 2024',v:'$21,400,000'},{m:'Q1 2024',v:'$20,900,000'},{m:'Q4 2023',v:'$20,100,000'},{m:'Q2 2023',v:'$19,400,000'},{m:'Q4 2022',v:'$18,400,000'},{m:'Q2 2022',v:'$17,100,000'},{m:'Q4 2021',v:'$15,800,000'},{m:'Q4 2020',v:'$12,300,000'},{m:'Q4 2019',v:'$11,900,000'}];
@@ -796,28 +825,13 @@ function recalc(){const sell=+document.getElementById('sell-price-range').value;
 document.getElementById('sell-price-range').addEventListener('input',recalc);document.getElementById('mortgage-range').addEventListener('input',recalc);recalc();
 
 // ══════════ UNIT BREAKDOWN TABLE ══════════
-const UNITS=[
-    {unit:'101',floor:1,type:'Studio',sqft:520,value:540000,rent:1850,status:'occupied'},
-    {unit:'102',floor:1,type:'1 Bed',sqft:850,value:850000,rent:2800,status:'occupied'},
-    {unit:'103',floor:1,type:'2 Bed',sqft:1180,value:1180000,rent:3800,status:'occupied'},
-    {unit:'104',floor:1,type:'2 Bed',sqft:1200,value:1200000,rent:3900,status:'vacant'},
-    {unit:'201',floor:2,type:'Studio',sqft:530,value:555000,rent:1900,status:'occupied'},
-    {unit:'202',floor:2,type:'1 Bed',sqft:870,value:890000,rent:2950,status:'occupied'},
-    {unit:'203',floor:2,type:'2 Bed',sqft:1200,value:1220000,rent:3950,status:'listed'},
-    {unit:'204',floor:2,type:'3 Bed',sqft:1650,value:1680000,rent:5200,status:'occupied'},
-    {unit:'301',floor:3,type:'1 Bed',sqft:870,value:910000,rent:3000,status:'occupied'},
-    {unit:'302',floor:3,type:'2 Bed',sqft:1200,value:1240000,rent:4000,status:'occupied'},
-    {unit:'303',floor:3,type:'3 Bed',sqft:1670,value:1720000,rent:5350,status:'occupied'},
-    {unit:'304',floor:3,type:'2 Bed',sqft:1190,value:1230000,rent:3980,status:'occupied'},
-    {unit:'401',floor:4,type:'1 Bed',sqft:875,value:930000,rent:3100,status:'occupied'},
-    {unit:'402',floor:4,type:'2 Bed',sqft:1210,value:1260000,rent:4100,status:'occupied'},
-    {unit:'403',floor:4,type:'3 Bed',sqft:1680,value:1750000,rent:5500,status:'vacant'},
-    {unit:'404',floor:4,type:'2 Bed',sqft:1195,value:1250000,rent:4050,status:'occupied'},
-    {unit:'501',floor:5,type:'2 Bed',sqft:1400,value:1480000,rent:4600,status:'occupied'},
-    {unit:'502',floor:5,type:'Penthouse',sqft:2200,value:2400000,rent:7200,status:'occupied'},
-    {unit:'601',floor:6,type:'Penthouse',sqft:2400,value:2700000,rent:7800,status:'occupied'},
-    {unit:'602',floor:6,type:'Penthouse',sqft:2350,value:2640000,rent:7580,status:'occupied'},
-];
+let UNITS=[];
+
+async function loadUnits(){
+    const response=await fetch('/api/units');
+    if(!response.ok)throw new Error(`Unable to load units: ${response.status}`);
+    UNITS=await response.json();
+}
 let sortCol='unit',sortDir=1,filterStatus='all',searchQ='';
 function unitYield(u){return((u.rent*12)/u.value*100).toFixed(2)+'%';}
 function statusPill(s){const map={occupied:'● Occupied',vacant:'○ Vacant',listed:'◈ Listed'};return`<span class="ut-pill ${s}">${map[s]}</span>`;}
@@ -839,7 +853,18 @@ function renderUnits(){
 document.querySelectorAll('.unit-table th[data-col]').forEach(th=>{th.addEventListener('click',()=>{document.querySelectorAll('.unit-table th').forEach(h=>{h.classList.remove('ut-sorted');const s=h.querySelector('.th-sort');if(s)s.textContent='↕';});if(sortCol===th.dataset.col)sortDir*=-1;else{sortCol=th.dataset.col;sortDir=1;}th.classList.add('ut-sorted');th.querySelector('.th-sort').textContent=sortDir===1?'↑':'↓';renderUnits();});});
 document.querySelectorAll('.unit-filter-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.unit-filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filterStatus=btn.dataset.filter;renderUnits();});});
 document.getElementById('unit-search').addEventListener('input',e=>{searchQ=e.target.value;renderUnits();});
-renderUnits();
+
+async function initValuationData(){
+    try{
+        await Promise.all([loadUnits(),loadValuationHistory()]);
+        renderUnits();
+    }catch(err){
+        console.error('Failed to load valuation data',err);
+    }
+}
+
+initValuationData();
+setInterval(initValuationData,15000);
 
 // ══════════ UNIT DETAIL MODAL ══════════
 const unitDetailOverlay=document.getElementById('unit-detail-overlay');
