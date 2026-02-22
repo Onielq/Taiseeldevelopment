@@ -88,6 +88,13 @@
 
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; background: #e9f5ed; color: #2e7d32; }
 
+        .units-section { margin-top: 40px; background: var(--white); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+        .units-controls { display: flex; align-items: center; gap: 10px; }
+        .edit-form { display: flex; gap: 8px; align-items: center; }
+        .edit-form input, .edit-form select { border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 0.8rem; }
+        .edit-form button { padding: 8px 12px; font-size: 0.7rem; }
+        #unitsLoader { padding: 30px 40px; color: var(--muted); font-size: 0.8rem; letter-spacing: 1px; }
+
         @media (max-width: 900px) {
             .container { padding: 40px 5%; }
             .stats-grid { grid-template-columns: 1fr; }
@@ -137,11 +144,34 @@
                     </table>
                 </div>
             </section>
+
+            <section class="units-section">
+                <div class="table-header">
+                    <h2>Units Management</h2>
+                    <div class="units-controls">
+                        <a href="palm-central-private-residences.html#valuation" class="btn" style="padding:8px 16px; font-size:0.7rem;">Open Listing</a>
+                        <button onclick="fetchUnits()" class="btn" style="padding:8px 16px; font-size:0.7rem;">Refresh Units</button>
+                    </div>
+                </div>
+                <div id="unitsLoader">Loading units...</div>
+                <div class="table-wrapper" id="unitsTableContainer" style="display:none;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Unit</th><th>Status</th><th>Value</th><th>Rent</th><th>Last Sold</th><th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody id="unitsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
         </main>
     </div>
 
     <script>
         let currentLeads = [];
+        let unitsData = [];        
         let hasError = false;
 
         async function fetchLeads() {
@@ -224,7 +254,82 @@
             URL.revokeObjectURL(url);
         }
 
+
+
+        async function fetchUnits() {
+            const loader = document.getElementById('unitsLoader');
+            const table = document.getElementById('unitsTableContainer');
+            loader.style.display = 'block';
+            loader.textContent = 'Loading units...';
+            table.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/units');
+                if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+                unitsData = await response.json();
+                renderUnits(unitsData);
+                loader.style.display = 'none';
+                table.style.display = 'block';
+            } catch (error) {
+                console.error('Units fetch error:', error);
+                loader.textContent = 'Failed to load units.';
+            }
+        }
+
+        function renderUnits(units) {
+            const body = document.getElementById('unitsTableBody');
+            body.innerHTML = units.map((unit) => `
+                <tr>
+                    <td><strong>${unit.unit}</strong></td>
+                    <td>${unit.status}</td>
+                    <td>$${Number(unit.value).toLocaleString()}</td>
+                    <td>$${Number(unit.rent).toLocaleString()}</td>
+                    <td>${unit.last_sold_at || '-'}</td>
+                    <td>
+                        <form class="edit-form" data-id="${unit.id}">
+                            <select name="status">
+                                <option value="occupied" ${unit.status === 'occupied' ? 'selected' : ''}>occupied</option>
+                                <option value="vacant" ${unit.status === 'vacant' ? 'selected' : ''}>vacant</option>
+                                <option value="listed" ${unit.status === 'listed' ? 'selected' : ''}>listed</option>
+                            </select>
+                            <input name="value" type="number" min="1" value="${unit.value}" required>
+                            <input name="rent" type="number" min="0" value="${unit.rent}" required>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </td>
+                </tr>
+            `).join('');
+
+            body.querySelectorAll('.edit-form').forEach((form) => {
+                form.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const id = form.dataset.id;
+                    const payload = {
+                        status: form.status.value,
+                        value: Number(form.value.value),
+                        rent: Number(form.rent.value)
+                    };
+
+                    try {
+                        const response = await fetch(`/api/units/${id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) throw new Error(`Update failed (${response.status})`);
+
+                        await fetchUnits();
+                    } catch (error) {
+                        console.error('Failed to update unit:', error);
+                        alert('Failed to save unit changes.');
+                    }
+                });
+            });
+        }
+
         fetchLeads();
+        fetchUnits();        
     </script>
 </body>
 
