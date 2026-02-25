@@ -42,6 +42,12 @@ const DEFAULT_VAL_HISTORY = [
     ['2025', 24120000, 67320, 1206000]
 ];
 
+const DEFAULT_PROPERTIES = [
+    ['6035 Pembridge Rd, Knoxville, TN 37912', 490000, 2619, 2345, 3, 3, 10019, 'Single Family', 2015, 'palm-central-private-residences', 249000, '2023-07-03'],
+    ['1234 Oak Street, Nashville, TN 37201', 650000, 3200, 2800, 4, 3, 8500, 'Single Family', 2018, 'the-heights-residences', 520000, '2024-02-15'],
+    ['5678 Maple Ave, Memphis, TN 38103', 425000, 2100, 1950, 3, 2, 7200, 'Single Family', 2012, 'brilliant-tower', 310000, '2023-11-20']
+];
+
 const db = new DatabaseSync(DB_FILE);
 
 function initDatabase() {
@@ -64,6 +70,33 @@ function initDatabase() {
             total_value INTEGER NOT NULL,
             rent_roll INTEGER NOT NULL,
             per_unit_avg INTEGER NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS properties (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            address TEXT NOT NULL,
+            current_value INTEGER NOT NULL,
+            estimated_rent INTEGER NOT NULL,
+            sqft INTEGER NOT NULL,
+            bedrooms INTEGER NOT NULL,
+            bathrooms INTEGER NOT NULL,
+            lot_size INTEGER NOT NULL,
+            property_type TEXT NOT NULL,
+            year_built INTEGER NOT NULL,
+            project_slug TEXT NOT NULL,
+            purchase_price INTEGER,
+            last_sold_at TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        );
+
+        CREATE TABLE IF NOT EXISTS property_price_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            property_id INTEGER NOT NULL,
+            date TEXT NOT NULL,
+            event_type TEXT NOT NULL,
+            price INTEGER NOT NULL,
+            FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
         );
     `);
 
@@ -88,6 +121,31 @@ function initDatabase() {
 
         for (const entry of DEFAULT_VAL_HISTORY) {
             insertHistory.run(...entry);
+        }
+    }
+
+    const propCount = db.prepare('SELECT COUNT(*) AS count FROM properties').get().count;
+    if (propCount === 0) {
+        const insertProperty = db.prepare(`
+            INSERT INTO properties (address, current_value, estimated_rent, sqft, bedrooms, bathrooms, lot_size, property_type, year_built, project_slug, purchase_price, last_sold_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `);
+
+        for (const entry of DEFAULT_PROPERTIES) {
+            insertProperty.run(...entry);
+        }
+
+        // Add initial price history for default properties
+        const properties = db.prepare('SELECT id, purchase_price, last_sold_at FROM properties').all();
+        const insertPriceHistory = db.prepare(`
+            INSERT INTO property_price_history (property_id, date, event_type, price)
+            VALUES (?, ?, ?, ?)
+        `);
+
+        for (const prop of properties) {
+            if (prop.last_sold_at && prop.purchase_price) {
+                insertPriceHistory.run(prop.id, prop.last_sold_at, 'Sold', prop.purchase_price);
+            }
         }
     }
 }
@@ -220,6 +278,169 @@ function getUnits() {
         ORDER BY floor, unit_code
     `).all();
 }
+
+// ==================== PROPERTY ENDPOINTS ====================
+
+app.get('/api/properties', (req, res) => {
+    const properties = db.prepare(`
+        SELECT * FROM properties ORDER BY created_at DESC
+    `).all();
+    res.status(200).json(properties);
+});
+
+app.get('/api/properties/:id', (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) {
+        return res.status(400).json({ error: 'Invalid property id' });
+    }
+
+    const property = db.prepare('SELECT * FROM properties WHERE id = ?').get(id);
+    if (!property) {
+        return res.status(404).json({ error: 'Property not found' });
+    }
+
+    const priceHistory = db.prepare(`
+        SELECT date, event_type, price 
+        FROM property_price_history 
+        WHERE property_id = ? 
+        ORDER BY date DESC
+    `).all(id);
+
+    res.status(200).json({ ...property, price_history: priceHistory });
+});
+
+app.post('/api/properties', (req, res) => {
+    const {
+        address, current_value, estimated_rent, sqft, bedrooms, bathrooms,
+        lot_size, property_type, year_built, project_slug, purchase_price, last_sold_at
+    } = req.body;
+
+    if (!address || !current_value || !sqft || !bedrooms || !bathrooms || !property_type || !year_built || !project_slug) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const result = db.prepare(`
+        INSERT INTO properties (
+            address, current_value, estimated_rent, sqft, bedrooms, bathrooms,
+            lot_size, property_type, year_built, project_slug, purchase_price, last_sold_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+        address, current_value, estimated_rent || 0, sqft, bedrooms, bathrooms,
+        lot_size || 0, property_type, year_built, project_slug, purchase_price || null, last_sold_at || null
+    );
+
+    // Add initial price history if purchase info provided
+    if (purchase_price && last_sold_at) {
+        db.prepare(`
+            INSERT INTO property_price_history (property_id, date, event_type, price)
+            VALUES (?, ?, 'Sold', ?)
+        `).run(result.lastInsertRowid, last_sold_at, purchase_price);
+    }
+
+    const newProperty = db.prepare('SELECT * FROM properties WHERE id = ?').get(result.lastInsertRowid);
+    res.status(201).json(newProperty);
+});
+
+app.patch('/api/properties/:id', (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) {
+        return res.status(400).json({ error: 'Invalid property id' });
+    }
+
+    const existing = db.prepare('SELECT * FROM properties WHERE id = ?').get(id);
+    if (!existing) {
+        return res.status(404).json({ error: 'Property not found' });
+    }
+
+    const {
+        address, current_value, estimated_rent, sqft, bedrooms, bathrooms,
+        lot_size, property_type, year_built, project_slug
+    } = req.body;
+
+    const updates = {};
+    if (address !== undefined) updates.address = address;
+    if (current_value !== undefined) updates.current_value = current_value;
+    if (estimated_rent !== undefined) updates.estimated_rent = estimated_rent;
+    if (sqft !== undefined) updates.sqft = sqft;
+    if (bedrooms !== undefined) updates.bedrooms = bedrooms;
+    if (bathrooms !== undefined) updates.bathrooms = bathrooms;
+    if (lot_size !== undefined) updates.lot_size = lot_size;
+    if (property_type !== undefined) updates.property_type = property_type;
+    if (year_built !== undefined) updates.year_built = year_built;
+    if (project_slug !== undefined) updates.project_slug = project_slug;
+
+    if (Object.keys(updates).length === 0) {
+        return res.status(400).json({ error: 'No valid fields provided' });
+    }
+
+    updates.updated_at = new Date().toISOString();
+
+    const setClauses = Object.keys(updates).map((key) => `${key} = @${key}`).join(', ');
+    db.prepare(`UPDATE properties SET ${setClauses} WHERE id = @id`).run({ ...updates, id });
+
+    const updatedProperty = db.prepare('SELECT * FROM properties WHERE id = ?').get(id);
+    res.status(200).json(updatedProperty);
+});
+
+app.delete('/api/properties/:id', (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) {
+        return res.status(400).json({ error: 'Invalid property id' });
+    }
+
+    const existing = db.prepare('SELECT id FROM properties WHERE id = ?').get(id);
+    if (!existing) {
+        return res.status(404).json({ error: 'Property not found' });
+    }
+
+    db.prepare('DELETE FROM properties WHERE id = ?').run(id);
+    res.status(200).json({ message: 'Property deleted successfully' });
+});
+
+// Calculate Zestimate with appreciation
+app.post('/api/properties/:id/calculate-zestimate', (req, res) => {
+    const id = Number.parseInt(req.params.id, 10);
+    if (!Number.isInteger(id)) {
+        return res.status(400).json({ error: 'Invalid property id' });
+    }
+
+    const property = db.prepare('SELECT * FROM properties WHERE id = ?').get(id);
+    if (!property) {
+        return res.status(404).json({ error: 'Property not found' });
+    }
+
+    const { appreciation_rate = 7.2 } = req.body; // Default 7.2% per year
+
+    const yearsSincePurchase = property.last_sold_at 
+        ? (new Date() - new Date(property.last_sold_at)) / (1000 * 60 * 60 * 24 * 365)
+        : 0;
+
+    const basePrice = property.purchase_price || property.current_value;
+    const zestimate = Math.round(basePrice * Math.pow(1 + appreciation_rate / 100, yearsSincePurchase));
+    
+    const rangeMin = Math.round(zestimate * 0.95);
+    const rangeMax = Math.round(zestimate * 1.05);
+
+    const pricePerSqft = Math.round(zestimate / property.sqft);
+    const estimatedRentYield = property.estimated_rent > 0 
+        ? ((property.estimated_rent * 12) / zestimate * 100).toFixed(2)
+        : '0.00';
+
+    res.status(200).json({
+        property_id: id,
+        zestimate,
+        range_min: rangeMin,
+        range_max: rangeMax,
+        price_per_sqft: pricePerSqft,
+        estimated_rent: property.estimated_rent,
+        rent_yield: estimatedRentYield,
+        appreciation_rate,
+        years_since_purchase: yearsSincePurchase.toFixed(1),
+        purchase_price: basePrice
+    });
+});
+
+// ==================== EXISTING ENDPOINTS ====================
 
 app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok' });

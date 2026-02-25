@@ -1,3 +1,25 @@
 {
-    "chatgpt.gpt3.provider": "Auto"
+    "chatgpt.gpt3.provider": "Auto",
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "database": "postgres",
+            "name": "postgres",
+            "username": "kalisa13"
+        },
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "username": "kalisa",
+            "database": "pgAdmin4 ",
+            "name": "KALISATAISIR"
+        }
+    ]
 }
