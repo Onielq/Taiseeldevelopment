@@ -389,7 +389,7 @@
 <section id="visual-collection">
     <div class="visual-collection-header"><span>Visual</span>&nbsp;<span>Collection</span></div>
      <div class="gallery-viewport">
-     <div class="gallery-track" id="gallery-track"style="transform:translateX(100)";>
+     <div class="gallery-track" id="gallery-track"style="transform:translateX(0)";>
      <div class="gallery-slide">
       <div class="gallery-panel">
         <img src="baygrove.png" alt="visual 1"loading="lazy">   
@@ -1039,7 +1039,9 @@ if (apages.length) renderAP(0);
 ══════════════════════════════════════════ -->
 <script>
 (function initGallery(){
-    const imgs=proj.images;const track=document.getElementById('gallery-track');const dotsEl=document.getElementById('gallery-dots');const counter=document.getElementById('gallery-counter');const prevBtn=document.getElementById('gallery-prev');const nextBtn=document.getElementById('gallery-next');
+const proj = {
+    images: ['baygrove.png', 'VisionCity2.jpg', 'kigaliheight2.jpg', 'landscape4.jpg']
+};
     let current=0,autoTimer;
     function buildSlides(){track.innerHTML='';imgs.forEach((img,i)=>{const slide=document.createElement('div');slide.className='gallery-slide';const main=document.createElement('div');main.className='gallery-panel';const mi=document.createElement('img');mi.src=imgs[i];mi.alt=`Visual ${i+1}`;mi.loading='lazy';main.appendChild(mi);const sec=document.createElement('div');sec.className='gallery-panel';const si=document.createElement('img');si.src=imgs[(i+1)%imgs.length];si.alt='';si.loading='lazy';sec.appendChild(si);const peek=document.createElement('div');peek.className='gallery-peek';const pi=document.createElement('img');pi.src=imgs[(i+2)%imgs.length];pi.alt='';pi.loading='lazy';peek.appendChild(pi);slide.append(main,sec,peek);track.appendChild(slide);});}
     function buildDots(){dotsEl.innerHTML='';imgs.forEach((_,i)=>{const dot=document.createElement('button');dot.type='button';dot.className='gallery-dot'+(i===0?' active':'');dot.setAttribute('aria-label',`Go to image ${i+1}`);dot.addEventListener('click',()=>goTo(i));dotsEl.appendChild(dot);});}
