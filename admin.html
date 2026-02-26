@@ -68,6 +68,19 @@
         .stat-value { font-size: 2.5rem; font-weight: 300; color: var(--primary); }
 
         .section { background: var(--white); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); margin-bottom: 40px; }
+        .portal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; padding: 30px 40px 0; }
+        .portal-card { border: 1px solid var(--border); border-radius: 14px; padding: 20px; background: #fff; }
+        .portal-card h3 { font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; color: var(--primary); }
+        .portal-card p { color: #666; font-size: 0.85rem; margin-bottom: 16px; }
+        .portal-card ul { margin-left: 18px; color: #555; font-size: 0.8rem; }
+        .portal-card li { margin-bottom: 6px; }
+
+        .portal-table-wrap { padding: 0 40px 30px; overflow-x: auto; }
+        .portal-tools { padding: 0 40px 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .portal-form { padding: 0 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+        .portal-form input, .portal-form select { border: 1px solid var(--border); border-radius: 8px; padding: 10px; font: inherit; font-size: 0.8rem; }
+        .portal-form button { width: fit-content; }
+        .small-note { font-size: 0.74rem; color: var(--muted); padding: 0 40px 12px; }
 
         .table-header { padding: 30px 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
@@ -109,6 +122,10 @@
         .form-group.full { grid-column: 1 / -1; }
         .form-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--text); }
         .form-group input, .form-group select, .form-group textarea { border: 1px solid var(--border); border-radius: 8px; padding: 12px; font: inherit; font-size: 0.9rem; }
+        
+        @media (max-width: 768px) {
+            .portal-grid, .portal-table-wrap, .portal-tools, .portal-form, .small-note { padding-left: 20px; padding-right: 20px; }
+        }
         .form-group textarea { min-height: 100px; resize: vertical; }
 
         .action-btn { padding: 8px 16px; font-size: 0.75rem; }
@@ -151,6 +168,63 @@
                     <div class="stat-value" id="portfolioValue">-</div>
                 </div>
             </section>
+            <section class="section">
+                <div class="table-header">
+                    <h2>Property Management Portals</h2>
+                </div>
+                <div class="portal-grid">
+                    <article class="portal-card"><h3>1. Admin Portal</h3><p>Portfolio command center.</p><ul><li>Portfolio-level reports</li><li>Workflow management</li><li>Cross-portal monitoring</li></ul></article>
+                    <article class="portal-card"><h3>2. Individual Homes Portal</h3><p>Single-home operations and resident lifecycle.</p><ul><li>Lease/rent or sold status</li><li>Create property listing</li><li>Maintenance and notices</li></ul></article>
+                    <article class="portal-card"><h3>3. Apartment Portal</h3><p>Multi-unit inventory and occupancy operations.</p><ul><li>Create unit with address/type/price/rent</li><li>Vacant/listed/occupied status</li><li>Announcements and turnover</li></ul></article>
+                    <article class="portal-card"><h3>4. Leads Portal</h3><p>Track source, qualification, and timelines.</p><ul><li>Lead source + qualification details</li><li>Preferences and priorities</li><li>Follow-up pipeline</li></ul></article>
+                    <article class="portal-card"><h3>5. Operations Portal</h3><p>Service execution and preventive management.</p><ul><li>Work order assignment</li><li>Service-level tracking</li><li>Preventive maintenance logs</li></ul></article>
+                </div>
+
+                <div class="table-header"><h2>Admin Portal Table</h2></div>
+                <div class="portal-table-wrap"><table><thead><tr><th>Portfolio-Level Report</th><th>Workflow</th><th>Cross-Portal Monitoring</th></tr></thead><tbody id="adminPortalTableBody"></tbody></table></div>
+
+                <div class="table-header"><h2>Individual Homes Portal Table</h2></div>
+                <div class="small-note">Includes lease details and rent/sold status, listing creation, maintenance requests, and notices.</div>
+                <form id="homePortalForm" class="portal-form">
+                    <input id="homeAddress" type="text" placeholder="Home address" required>
+                    <select id="homeStatus"><option value="occupied">occupied</option><option value="vacancy">vacancy</option><option value="listed">listed</option><option value="sold">sold</option></select>
+                    <input id="homeLease" type="text" placeholder="Lease details" required>
+                    <input id="homeRent" type="number" min="0" placeholder="Rent price">
+                    <input id="homeMaintenance" type="text" placeholder="Maintenance request">
+                    <input id="homeNotice" type="text" placeholder="Home-specific notice">
+                    <button class="btn btn-primary" type="submit">Create Property Listing</button>
+                </form>
+                <div class="portal-table-wrap"><table><thead><tr><th>Address</th><th>Status</th><th>Lease/Rent/Sold</th><th>Maintenance Request</th><th>Notice</th><th>Action</th></tr></thead><tbody id="homePortalTableBody"></tbody></table></div>
+
+                <div class="table-header"><h2>Apartment Portal Table</h2></div>
+                <form id="unitPortalForm" class="portal-form">
+                    <input id="unitName" type="text" placeholder="Unit" required>
+                    <input id="unitAddress" type="text" placeholder="Address" required>
+                    <input id="unitType" type="text" placeholder="Type" required>
+                    <input id="unitPrice" type="number" min="0" placeholder="Price" required>
+                    <input id="unitRent" type="number" min="0" placeholder="Rent price" required>
+                    <select id="unitStatus"><option value="vacant">vacant</option><option value="listed">listed</option><option value="occupied">occupied</option></select>
+                    <input id="unitAnnouncement" type="text" placeholder="Building announcement">
+                    <input id="unitTurnover" type="text" placeholder="Turnover tracking">
+                    <button class="btn btn-primary" type="submit">Create Unit</button>
+                </form>
+                <div class="portal-table-wrap"><table><thead><tr><th>Unit/Address/Type</th><th>Price</th><th>Rent</th><th>Status</th><th>Announcement</th><th>Turnover</th><th>Action</th></tr></thead><tbody id="apartmentPortalTableBody"></tbody></table></div>
+
+                <div class="table-header"><h2>Leads Portal Table</h2></div>
+                <form id="leadPortalForm" class="portal-form">
+                    <input id="portalLeadName" type="text" placeholder="Lead name" required>
+                    <input id="portalLeadSource" type="text" placeholder="Lead source/details" required>
+                    <select id="portalLeadTimeline"><option value="immediately">Immediately</option><option value="in 3 months">In 3 months</option><option value="in 6 months">In 6 months</option><option value="later">Later</option></select>
+                    <input id="portalLeadPrefs" type="text" placeholder="Preferences & priorities" required>
+                    <input id="portalLeadFollowup" type="text" placeholder="Follow-up pipeline step" required>
+                    <button class="btn btn-secondary" type="submit">Add Lead</button>
+                </form>
+                <div class="portal-table-wrap"><table><thead><tr><th>Lead</th><th>Source/Qualification</th><th>Timeline</th><th>Preferences/Priorities</th><th>Follow-up Pipeline</th></tr></thead><tbody id="leadPortalTableBody"></tbody></table></div>
+
+                <div class="table-header"><h2>Operations Portal Table</h2></div>
+                <div class="portal-table-wrap"><table><thead><tr><th>Work Order Assignment</th><th>Service-Level Tracking</th><th>Preventive Maintenance Logs</th></tr></thead><tbody id="operationsPortalTableBody"></tbody></table></div>
+            </section>
+            
 
             <!-- PROPERTIES SECTION -->
             <section class="section">
@@ -314,8 +388,57 @@
     <script>
         let currentLeads = [];
         let propertiesData = [];
-        let unitsData = [];        
+        let unitsData = [];
         let hasError = false;
+        const adminPortalRows = [
+            { report: 'Monthly valuation + occupancy', workflow: 'Budget approval pending CFO', monitoring: 'Homes, apartments, leads all synced' }
+        ];
+        const homesPortalRows = [];
+        const apartmentPortalRows = [];
+        const leadsPortalRows = [];
+        const operationsPortalRows = [
+            { workOrder: 'Assign plumbing issue to Vendor A', serviceLevel: 'Target response < 24h', preventive: 'Quarterly HVAC check logged' }
+        ];
+
+        function renderPortalTables() {
+            document.getElementById('adminPortalTableBody').innerHTML = adminPortalRows.map((row) => `<tr><td>${row.report}</td><td>${row.workflow}</td><td>${row.monitoring}</td></tr>`).join('');
+
+            document.getElementById('homePortalTableBody').innerHTML = homesPortalRows.length
+                ? homesPortalRows.map((row, i) => `<tr><td>${row.address}</td><td>${row.status}</td><td>${row.lease} ${row.rent ? `(Rent: $${Number(row.rent).toLocaleString()})` : ''}</td><td>${row.maintenance || '-'}</td><td>${row.notice || '-'}</td><td><button class="btn action-btn" onclick="editHomePortalRow(${i})">Edit</button></td></tr>`).join('')
+                : '<tr><td colspan="6" style="text-align:center;">No home listings yet.</td></tr>';
+
+            document.getElementById('apartmentPortalTableBody').innerHTML = apartmentPortalRows.length
+                ? apartmentPortalRows.map((row, i) => `<tr><td><strong>${row.unit}</strong><br>${row.address}<br>${row.type}</td><td>$${Number(row.price).toLocaleString()}</td><td>$${Number(row.rent).toLocaleString()}</td><td>${row.status}</td><td>${row.announcement || '-'}</td><td>${row.turnover || '-'}</td><td><button class="btn action-btn" onclick="editUnitPortalRow(${i})">Edit</button></td></tr>`).join('')
+                : '<tr><td colspan="7" style="text-align:center;">No apartment units yet.</td></tr>';
+
+            document.getElementById('leadPortalTableBody').innerHTML = leadsPortalRows.length
+                ? leadsPortalRows.map((row) => `<tr><td>${row.name}</td><td>${row.source}</td><td>${row.timeline}</td><td>${row.preferences}</td><td>${row.followup}</td></tr>`).join('')
+                : '<tr><td colspan="5" style="text-align:center;">No lead details yet.</td></tr>';
+
+            document.getElementById('operationsPortalTableBody').innerHTML = operationsPortalRows.map((row) => `<tr><td>${row.workOrder}</td><td>${row.serviceLevel}</td><td>${row.preventive}</td></tr>`).join('');
+        }
+
+        function editHomePortalRow(index) {
+            const row = homesPortalRows[index];
+            const address = prompt('Edit home address:', row.address);
+            if (!address) return;
+            const status = prompt('Edit status (occupied/vacancy/listed/sold):', row.status);
+            if (!status) return;
+            row.address = address;
+            row.status = status;
+            renderPortalTables();
+        }
+
+        function editUnitPortalRow(index) {
+            const row = apartmentPortalRows[index];
+            const status = prompt('Edit unit status (vacant/listed/occupied):', row.status);
+            if (!status) return;
+            const rent = prompt('Edit rent price:', row.rent);
+            if (!rent) return;
+            row.status = status;
+            row.rent = Number(rent);
+            renderPortalTables();
+        }
 
         // ==================== LEADS ====================
         async function fetchLeads() {
@@ -617,6 +740,50 @@
         }
 
         // ==================== INIT ====================
+        document.getElementById('homePortalForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            homesPortalRows.unshift({
+                address: document.getElementById('homeAddress').value.trim(),
+                status: document.getElementById('homeStatus').value,
+                lease: document.getElementById('homeLease').value.trim(),
+                rent: document.getElementById('homeRent').value,
+                maintenance: document.getElementById('homeMaintenance').value.trim(),
+                notice: document.getElementById('homeNotice').value.trim()
+            });
+            event.target.reset();
+            renderPortalTables();
+        });
+
+        document.getElementById('unitPortalForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            apartmentPortalRows.unshift({
+                unit: document.getElementById('unitName').value.trim(),
+                address: document.getElementById('unitAddress').value.trim(),
+                type: document.getElementById('unitType').value.trim(),
+                price: Number(document.getElementById('unitPrice').value),
+                rent: Number(document.getElementById('unitRent').value),
+                status: document.getElementById('unitStatus').value,
+                announcement: document.getElementById('unitAnnouncement').value.trim(),
+                turnover: document.getElementById('unitTurnover').value.trim()
+            });
+            event.target.reset();
+            renderPortalTables();
+        });
+
+        document.getElementById('leadPortalForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            leadsPortalRows.unshift({
+                name: document.getElementById('portalLeadName').value.trim(),
+                source: document.getElementById('portalLeadSource').value.trim(),
+                timeline: document.getElementById('portalLeadTimeline').value,
+                preferences: document.getElementById('portalLeadPrefs').value.trim(),
+                followup: document.getElementById('portalLeadFollowup').value.trim()
+            });
+            event.target.reset();
+            renderPortalTables();
+        });
+
+        renderPortalTables();        
         fetchLeads();
         fetchProperties();
         fetchUnits();
