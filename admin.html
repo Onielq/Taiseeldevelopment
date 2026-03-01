@@ -665,6 +665,60 @@
     .funnel-label { font-size:0.68rem; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--text); width:100px; flex-shrink:0; }
     .funnel-count { font-size:0.72rem; color:var(--muted); width:36px; text-align:right; }
     @media (max-width:900px) { .roi-grid { grid-template-columns:1fr; } }
+
+    /* ── SCORE METER ── */
+    .score-ring { display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;font-size:1rem;font-weight:700;color:white; }
+    .score-ring.a { background:var(--success); }
+    .score-ring.b { background:#2196f3; }
+    .score-ring.c { background:var(--accent); }
+    .score-ring.d { background:var(--danger); }
+
+    /* ── CITY CARD ── */
+    .city-card { border:1px solid var(--border);border-radius:14px;padding:20px;background:var(--white);position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s; }
+    .city-card:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+    .city-card-badge { position:absolute;top:16px;right:16px;padding:4px 10px;border-radius:12px;font-size:0.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase; }
+    .city-card-badge.growth { background:#e8f5e9;color:var(--success); }
+    .city-card-badge.yield { background:#fef9ec;color:#b08f4a; }
+    .city-card-badge.mixed { background:#e8f4fd;color:#1565c0; }
+    .city-card-badge.risk { background:#fdecea;color:var(--danger); }
+    .city-card h3 { font-size:0.9rem;font-weight:700;color:var(--primary);margin-bottom:6px; }
+    .city-card .city-sub { font-size:0.7rem;color:var(--muted);margin-bottom:14px; }
+    .city-metric-row { display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.75rem; }
+    .city-metric-row:last-child { border-bottom:none; }
+    .city-metric-label { color:var(--muted);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.5px; }
+    .city-metric-val { font-weight:700;color:var(--primary); }
+    .city-heatbar { width:100%;height:6px;border-radius:3px;background:#eee;margin-top:10px;overflow:hidden; }
+    .city-heatbar-fill { height:100%;border-radius:3px;transition:width 0.5s ease; }
+
+    /* ── SIMULATOR CARDS ── */
+    .sim-card { background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px; }
+    .sim-card-label { font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted); }
+    .sim-card-val { font-size:1.4rem;font-weight:300;color:var(--primary); }
+    .sim-card.positive .sim-card-val { color:var(--success); }
+    .sim-card.negative .sim-card-val { color:var(--danger); }
+    .sim-card.warning .sim-card-val { color:var(--accent); }
+    .sensitivity-item { background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:0.78rem; }
+    .sensitivity-item .s-label { font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:4px; }
+    .sensitivity-item .s-val { font-weight:700;font-size:0.9rem;margin-top:2px; }
+
+    /* ── AMORT CARD ── */
+    .amort-card { border:1px solid var(--border);border-radius:12px;padding:18px;background:var(--white); }
+    .amort-card h4 { font-size:0.78rem;font-weight:700;color:var(--primary);margin-bottom:10px; }
+    .amort-row { display:flex;justify-content:space-between;font-size:0.75rem;padding:5px 0;border-bottom:1px solid #f3f3f3; }
+    .amort-row:last-child { border-bottom:none;font-weight:700; }
+
+    /* ── RTO PROGRESS ── */
+    .rto-equity-bar { width:100%;height:8px;border-radius:4px;background:#eee;overflow:hidden;margin-top:4px; }
+    .rto-equity-fill { height:100%;border-radius:4px;background:var(--success);transition:width 0.5s; }
+
+    /* ── RENT ADVISOR ── */
+    .ra-change { font-weight:700;font-size:0.8rem; }
+    .ra-change.up { color:var(--success); }
+    .ra-change.down { color:var(--danger); }
+    .ra-change.flat { color:var(--muted); }
+    .confidence-bar { display:flex;gap:3px; }
+    .conf-dot { width:8px;height:8px;border-radius:50%;background:#ddd; }
+    .conf-dot.filled { background:var(--primary); }
   </style>
 </head>
 <body>
@@ -728,6 +782,14 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Audit Log
     </a>
+    <a class="nav-item" onclick="showView('mortgage-tracker')" href="#">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Mortgage Tracker
+    </a>
+    <a class="nav-item" onclick="showView('rto-tracker')" href="#">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M9 22V12h6v10"/><path d="M12 7v5"/></svg>
+      Rent-to-Own
+    </a>
 
     <div class="nav-section-label">Intelligence</div>
     <a class="nav-item" onclick="showView('lease-intelligence')" href="#">
@@ -745,6 +807,18 @@
     <a class="nav-item" onclick="showView('ai-copilot')" href="#">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 110 20A10 10 0 0112 2z"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       AI Copilot
+    </a>
+    <a class="nav-item" onclick="showView('tenant-score')" href="#">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Tenant Scores
+    </a>
+    <a class="nav-item" onclick="showView('rent-advisor')" href="#">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Rent Advisor
+    </a>
+    <a class="nav-item" onclick="showView('risk-simulator')" href="#">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Risk Simulator
     </a>
 
     <div class="nav-section-label">Data</div>
@@ -777,6 +851,22 @@
     <a class="nav-item" onclick="showView('vacancy-view')" href="#" data-view="vacancy-view">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       Vacancy Pipeline
+    </a>
+
+    <div class="nav-section-label">Vault</div>
+    <a class="nav-item" onclick="showView('doc-vault')" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+      Document Vault
+    </a>
+    <a class="nav-item" onclick="showView('insurance-panel')" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Insurance Panel
+    </a>
+
+    <div class="nav-section-label">City Data</div>
+    <a class="nav-item" onclick="showView('city-intelligence')" href="#">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      City Intelligence
     </a>
 
   </nav>
@@ -1516,6 +1606,236 @@
       </div>
     </div>
 
+    <!-- ════ MORTGAGE TRACKER ════ -->
+    <div class="view" id="view-mortgage-tracker">
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-label">Total Loan Balance</span><div class="stat-value" id="mort_total_balance">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Monthly Payments</span><div class="stat-value" id="mort_monthly_total">—</div></div>
+        <div class="stat-card success"><span class="stat-label">Avg Interest Rate</span><div class="stat-value" id="mort_avg_rate">—</div></div>
+        <div class="stat-card"><span class="stat-label">Properties Financed</span><div class="stat-value" id="mort_count">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Mortgage & Loan Tracker</h2>
+          <button class="btn btn-accent btn-sm" onclick="openMortgageModal()">+ Add Mortgage</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Lender</th><th>Loan Amount</th><th>Balance</th><th>Rate</th><th>Monthly Pmt</th><th>Maturity</th><th>LTV</th><th>Actions</th></tr></thead>
+            <tbody id="mortgageTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-header"><h2>Amortization Overview</h2></div>
+        <div id="amortGrid" style="padding:20px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;"></div>
+      </div>
+    </div>
+
+    <!-- ════ RENT-TO-OWN TRACKER ════ -->
+    <div class="view" id="view-rto-tracker">
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-label">Active RTO Agreements</span><div class="stat-value" id="rto_active">—</div></div>
+        <div class="stat-card success"><span class="stat-label">Total Equity Accrued</span><div class="stat-value" id="rto_equity">—</div></div>
+        <div class="stat-card"><span class="stat-label">Avg Monthly Premium</span><div class="stat-value" id="rto_avg_premium">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Expiring < 6 Months</span><div class="stat-value" id="rto_expiring">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Rent-to-Own Agreements</h2>
+          <button class="btn btn-accent btn-sm" onclick="openRTOModal()">+ Add Agreement</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tenant</th><th>Unit</th><th>Base Rent</th><th>RTO Premium</th><th>Purchase Price</th><th>Equity Accrued</th><th>Progress</th><th>Contract End</th><th>Actions</th></tr></thead>
+            <tbody id="rtoTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ TENANT RELIABILITY SCORE ════ -->
+    <div class="view" id="view-tenant-score">
+      <div class="stats-grid">
+        <div class="stat-card success"><span class="stat-label">Excellent (80-100)</span><div class="stat-value" id="score_excellent">—</div></div>
+        <div class="stat-card"><span class="stat-label">Good (60-79)</span><div class="stat-value" id="score_good">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Risk (&lt; 60)</span><div class="stat-value" id="score_risk">—</div></div>
+        <div class="stat-card"><span class="stat-label">Portfolio Avg Score</span><div class="stat-value" id="score_avg">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Tenant Reliability Scores</h2>
+          <div class="section-header-actions">
+            <select class="btn btn-sm" id="scoreFilter" onchange="renderTenantScores()" style="letter-spacing:0;text-transform:none;">
+              <option value="all">All Tenants</option>
+              <option value="excellent">Excellent Only</option>
+              <option value="good">Good Only</option>
+              <option value="risk">At Risk Only</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tenant</th><th>Unit</th><th>On-Time Payments</th><th>Late Count</th><th>Lease Compliance</th><th>Open Tickets</th><th>Legal Issues</th><th>Score</th><th>Grade</th></tr></thead>
+            <tbody id="tenantScoreBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ DYNAMIC RENT ADVISOR ════ -->
+    <div class="view" id="view-rent-advisor">
+      <div class="stats-grid">
+        <div class="stat-card success"><span class="stat-label">Avg Market Uplift</span><div class="stat-value" id="ra_uplift">—</div></div>
+        <div class="stat-card"><span class="stat-label">Units Below Market</span><div class="stat-value" id="ra_below">—</div></div>
+        <div class="stat-card"><span class="stat-label">Revenue Opportunity</span><div class="stat-value" id="ra_opportunity">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Overpriced Units</span><div class="stat-value" id="ra_over">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Dynamic Rent Advisor — AI Pricing</h2>
+          <button class="btn btn-sm" onclick="refreshRentAdvisor()">Recalculate</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Unit / Property</th><th>Current Rent</th><th>Market Rate</th><th>Recommended</th><th>Variance</th><th>Action</th><th>Confidence</th></tr></thead>
+            <tbody id="rentAdvisorBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-header"><h2>Market Factors</h2></div>
+        <div style="padding:20px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;">
+          <div class="kpi-cell"><span class="kpi-label">Area Vacancy Rate</span><div class="kpi-val">8.2%</div><div class="kpi-sub">Kigali Metro, Feb 2026</div></div>
+          <div class="kpi-cell"><span class="kpi-label">YoY Rent Growth</span><div class="kpi-val">+6.4%</div><div class="kpi-sub">CBD & surrounds</div></div>
+          <div class="kpi-cell"><span class="kpi-label">Avg Days to Let</span><div class="kpi-val">18 days</div><div class="kpi-sub">This quarter</div></div>
+          <div class="kpi-cell"><span class="kpi-label">Demand Index</span><div class="kpi-val">High</div><div class="kpi-sub">Q1 2026 outlook</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ RISK & PROFIT SIMULATOR ════ -->
+    <div class="view" id="view-risk-simulator">
+      <div class="section-card">
+        <div class="section-header"><h2>Risk &amp; Profit Simulator</h2><span style="font-size:0.7rem;color:var(--muted);letter-spacing:1px;">SCENARIO MODELING</span></div>
+        <div style="padding:24px 32px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+            <div>
+              <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;">Project Inputs</div>
+              <div class="form-grid" style="padding:0;background:none;border:none;">
+                <div class="form-group full"><label>Project Type</label>
+                  <select id="sim_type" onchange="runSimulator()">
+                    <option value="development">Off-Plan Development</option>
+                    <option value="rto">Rent-to-Own Scheme</option>
+                    <option value="acquisition">Investment Acquisition</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Land / Acquisition Cost ($)</label><input type="number" id="sim_land" value="180000" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Build / Rehab Cost ($)</label><input type="number" id="sim_build" value="320000" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Target Sale Price ($)</label><input type="number" id="sim_sale" value="680000" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Monthly Rent ($)</label><input type="number" id="sim_rent" value="2800" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Construction Months</label><input type="number" id="sim_months" value="18" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Vacancy Rate (%)</label><input type="number" id="sim_vac" value="7" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Cost Overrun Buffer (%)</label><input type="number" id="sim_overrun" value="10" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Financing Rate (%)</label><input type="number" id="sim_fin" value="14" oninput="runSimulator()"></div>
+                <div class="form-group"><label>Projected Default Rate (%)</label><input type="number" id="sim_default" value="5" oninput="runSimulator()"></div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;">Scenario Results</div>
+              <div id="simResults" style="display:flex;flex-direction:column;gap:10px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-header"><h2>Sensitivity Analysis</h2></div>
+        <div id="sensitivityGrid" style="padding:20px 28px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;"></div>
+      </div>
+    </div>
+
+    <!-- ════ DOCUMENT VAULT ════ -->
+    <div class="view" id="view-doc-vault">
+      <div class="stats-grid">
+        <div class="stat-card success"><span class="stat-label">Total Documents</span><div class="stat-value" id="doc_total">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Expiring in 30 Days</span><div class="stat-value" id="doc_expiring">—</div></div>
+        <div class="stat-card"><span class="stat-label">Lease Docs</span><div class="stat-value" id="doc_leases">—</div></div>
+        <div class="stat-card"><span class="stat-label">Permits & COIs</span><div class="stat-value" id="doc_permits">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Document Vault</h2>
+          <div class="section-header-actions">
+            <select class="btn btn-sm" id="docTypeFilter" onchange="renderDocVault()" style="letter-spacing:0;text-transform:none;">
+              <option value="all">All Types</option>
+              <option value="Lease">Leases</option>
+              <option value="Insurance">Insurance COIs</option>
+              <option value="Permit">Permits</option>
+              <option value="Deed">Deeds / Title</option>
+              <option value="Contract">Contracts</option>
+              <option value="Warranty">Warranties</option>
+            </select>
+            <button class="btn btn-accent btn-sm" onclick="openDocModal()">+ Add Document</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Document Name</th><th>Type</th><th>Property / Unit</th><th>Issued</th><th>Expires</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="docVaultBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ INSURANCE PANEL ════ -->
+    <div class="view" id="view-insurance-panel">
+      <div class="stats-grid">
+        <div class="stat-card"><span class="stat-label">Active Policies</span><div class="stat-value" id="ins_active">—</div></div>
+        <div class="stat-card danger"><span class="stat-label">Expiring &lt; 60 Days</span><div class="stat-value" id="ins_expiring">—</div></div>
+        <div class="stat-card success"><span class="stat-label">Annual Premium Total</span><div class="stat-value" id="ins_premium">—</div></div>
+        <div class="stat-card"><span class="stat-label">Claims This Year</span><div class="stat-value" id="ins_claims">—</div></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Insurance Partner Panel</h2>
+          <button class="btn btn-accent btn-sm" onclick="openInsuranceModal()">+ Add Policy</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Property</th><th>Insurer</th><th>Policy Type</th><th>Coverage ($)</th><th>Annual Premium</th><th>Expiry</th><th>Days Left</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="insuranceBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ CITY INTELLIGENCE ════ -->
+    <div class="view" id="view-city-intelligence">
+      <div class="section-card">
+        <div class="section-header">
+          <h2>City Intelligence — Kigali Neighborhood Map</h2>
+          <div class="section-header-actions">
+            <select class="btn btn-sm" id="cityMetric" onchange="renderCityIntelligence()" style="letter-spacing:0;text-transform:none;">
+              <option value="growth">Growth Potential</option>
+              <option value="yield">Rental Yield</option>
+              <option value="amenity">Amenity Score</option>
+              <option value="risk">Investment Risk</option>
+            </select>
+          </div>
+        </div>
+        <div id="cityGrid" style="padding:20px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;"></div>
+      </div>
+      <div class="section-card">
+        <div class="section-header"><h2>Area Intelligence Detail</h2></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Neighborhood</th><th>Classification</th><th>Avg Rent/sqm</th><th>YoY Growth</th><th>Vacancy Rate</th><th>Amenity Score</th><th>Infrastructure</th><th>Outlook</th></tr></thead>
+            <tbody id="cityTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div><!-- /page-content -->
 </div><!-- /main -->
 
@@ -2048,6 +2368,110 @@
   </div>
 </div>
 
+<!-- Mortgage Modal -->
+<div class="modal-overlay" id="mortgageModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="mortgageModalTitle">Add Mortgage</h2><button class="modal-close" onclick="closeModal('mortgageModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full"><label>Property *</label><input type="text" id="mort_property"></div>
+        <div class="form-group"><label>Lender *</label><input type="text" id="mort_lender"></div>
+        <div class="form-group"><label>Loan Amount ($) *</label><input type="number" id="mort_amount" min="0"></div>
+        <div class="form-group"><label>Current Balance ($)</label><input type="number" id="mort_balance" min="0"></div>
+        <div class="form-group"><label>Interest Rate (%)</label><input type="number" id="mort_rate" step="0.01" min="0"></div>
+        <div class="form-group"><label>Monthly Payment ($)</label><input type="number" id="mort_payment" min="0"></div>
+        <div class="form-group"><label>Property Value ($)</label><input type="number" id="mort_value" min="0"></div>
+        <div class="form-group"><label>Maturity Date</label><input type="date" id="mort_maturity"></div>
+        <div class="form-group"><label>Loan Type</label>
+          <select id="mort_type"><option value="Fixed">Fixed Rate</option><option value="Variable">Variable Rate</option><option value="Interest Only">Interest Only</option></select>
+        </div>
+        <div class="form-group"><label>Loan Purpose</label>
+          <select id="mort_purpose"><option value="Purchase">Purchase</option><option value="Refinance">Refinance</option><option value="Construction">Construction</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('mortgageModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitMortgageForm()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- RTO Modal -->
+<div class="modal-overlay" id="rtoModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="rtoModalTitle">Add RTO Agreement</h2><button class="modal-close" onclick="closeModal('rtoModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label>Tenant Name *</label><input type="text" id="rto_tenant"></div>
+        <div class="form-group"><label>Unit / Property *</label><input type="text" id="rto_unit"></div>
+        <div class="form-group"><label>Base Rent ($/mo) *</label><input type="number" id="rto_rent" min="0"></div>
+        <div class="form-group"><label>RTO Premium ($/mo)</label><input type="number" id="rto_premium" min="0"></div>
+        <div class="form-group"><label>Agreed Purchase Price ($)</label><input type="number" id="rto_purchase" min="0"></div>
+        <div class="form-group"><label>Contract Start</label><input type="date" id="rto_start"></div>
+        <div class="form-group"><label>Contract End</label><input type="date" id="rto_end"></div>
+        <div class="form-group"><label>Months Elapsed</label><input type="number" id="rto_months" min="0" value="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('rtoModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitRTOForm()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Document Vault Modal -->
+<div class="modal-overlay" id="docModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>Add Document</h2><button class="modal-close" onclick="closeModal('docModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full"><label>Document Name *</label><input type="text" id="doc_name"></div>
+        <div class="form-group"><label>Type *</label>
+          <select id="doc_type"><option value="Lease">Lease</option><option value="Insurance">Insurance COI</option><option value="Permit">Permit</option><option value="Deed">Deed / Title</option><option value="Contract">Contract</option><option value="Warranty">Warranty</option></select>
+        </div>
+        <div class="form-group"><label>Property / Unit</label><input type="text" id="doc_property"></div>
+        <div class="form-group"><label>Date Issued</label><input type="date" id="doc_issued"></div>
+        <div class="form-group"><label>Expiry Date</label><input type="date" id="doc_expiry"></div>
+        <div class="form-group"><label>Status</label>
+          <select id="doc_status"><option value="active">Active</option><option value="expiring">Expiring Soon</option><option value="expired">Expired</option></select>
+        </div>
+        <div class="form-group full"><label>Notes</label><textarea id="doc_notes"></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('docModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitDocForm()">Save Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- Insurance Policy Modal -->
+<div class="modal-overlay" id="insuranceModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>Add Insurance Policy</h2><button class="modal-close" onclick="closeModal('insuranceModal')">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full"><label>Property *</label><input type="text" id="ins_property"></div>
+        <div class="form-group"><label>Insurer *</label><input type="text" id="ins_insurer"></div>
+        <div class="form-group"><label>Policy Type</label>
+          <select id="ins_type"><option value="Building">Building</option><option value="Contents">Contents</option><option value="Liability">Liability</option><option value="Flood">Flood</option><option value="Comprehensive">Comprehensive</option></select>
+        </div>
+        <div class="form-group"><label>Coverage Amount ($)</label><input type="number" id="ins_coverage" min="0"></div>
+        <div class="form-group"><label>Annual Premium ($)</label><input type="number" id="ins_premium_amt" min="0"></div>
+        <div class="form-group"><label>Policy Number</label><input type="text" id="ins_policy_num"></div>
+        <div class="form-group"><label>Start Date</label><input type="date" id="ins_start"></div>
+        <div class="form-group"><label>Expiry Date *</label><input type="date" id="ins_expiry"></div>
+        <div class="form-group"><label>Claims This Year</label><input type="number" id="ins_claims_num" min="0" value="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('insuranceModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="submitInsuranceForm()">Save Policy</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ══════════════════════════════════════════════
 //  STATE
@@ -2175,7 +2599,15 @@ const viewTitles = {
   'tenants-view': 'Tenant Management',
   'roi-view': 'ROI Calculator',
   'notes-view': 'Notes Log',
-  'vacancy-view': 'Vacancy Pipeline'
+  'vacancy-view': 'Vacancy Pipeline',
+  'mortgage-tracker': 'Mortgage Tracker',
+  'rto-tracker': 'Rent-to-Own Tracker',
+  'tenant-score': 'Tenant Reliability Scores',
+  'rent-advisor': 'Dynamic Rent Advisor',
+  'risk-simulator': 'Risk & Profit Simulator',
+  'doc-vault': 'Document Vault',
+  'insurance-panel': 'Insurance Panel',
+  'city-intelligence': 'City Intelligence'
 };
 
 function showView(id) {
@@ -2191,6 +2623,14 @@ function showView(id) {
   }
   if (id === 'roi-view') calcROI();
   if (id === 'vacancy-view') renderVacancyView();
+  if (id === 'mortgage-tracker') renderMortgageTracker();
+  if (id === 'rto-tracker') renderRTOTracker();
+  if (id === 'tenant-score') renderTenantScores();
+  if (id === 'rent-advisor') renderRentAdvisor();
+  if (id === 'risk-simulator') runSimulator();
+  if (id === 'doc-vault') renderDocVault();
+  if (id === 'insurance-panel') renderInsurancePanel();
+  if (id === 'city-intelligence') renderCityIntelligence();
   if (id === 'notes-view') renderNotes();
   if (id === 'tenants-view') renderTenants();
   if (id === 'leads-portal') renderLeadsPortal();
@@ -3130,15 +3570,18 @@ function filterTenants() {
 }
 function openTenantModal(id = null) {
   const editing = id ? tenantRows.find(r => r.id === id) : null;
-  document.getElementById('tenantName').value = editing?.name || '';
+  // Split name into first/last for shared modal
+  const nameParts = (editing?.name||'').split(' ');
+  document.getElementById('tenantFirst').value = nameParts[0]||'';
+  document.getElementById('tenantLast').value = nameParts.slice(1).join(' ')||'';
   document.getElementById('tenantUnit').value = editing?.unit || '';
   document.getElementById('tenantLeaseStart').value = editing?.leaseStart || '';
   document.getElementById('tenantLeaseEnd').value = editing?.leaseEnd || '';
-  document.getElementById('tenantPayHistory').value = editing?.payHistory || 'Good';
-  document.getElementById('tenantTickets').value = editing?.tickets || 0;
-  document.getElementById('tenantLegal').value = editing?.legal || 'None';
   document.getElementById('tenantModalTitle').textContent = id ? 'Edit Tenant' : 'Add Tenant';
+  document.getElementById('tenantModal').dataset.mode = 'tenant360';
   document.getElementById('tenantModal').dataset.editId = id || '';
+  const isOriginal = document.getElementById('view-tenants-view')?.classList.contains('active');
+  if(isOriginal) { openTenantMgmtModal(id); return; }
   openModal('tenantModal');
 }
 function submitTenantForm() {
@@ -3824,6 +4267,581 @@ renderTenantTable();
 fetchLeads();
 fetchProperties();
 fetchUnits();
+
+// ══════════════════════════════════════════════
+//  MORTGAGE TRACKER
+// ══════════════════════════════════════════════
+let mortgageRows = [
+  { id:1, property:'Palm Central A-104', lender:'I&M Bank Rwanda', amount:220000, balance:187000, rate:14.5, payment:2850, value:310000, maturity:'2032-06-01', type:'Fixed', purpose:'Purchase' },
+  { id:2, property:'The Heights – Unit B-202', lender:'BPR Bank', amount:180000, balance:162000, rate:13.0, payment:2210, value:260000, maturity:'2034-03-15', type:'Variable', purpose:'Purchase' },
+  { id:3, property:'Brilliant Tower – C-301', lender:'Equity Bank Rwanda', amount:95000, balance:91500, rate:15.0, payment:1380, value:145000, maturity:'2029-09-01', type:'Fixed', purpose:'Refinance' },
+];
+let nextMortId = 4;
+
+function renderMortgageTracker() {
+  const totalBal = mortgageRows.reduce((s,r) => s+r.balance, 0);
+  const totalPmt = mortgageRows.reduce((s,r) => s+r.payment, 0);
+  const avgRate = mortgageRows.length ? (mortgageRows.reduce((s,r) => s+r.rate, 0)/mortgageRows.length).toFixed(1) : 0;
+  const el = id => document.getElementById(id);
+  if(el('mort_total_balance')) el('mort_total_balance').textContent = '$'+totalBal.toLocaleString();
+  if(el('mort_monthly_total')) el('mort_monthly_total').textContent = '$'+totalPmt.toLocaleString()+'/mo';
+  if(el('mort_avg_rate')) el('mort_avg_rate').textContent = avgRate+'%';
+  if(el('mort_count')) el('mort_count').textContent = mortgageRows.length;
+  const tbody = el('mortgageTableBody');
+  if(!tbody) return;
+  tbody.innerHTML = mortgageRows.map(r => {
+    const ltv = r.value > 0 ? ((r.balance/r.value)*100).toFixed(1) : '—';
+    const ltvColor = Number(ltv) > 80 ? 'var(--danger)' : Number(ltv) > 60 ? 'var(--accent)' : 'var(--success)';
+    const daysLeft = Math.round((new Date(r.maturity) - new Date())/(1000*60*60*24));
+    return `<tr>
+      <td><strong>${r.property}</strong></td>
+      <td>${r.lender}</td>
+      <td>$${r.amount.toLocaleString()}</td>
+      <td><strong>$${r.balance.toLocaleString()}</strong></td>
+      <td>${r.rate}%</td>
+      <td>$${r.payment.toLocaleString()}/mo</td>
+      <td><span style="font-size:0.72rem;">${r.maturity}</span></td>
+      <td><strong style="color:${ltvColor}">${ltv}%</strong></td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="openMortgageModal(${r.id})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteMortgageRow(${r.id})">Del</button>
+      </td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="9"><div class="empty-state">No mortgages tracked yet.</div></td></tr>`;
+  renderAmortGrid();
+}
+
+function renderAmortGrid() {
+  const grid = document.getElementById('amortGrid');
+  if(!grid) return;
+  grid.innerHTML = mortgageRows.map(r => {
+    const paidOff = r.amount - r.balance;
+    const pct = ((paidOff/r.amount)*100).toFixed(1);
+    const yearsLeft = (new Date(r.maturity) - new Date()) / (1000*60*60*24*365);
+    return `<div class="amort-card">
+      <h4>${r.property}</h4>
+      <div class="amort-row"><span>Original Loan</span><span>$${r.amount.toLocaleString()}</span></div>
+      <div class="amort-row"><span>Remaining Balance</span><span style="color:var(--danger)">$${r.balance.toLocaleString()}</span></div>
+      <div class="amort-row"><span>Principal Paid</span><span style="color:var(--success)">$${paidOff.toLocaleString()}</span></div>
+      <div class="amort-row"><span>Years Remaining</span><span>${Math.max(0,yearsLeft.toFixed(1))} yrs</span></div>
+      <div class="amort-row"><span>Paid Off</span><span style="font-weight:700;color:var(--primary)">${pct}%</span></div>
+      <div style="margin-top:10px;">
+        <div class="progress-wrap"><div class="progress-bar success" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openMortgageModal(id=null) {
+  const e = id ? mortgageRows.find(r=>r.id===id) : null;
+  document.getElementById('mort_property').value = e?.property||'';
+  document.getElementById('mort_lender').value = e?.lender||'';
+  document.getElementById('mort_amount').value = e?.amount||'';
+  document.getElementById('mort_balance').value = e?.balance||'';
+  document.getElementById('mort_rate').value = e?.rate||'';
+  document.getElementById('mort_payment').value = e?.payment||'';
+  document.getElementById('mort_value').value = e?.value||'';
+  document.getElementById('mort_maturity').value = e?.maturity||'';
+  document.getElementById('mort_type').value = e?.type||'Fixed';
+  document.getElementById('mort_purpose').value = e?.purpose||'Purchase';
+  document.getElementById('mortgageModal').dataset.editId = id||'';
+  document.getElementById('mortgageModalTitle').textContent = id ? 'Edit Mortgage' : 'Add Mortgage';
+  openModal('mortgageModal');
+}
+function submitMortgageForm() {
+  const prop = document.getElementById('mort_property').value.trim();
+  if(!prop) return showToast('Property is required.','error');
+  const eid = parseInt(document.getElementById('mortgageModal').dataset.editId);
+  const data = { property:prop, lender:document.getElementById('mort_lender').value.trim(),
+    amount:Number(document.getElementById('mort_amount').value)||0,
+    balance:Number(document.getElementById('mort_balance').value)||0,
+    rate:Number(document.getElementById('mort_rate').value)||0,
+    payment:Number(document.getElementById('mort_payment').value)||0,
+    value:Number(document.getElementById('mort_value').value)||0,
+    maturity:document.getElementById('mort_maturity').value,
+    type:document.getElementById('mort_type').value,
+    purpose:document.getElementById('mort_purpose').value };
+  if(eid){const r=mortgageRows.find(x=>x.id===eid);if(r)Object.assign(r,data);}
+  else { mortgageRows.push({id:nextMortId++,...data}); addAuditEntry('create','Admin',`Added mortgage — ${prop}`); }
+  closeModal('mortgageModal'); renderMortgageTracker(); showToast(eid?'Mortgage updated.':'Mortgage added.');
+}
+function deleteMortgageRow(id) {
+  openConfirm('Delete Mortgage','Remove this mortgage record?',()=>{
+    const i = mortgageRows.findIndex(r=>r.id===id);
+    if(i>-1) mortgageRows.splice(i,1);
+    renderMortgageTracker(); showToast('Mortgage removed.');
+  });
+}
+
+// ══════════════════════════════════════════════
+//  RENT-TO-OWN TRACKER
+// ══════════════════════════════════════════════
+let rtoRows = [
+  { id:1, tenant:'Emmanuel Habimana', unit:'Kigali Heights – KH-05', rent:1800, premium:400, purchase:320000, start:'2023-06-01', end:'2026-06-01', months:20 },
+  { id:2, tenant:'Claudine Uwase', unit:'The Heights – TH-12', rent:2200, premium:500, purchase:410000, start:'2024-01-01', end:'2027-01-01', months:13 },
+];
+let nextRTOId = 3;
+
+function renderRTOTracker() {
+  const active = rtoRows.length;
+  const totalEquity = rtoRows.reduce((s,r) => s+(r.premium*r.months),0);
+  const avgPremium = active ? Math.round(rtoRows.reduce((s,r)=>s+r.premium,0)/active) : 0;
+  const today = new Date();
+  const expiring = rtoRows.filter(r => {
+    const d = new Date(r.end);
+    return (d-today)/(1000*60*60*24) < 180;
+  }).length;
+  const el = id => document.getElementById(id);
+  if(el('rto_active')) el('rto_active').textContent = active;
+  if(el('rto_equity')) el('rto_equity').textContent = '$'+totalEquity.toLocaleString();
+  if(el('rto_avg_premium')) el('rto_avg_premium').textContent = '$'+avgPremium+'/mo';
+  if(el('rto_expiring')) el('rto_expiring').textContent = expiring;
+  const tbody = el('rtoTableBody');
+  if(!tbody) return;
+  tbody.innerHTML = rtoRows.map(r => {
+    const equity = r.premium * r.months;
+    const totalMonths = Math.round((new Date(r.end)-new Date(r.start))/(1000*60*60*24/12*365));
+    const pct = Math.min(Math.round((r.months / Math.max(totalMonths,1))*100),100);
+    return `<tr>
+      <td><strong>${r.tenant}</strong></td>
+      <td>${r.unit}</td>
+      <td>$${r.rent.toLocaleString()}/mo</td>
+      <td><span style="color:var(--success);font-weight:700">+$${r.premium}/mo</span></td>
+      <td>$${r.purchase.toLocaleString()}</td>
+      <td><strong style="color:var(--success)">$${equity.toLocaleString()}</strong></td>
+      <td style="min-width:120px;">
+        <div style="font-size:0.68rem;color:var(--muted);margin-bottom:3px;">${pct}% of term</div>
+        <div class="rto-equity-bar"><div class="rto-equity-fill" style="width:${pct}%"></div></div>
+      </td>
+      <td>${r.end}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="openRTOModal(${r.id})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteRTORow(${r.id})">Del</button>
+      </td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="9"><div class="empty-state">No RTO agreements yet.</div></td></tr>`;
+}
+function openRTOModal(id=null) {
+  const e = id ? rtoRows.find(r=>r.id===id) : null;
+  document.getElementById('rto_tenant').value = e?.tenant||'';
+  document.getElementById('rto_unit').value = e?.unit||'';
+  document.getElementById('rto_rent').value = e?.rent||'';
+  document.getElementById('rto_premium').value = e?.premium||'';
+  document.getElementById('rto_purchase').value = e?.purchase||'';
+  document.getElementById('rto_start').value = e?.start||'';
+  document.getElementById('rto_end').value = e?.end||'';
+  document.getElementById('rto_months').value = e?.months||0;
+  document.getElementById('rtoModal').dataset.editId = id||'';
+  openModal('rtoModal');
+}
+function submitRTOForm() {
+  const tenant = document.getElementById('rto_tenant').value.trim();
+  if(!tenant) return showToast('Tenant required.','error');
+  const eid = parseInt(document.getElementById('rtoModal').dataset.editId);
+  const data = { tenant, unit:document.getElementById('rto_unit').value.trim(),
+    rent:Number(document.getElementById('rto_rent').value)||0,
+    premium:Number(document.getElementById('rto_premium').value)||0,
+    purchase:Number(document.getElementById('rto_purchase').value)||0,
+    start:document.getElementById('rto_start').value,
+    end:document.getElementById('rto_end').value,
+    months:Number(document.getElementById('rto_months').value)||0 };
+  if(eid){const r=rtoRows.find(x=>x.id===eid);if(r)Object.assign(r,data);}
+  else rtoRows.push({id:nextRTOId++,...data});
+  closeModal('rtoModal'); renderRTOTracker(); showToast('Agreement saved.');
+}
+function deleteRTORow(id) {
+  openConfirm('Delete Agreement','Remove this rent-to-own agreement?',()=>{
+    const i = rtoRows.findIndex(r=>r.id===id);
+    if(i>-1) rtoRows.splice(i,1);
+    renderRTOTracker(); showToast('Deleted.');
+  });
+}
+
+// ══════════════════════════════════════════════
+//  TENANT RELIABILITY SCORE
+// ══════════════════════════════════════════════
+function calcTenantScore(t) {
+  // Scoring: payment history 40pts, legal 30pts, tickets 20pts, lease compliance 10pts
+  const payMap = { Excellent:40, Good:30, Fair:20, Poor:5 };
+  const legalMap = { None:30, 'Notice Served':15, Dispute:5, Eviction:0 };
+  const ticketPenalty = Math.max(0, 20 - (t.tickets||0)*5);
+  const compliance = 10; // default full unless overridden
+  return (payMap[t.payHistory]||20) + (legalMap[t.legal]||10) + ticketPenalty + compliance;
+}
+function scoreGrade(score) {
+  if(score>=80) return { grade:'A', label:'Excellent', cls:'a' };
+  if(score>=65) return { grade:'B', label:'Good', cls:'b' };
+  if(score>=50) return { grade:'C', label:'Fair', cls:'c' };
+  return { grade:'D', label:'At Risk', cls:'d' };
+}
+function renderTenantScores() {
+  const filter = document.getElementById('scoreFilter')?.value||'all';
+  const scored = tenantRows.map(t => ({ ...t, score: calcTenantScore(t) }));
+  const filtered = scored.filter(t => {
+    const g = scoreGrade(t.score);
+    if(filter==='excellent') return t.score>=80;
+    if(filter==='good') return t.score>=65 && t.score<80;
+    if(filter==='risk') return t.score<65;
+    return true;
+  });
+  const el = id => document.getElementById(id);
+  if(el('score_excellent')) el('score_excellent').textContent = scored.filter(t=>t.score>=80).length;
+  if(el('score_good')) el('score_good').textContent = scored.filter(t=>t.score>=65&&t.score<80).length;
+  if(el('score_risk')) el('score_risk').textContent = scored.filter(t=>t.score<65).length;
+  if(el('score_avg')) el('score_avg').textContent = scored.length ? Math.round(scored.reduce((s,t)=>s+t.score,0)/scored.length) : '—';
+  const tbody = el('tenantScoreBody');
+  if(!tbody) return;
+  tbody.innerHTML = filtered.length ? filtered.map(t => {
+    const g = scoreGrade(t.score);
+    const onTime = t.payHistory==='Excellent'?12:t.payHistory==='Good'?10:t.payHistory==='Fair'?7:3;
+    const late = 12-onTime;
+    return `<tr>
+      <td><strong>${t.name}</strong></td>
+      <td>${t.unit}</td>
+      <td style="color:var(--success);font-weight:700">${onTime}/12 months</td>
+      <td style="color:${late>3?'var(--danger)':'var(--muted)'};">${late}</td>
+      <td>${statusBadge('Good')}</td>
+      <td>${t.tickets > 0 ? `<span style="color:var(--accent)">${t.tickets}</span>` : '0'}</td>
+      <td>${t.legal!=='None'?statusBadge(t.legal):'<span style="color:var(--muted)">—</span>'}</td>
+      <td><strong style="font-size:1rem;color:var(--primary)">${t.score}</strong>/100</td>
+      <td><div class="score-ring ${g.cls}">${g.grade}</div></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="9"><div class="empty-state">No tenants to score.</div></td></tr>`;
+}
+
+// ══════════════════════════════════════════════
+//  DYNAMIC RENT ADVISOR
+// ══════════════════════════════════════════════
+const rentAdvisorData = [
+  { unit:'Palm Central A-104', currentRent:3200, market:3650, confidence:4 },
+  { unit:'The Heights B-202', currentRent:2800, market:2950, confidence:5 },
+  { unit:'Brilliant Tower C-301', currentRent:2400, market:2200, confidence:3 },
+  { unit:'Kigali Heights KH-05', currentRent:1800, market:2100, confidence:4 },
+  { unit:'D-107', currentRent:1900, market:1950, confidence:3 },
+];
+
+function refreshRentAdvisor() {
+  renderRentAdvisor(); showToast('Rent analysis recalculated.');
+}
+function renderRentAdvisor() {
+  let below=0, over=0, opportunity=0;
+  const rows = rentAdvisorData.map(r => {
+    const diff = r.market - r.currentRent;
+    const pct = ((diff/r.currentRent)*100).toFixed(1);
+    const recommended = diff > 0 ? Math.round(r.market * 0.97) : r.currentRent; // don't go full market immediately
+    if(diff > 100){ below++; opportunity += (recommended - r.currentRent)*12; }
+    if(diff < -100) over++;
+    return { ...r, diff, pct, recommended };
+  });
+  const el = id => document.getElementById(id);
+  if(el('ra_below')) el('ra_below').textContent = below;
+  if(el('ra_over')) el('ra_over').textContent = over;
+  if(el('ra_opportunity')) el('ra_opportunity').textContent = '$'+opportunity.toLocaleString()+'/yr';
+  const uplifts = rows.filter(r=>r.diff>0).map(r=>r.pct);
+  if(el('ra_uplift')) el('ra_uplift').textContent = uplifts.length ? '+'+( uplifts.reduce((a,b)=>+a+ +b,0)/uplifts.length).toFixed(1)+'%' : '—';
+  const tbody = el('rentAdvisorBody');
+  if(!tbody) return;
+  tbody.innerHTML = rows.map(r => {
+    const action = r.diff > 100 ? '<span style="color:var(--success);font-weight:700">↑ Increase</span>' :
+                   r.diff < -100 ? '<span style="color:var(--danger);font-weight:700">↓ Reduce</span>' :
+                   '<span style="color:var(--muted)">→ Hold</span>';
+    const cls = r.diff > 50 ? 'up' : r.diff < -50 ? 'down' : 'flat';
+    const confDots = `<div class="confidence-bar">${Array.from({length:5},(_,i)=>`<div class="conf-dot ${i<r.confidence?'filled':''}"></div>`).join('')}</div>`;
+    return `<tr>
+      <td><strong>${r.unit}</strong></td>
+      <td>$${r.currentRent.toLocaleString()}/mo</td>
+      <td>$${r.market.toLocaleString()}/mo</td>
+      <td><strong style="color:var(--primary)">$${r.recommended.toLocaleString()}/mo</strong></td>
+      <td><span class="ra-change ${cls}">${r.diff>=0?'+':''}$${r.diff}/mo (${r.diff>=0?'+':''}${r.pct}%)</span></td>
+      <td>${action}</td>
+      <td>${confDots}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+//  RISK & PROFIT SIMULATOR
+// ══════════════════════════════════════════════
+function runSimulator() {
+  const land = parseFloat(document.getElementById('sim_land')?.value)||0;
+  const build = parseFloat(document.getElementById('sim_build')?.value)||0;
+  const sale = parseFloat(document.getElementById('sim_sale')?.value)||0;
+  const rent = parseFloat(document.getElementById('sim_rent')?.value)||0;
+  const months = parseFloat(document.getElementById('sim_months')?.value)||12;
+  const vac = parseFloat(document.getElementById('sim_vac')?.value)||0;
+  const overrun = parseFloat(document.getElementById('sim_overrun')?.value)||0;
+  const fin = parseFloat(document.getElementById('sim_fin')?.value)||0;
+  const def = parseFloat(document.getElementById('sim_default')?.value)||0;
+
+  const totalCost = land + build;
+  const adjustedBuild = build * (1 + overrun/100);
+  const totalAdjusted = land + adjustedBuild;
+  const finCost = totalAdjusted * (fin/100) * (months/12);
+  const devCost = totalAdjusted + finCost;
+  const grossProfit = sale - devCost;
+  const roi = devCost > 0 ? ((grossProfit/devCost)*100).toFixed(1) : 0;
+  const annualRent = rent * 12 * (1-vac/100) * (1-def/100);
+  const rentalYield = sale > 0 ? ((annualRent/sale)*100).toFixed(1) : 0;
+  const noi = annualRent - (totalAdjusted*0.03); // assume 3% opex
+  const capRate = sale > 0 ? ((noi/sale)*100).toFixed(1) : 0;
+  const breakevenRent = devCost > 0 ? Math.round(devCost * 0.08 / 12) : 0;
+
+  const cards = [
+    { label:'Total Dev Cost', val:'$'+Math.round(devCost).toLocaleString(), cls: '' },
+    { label:'Gross Profit', val:'$'+Math.round(grossProfit).toLocaleString(), cls: grossProfit>0?'positive':'negative' },
+    { label:'Developer ROI', val:roi+'%', cls: Number(roi)>15?'positive':Number(roi)>5?'':'negative' },
+    { label:'Annual Rental Income', val:'$'+Math.round(annualRent).toLocaleString(), cls:'' },
+    { label:'Rental Yield', val:rentalYield+'%', cls: Number(rentalYield)>8?'positive':Number(rentalYield)>5?'':'negative' },
+    { label:'Implied Cap Rate', val:capRate+'%', cls:'' },
+    { label:'Finance Cost', val:'$'+Math.round(finCost).toLocaleString(), cls:'negative' },
+    { label:'Breakeven Rent', val:'$'+breakevenRent+'/mo', cls:Number(rent)>breakevenRent?'positive':'warning' },
+  ];
+  const results = document.getElementById('simResults');
+  if(results) results.innerHTML = cards.map(c=>`<div class="sim-card ${c.cls}"><div class="sim-card-label">${c.label}</div><div class="sim-card-val">${c.val}</div></div>`).join('');
+
+  // Sensitivity analysis
+  const scenarios = [
+    { label:'Base Case', roiVal: roi+'%', profit: '$'+Math.round(grossProfit).toLocaleString(), color: Number(roi)>0?'var(--success)':'var(--danger)' },
+    { label:'Cost +15%', roiVal: (((sale-(devCost*1.15))/(devCost*1.15))*100).toFixed(1)+'%', profit: '$'+Math.round(sale-(devCost*1.15)).toLocaleString(), color: 'var(--danger)' },
+    { label:'Sale Price -10%', roiVal: ((((sale*0.9)-devCost)/devCost)*100).toFixed(1)+'%', profit: '$'+Math.round((sale*0.9)-devCost).toLocaleString(), color: 'var(--accent)' },
+    { label:'Vacancy +5%', roiVal: (((annualRent*0.95-noi)/sale)*100).toFixed(2)+'%', profit: 'Cap -'+((noi-(annualRent*0.95-noi*0.1))/sale*100).toFixed(1)+'pp', color: 'var(--accent)' },
+    { label:'Best Case', roiVal: (((sale*1.1-(devCost*0.95))/(devCost*0.95))*100).toFixed(1)+'%', profit: '$'+Math.round((sale*1.1)-(devCost*0.95)).toLocaleString(), color: 'var(--success)' },
+    { label:'Stress Test', roiVal: (((sale*0.85-(devCost*1.2))/(devCost*1.2))*100).toFixed(1)+'%', profit: '$'+Math.round((sale*0.85)-(devCost*1.2)).toLocaleString(), color: 'var(--danger)' },
+  ];
+  const sg = document.getElementById('sensitivityGrid');
+  if(sg) sg.innerHTML = scenarios.map(s=>`<div class="sensitivity-item"><div class="s-label">${s.label}</div><div class="s-val" style="color:${s.color}">${s.roiVal}</div><div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">${s.profit}</div></div>`).join('');
+}
+
+// ══════════════════════════════════════════════
+//  DOCUMENT VAULT
+// ══════════════════════════════════════════════
+let docRows = [
+  { id:1, name:'Lease Agreement – Ahmed Al-Rashid', type:'Lease', property:'Palm Central A-104', issued:'2023-04-01', expiry:'2025-04-01', status:'expiring', notes:'' },
+  { id:2, name:'Building Insurance COI – Tower A', type:'Insurance', property:'Palm Central Tower A', issued:'2025-01-15', expiry:'2026-01-15', status:'active', notes:'' },
+  { id:3, name:'Electrical Permit – Renovation C-301', type:'Permit', property:'Brilliant Tower C-301', issued:'2024-06-01', expiry:'2025-06-01', status:'expired', notes:'' },
+  { id:4, name:'Land Title Deed – The Heights', type:'Deed', property:'The Heights Residences', issued:'2021-03-10', expiry:'', status:'active', notes:'Original registered title' },
+  { id:5, name:'Elevator Maintenance Warranty', type:'Warranty', property:'Palm Central Tower A', issued:'2024-09-01', expiry:'2026-09-01', status:'active', notes:'' },
+];
+let nextDocId = 6;
+
+function renderDocVault() {
+  const filter = document.getElementById('docTypeFilter')?.value||'all';
+  const today = new Date();
+  let rows = docRows.filter(d => filter==='all'||d.type===filter);
+  // auto-flag expiring
+  rows = rows.map(d => {
+    if(d.expiry) {
+      const daysLeft = Math.round((new Date(d.expiry)-today)/(1000*60*60*24));
+      if(daysLeft<=0) d.status='expired';
+      else if(daysLeft<=30) d.status='expiring';
+    }
+    return d;
+  });
+  const el = id => document.getElementById(id);
+  if(el('doc_total')) el('doc_total').textContent = docRows.length;
+  if(el('doc_expiring')) el('doc_expiring').textContent = docRows.filter(d=>{if(!d.expiry)return false;const days=Math.round((new Date(d.expiry)-today)/(1000*60*60*24));return days>=0&&days<=30;}).length;
+  if(el('doc_leases')) el('doc_leases').textContent = docRows.filter(d=>d.type==='Lease').length;
+  if(el('doc_permits')) el('doc_permits').textContent = docRows.filter(d=>d.type==='Permit'||d.type==='Insurance').length;
+  const tbody = el('docVaultBody');
+  if(!tbody) return;
+  tbody.innerHTML = rows.map(r=>{
+    const daysLeft = r.expiry ? Math.round((new Date(r.expiry)-today)/(1000*60*60*24)) : null;
+    const expiryDisplay = r.expiry ? `${r.expiry}${daysLeft!==null?` <small style="color:${daysLeft<=0?'var(--danger)':daysLeft<=30?'var(--accent)':'var(--muted)'}">(${daysLeft<=0?'Expired':daysLeft+'d left'})</small>`:''}` : '—';
+    return `<tr>
+      <td><strong>${r.name}</strong>${r.notes?`<br><small style="color:var(--muted)">${r.notes}</small>`:''}  </td>
+      <td><span class="badge badge-blue">${r.type}</span></td>
+      <td>${r.property||'—'}</td>
+      <td>${r.issued||'—'}</td>
+      <td>${expiryDisplay}</td>
+      <td>${statusBadge(r.status)}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="openDocModal(${r.id})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteDocRow(${r.id})">Del</button>
+      </td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="7"><div class="empty-state">No documents. Click "+ Add Document".</div></td></tr>`;
+}
+function openDocModal(id=null) {
+  const e = id ? docRows.find(r=>r.id===id) : null;
+  document.getElementById('doc_name').value = e?.name||'';
+  document.getElementById('doc_type').value = e?.type||'Lease';
+  document.getElementById('doc_property').value = e?.property||'';
+  document.getElementById('doc_issued').value = e?.issued||'';
+  document.getElementById('doc_expiry').value = e?.expiry||'';
+  document.getElementById('doc_status').value = e?.status||'active';
+  document.getElementById('doc_notes').value = e?.notes||'';
+  document.getElementById('docModal').dataset.editId = id||'';
+  openModal('docModal');
+}
+function submitDocForm() {
+  const name = document.getElementById('doc_name').value.trim();
+  if(!name) return showToast('Document name required.','error');
+  const eid = parseInt(document.getElementById('docModal').dataset.editId);
+  const data = { name, type:document.getElementById('doc_type').value,
+    property:document.getElementById('doc_property').value.trim(),
+    issued:document.getElementById('doc_issued').value,
+    expiry:document.getElementById('doc_expiry').value,
+    status:document.getElementById('doc_status').value,
+    notes:document.getElementById('doc_notes').value.trim() };
+  if(eid){const r=docRows.find(x=>x.id===eid);if(r)Object.assign(r,data);}
+  else { docRows.push({id:nextDocId++,...data}); addAuditEntry('create','Admin',`Document added — ${name}`); }
+  closeModal('docModal'); renderDocVault(); showToast(eid?'Document updated.':'Document saved.');
+}
+function deleteDocRow(id) {
+  openConfirm('Delete Document','Remove this document record?',()=>{
+    const i = docRows.findIndex(r=>r.id===id);
+    if(i>-1) docRows.splice(i,1);
+    renderDocVault(); showToast('Deleted.');
+  });
+}
+
+// ══════════════════════════════════════════════
+//  INSURANCE PANEL
+// ══════════════════════════════════════════════
+let insuranceRows = [
+  { id:1, property:'Palm Central Tower A', insurer:'Radiant Insurance Rwanda', type:'Building', coverage:2500000, premium:18000, start:'2025-01-15', expiry:'2026-01-15', claims:0, policyNum:'RIR-2025-001' },
+  { id:2, property:'The Heights Residences', insurer:'SORAS Group', type:'Comprehensive', coverage:1800000, premium:14500, start:'2025-03-01', expiry:'2026-03-01', claims:1, policyNum:'SOR-2025-044' },
+  { id:3, property:'Brilliant Tower C-301', insurer:'Radiant Insurance Rwanda', type:'Liability', coverage:500000, premium:4200, start:'2024-07-01', expiry:'2025-07-01', claims:0, policyNum:'RIR-2024-089' },
+];
+let nextInsId = 4;
+
+function renderInsurancePanel() {
+  const today = new Date();
+  const active = insuranceRows.filter(r=>{const d=new Date(r.expiry);return d>today;}).length;
+  const expiring = insuranceRows.filter(r=>{const d=new Date(r.expiry);const days=(d-today)/(1000*60*60*24);return days>=0&&days<=60;}).length;
+  const totalPremium = insuranceRows.reduce((s,r)=>s+r.premium,0);
+  const totalClaims = insuranceRows.reduce((s,r)=>s+r.claims,0);
+  const el = id => document.getElementById(id);
+  if(el('ins_active')) el('ins_active').textContent = active;
+  if(el('ins_expiring')) el('ins_expiring').textContent = expiring;
+  if(el('ins_premium')) el('ins_premium').textContent = '$'+totalPremium.toLocaleString()+'/yr';
+  if(el('ins_claims')) el('ins_claims').textContent = totalClaims;
+  const tbody = el('insuranceBody');
+  if(!tbody) return;
+  tbody.innerHTML = insuranceRows.map(r=>{
+    const daysLeft = Math.round((new Date(r.expiry)-today)/(1000*60*60*24));
+    const status = daysLeft <= 0 ? 'expired' : daysLeft <= 60 ? 'expiring' : 'active';
+    const dColor = daysLeft<=0?'var(--danger)':daysLeft<=60?'var(--accent)':'var(--success)';
+    return `<tr>
+      <td><strong>${r.property}</strong></td>
+      <td>${r.insurer}</td>
+      <td>${r.type}</td>
+      <td>$${r.coverage.toLocaleString()}</td>
+      <td>$${r.premium.toLocaleString()}/yr</td>
+      <td>${r.expiry}</td>
+      <td><strong style="color:${dColor}">${daysLeft<=0?'Expired':daysLeft+'d'}</strong></td>
+      <td>${statusBadge(status)}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-sm" onclick="openInsuranceModal(${r.id})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteInsuranceRow(${r.id})">Del</button>
+      </td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="9"><div class="empty-state">No policies tracked.</div></td></tr>`;
+}
+function openInsuranceModal(id=null) {
+  const e = id ? insuranceRows.find(r=>r.id===id) : null;
+  document.getElementById('ins_property').value = e?.property||'';
+  document.getElementById('ins_insurer').value = e?.insurer||'';
+  document.getElementById('ins_type').value = e?.type||'Building';
+  document.getElementById('ins_coverage').value = e?.coverage||'';
+  document.getElementById('ins_premium_amt').value = e?.premium||'';
+  document.getElementById('ins_policy_num').value = e?.policyNum||'';
+  document.getElementById('ins_start').value = e?.start||'';
+  document.getElementById('ins_expiry').value = e?.expiry||'';
+  document.getElementById('ins_claims_num').value = e?.claims||0;
+  document.getElementById('insuranceModal').dataset.editId = id||'';
+  openModal('insuranceModal');
+}
+function submitInsuranceForm() {
+  const prop = document.getElementById('ins_property').value.trim();
+  if(!prop) return showToast('Property required.','error');
+  const eid = parseInt(document.getElementById('insuranceModal').dataset.editId);
+  const data = { property:prop, insurer:document.getElementById('ins_insurer').value.trim(),
+    type:document.getElementById('ins_type').value,
+    coverage:Number(document.getElementById('ins_coverage').value)||0,
+    premium:Number(document.getElementById('ins_premium_amt').value)||0,
+    policyNum:document.getElementById('ins_policy_num').value.trim(),
+    start:document.getElementById('ins_start').value,
+    expiry:document.getElementById('ins_expiry').value,
+    claims:Number(document.getElementById('ins_claims_num').value)||0 };
+  if(eid){const r=insuranceRows.find(x=>x.id===eid);if(r)Object.assign(r,data);}
+  else { insuranceRows.push({id:nextInsId++,...data}); addAuditEntry('create','Admin',`Policy added — ${prop}`); }
+  closeModal('insuranceModal'); renderInsurancePanel(); showToast(eid?'Policy updated.':'Policy saved.');
+}
+function deleteInsuranceRow(id) {
+  openConfirm('Delete Policy','Remove this insurance policy?',()=>{
+    const i = insuranceRows.findIndex(r=>r.id===id);
+    if(i>-1) insuranceRows.splice(i,1);
+    renderInsurancePanel(); showToast('Policy removed.');
+  });
+}
+
+// ══════════════════════════════════════════════
+//  CITY INTELLIGENCE
+// ══════════════════════════════════════════════
+const cityData = [
+  { name:'Kiyovu / CBD', type:'mixed', classification:'High Value · Moderate Yield', avgRent:18.5, growth:4.2, vacancy:6.1, amenity:94, infrastructure:'A+', outlook:'Stable', description:'Prime commercial-residential zone. Highest land values in Kigali.' },
+  { name:'Nyarutarama', type:'growth', classification:'Growth Market', avgRent:14.2, growth:8.7, vacancy:4.8, amenity:88, infrastructure:'A', outlook:'Rising', description:'Expat-heavy enclave. Proximity to embassies and schools drives premium rents.' },
+  { name:'Gisozi / Kimironko', type:'yield', classification:'High Cashflow', avgRent:8.4, growth:5.1, vacancy:9.2, amenity:72, infrastructure:'B+', outlook:'Stable', description:'Dense residential demand. Strong cashflow with lower entry prices.' },
+  { name:'Kanombe / Airport Corridor', type:'growth', classification:'Emerging Growth', avgRent:6.8, growth:12.4, vacancy:11.5, amenity:65, infrastructure:'B', outlook:'Rapid Growth', description:'Airport expansion driving commercial demand. Early investment window.' },
+  { name:'Rebero / Gahanga', type:'yield', classification:'Budget Residential', avgRent:5.2, growth:3.8, vacancy:14.0, amenity:58, infrastructure:'C+', outlook:'Stable-Low', description:'Affordable housing demand strong. Lower margins, high volume.' },
+  { name:'Kicukiro Centre', type:'mixed', classification:'Mixed-Use Emerging', avgRent:9.6, growth:7.3, vacancy:8.5, amenity:79, infrastructure:'B+', outlook:'Rising', description:'SEZ proximity driving mixed-use growth. Retail and residential active.' },
+];
+
+function renderCityIntelligence() {
+  const metric = document.getElementById('cityMetric')?.value||'growth';
+  const grid = document.getElementById('cityGrid');
+  if(!grid) return;
+  const metricMap = { growth:'YoY Growth', yield:'Rental Yield', amenity:'Amenity Score', risk:'Vacancy Rate' };
+  const metricKey = { growth:'growth', yield:'avgRent', amenity:'amenity', risk:'vacancy' };
+  const sortedData = [...cityData].sort((a,b) => {
+    const key = metricKey[metric];
+    return metric==='risk' ? a[key]-b[key] : b[key]-a[key];
+  });
+  const maxVal = Math.max(...sortedData.map(d=>d[metricKey[metric]]));
+  grid.innerHTML = sortedData.map((d,i)=>{
+    const val = d[metricKey[metric]];
+    const pct = Math.round((val/maxVal)*100);
+    const badgeCls = d.type;
+    const rank = i+1;
+    return `<div class="city-card">
+      <div class="city-card-badge ${badgeCls}">${d.type==='growth'?'↑ Growth':d.type==='yield'?'$ Cashflow':'Mixed'}</div>
+      <div style="font-size:0.62rem;font-weight:700;letter-spacing:2px;color:var(--muted);margin-bottom:4px;">RANK #${rank} · ${metricMap[metric]}</div>
+      <h3>${d.name}</h3>
+      <div class="city-sub">${d.classification}</div>
+      <div class="city-metric-row"><span class="city-metric-label">Avg Rent/sqm</span><span class="city-metric-val">$${d.avgRent}/m²</span></div>
+      <div class="city-metric-row"><span class="city-metric-label">YoY Growth</span><span class="city-metric-val" style="color:var(--success)">+${d.growth}%</span></div>
+      <div class="city-metric-row"><span class="city-metric-label">Vacancy</span><span class="city-metric-val" style="color:${d.vacancy>12?'var(--danger)':d.vacancy>8?'var(--accent)':'var(--success)'}">${d.vacancy}%</span></div>
+      <div class="city-metric-row"><span class="city-metric-label">Amenity Score</span><span class="city-metric-val">${d.amenity}/100</span></div>
+      <div class="city-metric-row"><span class="city-metric-label">Infrastructure</span><span class="city-metric-val">${d.infrastructure}</span></div>
+      <div class="city-heatbar"><div class="city-heatbar-fill" style="width:${pct}%;background:${d.type==='growth'?'var(--success)':d.type==='yield'?'var(--accent)':'var(--primary)'}"></div></div>
+      <div style="font-size:0.7rem;color:var(--muted);margin-top:10px;line-height:1.5;">${d.description}</div>
+    </div>`;
+  }).join('');
+
+  const tbody = document.getElementById('cityTableBody');
+  if(!tbody) return;
+  tbody.innerHTML = cityData.map(d=>`<tr>
+    <td><strong>${d.name}</strong></td>
+    <td>${statusBadge(d.type==='growth'?'Low':d.type==='yield'?'Medium':'Good')}</td>
+    <td>$${d.avgRent}/m²</td>
+    <td style="color:var(--success);font-weight:700">+${d.growth}%</td>
+    <td style="color:${d.vacancy>12?'var(--danger)':d.vacancy>8?'var(--accent)':'var(--success)'}">${d.vacancy}%</td>
+    <td>${d.amenity}/100</td>
+    <td>${d.infrastructure}</td>
+    <td><span style="font-weight:600;color:${d.outlook.includes('Rising')||d.outlook.includes('Rapid')?'var(--success)':'var(--muted)'}">${d.outlook}</span></td>
+  </tr>`).join('');
+}
+
+// ── UPDATE viewTitles AND showView TRIGGERS ──
+renderMortgageTracker();
+renderRTOTracker();
+renderTenantScores();
+renderRentAdvisor();
+runSimulator();
+renderDocVault();
+renderInsurancePanel();
+renderCityIntelligence();
 </script>
 </body>
 </html>
